@@ -1,8 +1,17 @@
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import LoaderFull from './components/wait/LoaderFull';
 import Logo from './assets/logo.svg';
+import UserDashboard from './components/ui/UserDashboard';
+import VersionUpdate from './components/ui/VersionUpdate';
+import Directory from './components/ui/Directory';
+import NetworkShares from './components/ui/NetworkShares';
+import Protection from './components/ui/Protection';
+import Account from './components/ui/Account';
+import AccountGroups from './components/ui/AccountGroups';
+import AccountUsers from './components/ui/AccountUsers';
 
-// function to check if PWA is already installed
+// Function to check if PWA is already installed
 const isPWAInstalled = () => {
 	const navigator: any = window.navigator;
 	return navigator?.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
@@ -17,18 +26,18 @@ function App() {
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setLoading(false);
-		}, 3000); // check for 13 seconds if the app is installable
+		}, 3000);
 
 		// Listen for the beforeinstallprompt event
 		const handleBeforeInstallPrompt = (e: Event) => {
-			clearTimeout(timer); // Cancel the timer
-			setLoading(false); // Set loading to false
-			e.preventDefault(); // Prevent the mini-infobar from appearing on mobile
-			setDeferredPrompt(e); // Store the event so it can be triggered later
-			setIsInstallable(true); // Show the install button
+			clearTimeout(timer);
+			setLoading(false);
+			e.preventDefault();
+			setDeferredPrompt(e);
+			setIsInstallable(true);
 		};
 
-		// check if PWA is already installed
+		// Check if PWA is already installed
 		if (isPWAInstalled()) {
 			console.log('PWA already installed');
 			setIsAlreadyInstalled(true);
@@ -36,10 +45,7 @@ function App() {
 			setLoading(false);
 		}
 
-		// listen for the beforeinstallprompt event
 		window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-		// listen for the appinstalled event
 		window.addEventListener('appinstalled', () => {
 			setIsAlreadyInstalled(true);
 			clearTimeout(timer);
@@ -47,7 +53,7 @@ function App() {
 		});
 
 		return () => {
-			clearTimeout(timer); // Clear the timer if the effect is cleaned up
+			clearTimeout(timer);
 			window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 		};
 	}, []);
@@ -55,15 +61,15 @@ function App() {
 	const handleInstallClick = async () => {
 		if (deferredPrompt && 'prompt' in deferredPrompt) {
 			const promptEvent = deferredPrompt as any;
-			promptEvent.prompt(); // Show the install prompt
+			promptEvent.prompt();
 			const { outcome } = await promptEvent.userChoice;
 			if (outcome === 'accepted') {
 				console.log('PWA installed');
 			} else {
 				console.log('PWA installation rejected');
 			}
-			setDeferredPrompt(null); // Clear the deferred prompt
-			setIsInstallable(false); // Hide the install button
+			setDeferredPrompt(null);
+			setIsInstallable(false);
 		}
 	};
 
@@ -71,62 +77,77 @@ function App() {
 		<LoaderFull />
 	) : (
 		<div className="App w-full min-h-screen flex justify-center items-center">
-			{isAlreadyInstalled ? (
-				<>Already installed PWA. Showing the app.. last time!</>
-			) : (
-				<>
-					{isInstallable ? (
+			<Router>
+				<Routes>
+					{isAlreadyInstalled ? (
 						<>
-							<div className="flex-grow width-full max-w-md">
-								<div className="w-full flex justify-center items-center mb-8">
-									<Logo />
-								</div>
-								<div>
-									<h1 className="text-center text-4xl text-gray-500 mb-4">
-										Install AirVault Dashboard
-									</h1>
-									<p className="text-gray-500 text-center mb-4">
-										You are ready to use your AirVault. Install your AirVault Dashboard by clicking
-										on the button bellow.
-									</p>
-									<div className="w-full flex justify-center">
-										<button
-											className="p-4 rounded-lg border-none outline-none bg-blue-500 text-white"
-											onClick={handleInstallClick}>
-											Install AirVault Dashboard
-										</button>
-									</div>
-								</div>
-							</div>
+							<Route path="/" element={<Navigate to="/ui/UserDashboard" replace />} />
+							<Route path="/ui/UserDashboard" element={<UserDashboard />} />
+							<Route path="/ui/account" element={<Account />} />
+							<Route path="/ui/directory" element={<Directory />} />
+							<Route path="/ui/networkShares" element={<NetworkShares />} />
+							<Route path="/ui/protection" element={<Protection />} />
+							<Route path="/ui/versionUpdate" element={<VersionUpdate />} />
+							<Route path="/ui/users" element={<AccountUsers />} />
+							<Route path="/ui/groups" element={<AccountGroups />} />
 						</>
 					) : (
 						<>
-							<div className="flex-grow width-full max-w-md">
-								<div className="w-full flex justify-center items-center mb-8">
-									<Logo />
-								</div>
-								<div>
-									<h1 className="text-center text-4xl text-gray-500 mb-4">
-										App installation not available
-									</h1>
-									<p className="text-gray-500">
-										This can be due to one of the following reasons:
-										<ul>
-											<li>Your browser does not support PWA</li>
-											<li>PWA is already installed</li>
-										</ul>
-										Please contact support at{' '}
-										<a href="mailto:backoffice@airvault.com" className="text-blue-500">
-											backoffice@airvault.com
-										</a>
-										.
-									</p>
-								</div>
-							</div>
+							<Route
+								path="*"
+								element={
+									isInstallable ? (
+										<div className="flex-grow width-full max-w-md">
+											<div className="w-full flex justify-center items-center mb-8">
+												<Logo />
+											</div>
+											<div>
+												<h1 className="text-center text-4xl text-gray-500 mb-4">
+													Install AirVault Dashboard
+												</h1>
+												<p className="text-gray-500 text-center mb-4">
+													You are ready to use your AirVault. Install your AirVault Dashboard
+													by clicking on the button below.
+												</p>
+												<div className="w-full flex justify-center">
+													<button
+														className="p-4 rounded-lg border-none outline-none bg-blue-500 text-white"
+														onClick={handleInstallClick}>
+														Install AirVault Dashboard
+													</button>
+												</div>
+											</div>
+										</div>
+									) : (
+										<div className="flex-grow width-full max-w-md">
+											<div className="w-full flex justify-center items-center mb-8">
+												<Logo />
+											</div>
+											<div>
+												<h1 className="text-center text-4xl text-gray-500 mb-4">
+													App installation not available
+												</h1>
+												<p className="text-gray-500">
+													This can be due to one of the following reasons:
+													<ul>
+														<li>Your browser does not support PWA</li>
+														<li>PWA is already installed</li>
+													</ul>
+													Please contact support at{' '}
+													<a href="mailto:backoffice@airvault.com" className="text-blue-500">
+														backoffice@airvault.com
+													</a>
+													.
+												</p>
+											</div>
+										</div>
+									)
+								}
+							/>
 						</>
 					)}
-				</>
-			)}
+				</Routes>
+			</Router>
 		</div>
 	);
 }
