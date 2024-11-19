@@ -2,14 +2,14 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useState, useEffect } from 'react';
 import LoaderFull from './components/wait/LoaderFull';
 import Logo from './assets/logo.svg';
-import UserDashboard from './components/ui/UserDashboard';
 import VersionUpdate from './components/ui/VersionUpdate';
 import Directory from './components/ui/Directory';
 import NetworkShares from './components/ui/NetworkShares';
 import Protection from './components/ui/Protection';
-import Account from './components/ui/Account';
-import AccountGroups from './components/ui/AccountGroups';
-import AccountUsers from './components/ui/AccountUsers';
+import Dashboard from './components/ui/Dashboard';
+import Users from './components/ui/Users';
+import UsersCreate from './components/ui/UsersCreate';
+import GroupsCreate from './components/ui/GroupsCreate';
 
 // Function to check if PWA is already installed
 const isPWAInstalled = () => {
@@ -81,15 +81,15 @@ function App() {
 				<Routes>
 					{isAlreadyInstalled ? (
 						<>
-							<Route path="/" element={<Navigate to="/ui/UserDashboard" replace />} />
-							<Route path="/ui/UserDashboard" element={<UserDashboard />} />
-							<Route path="/ui/account" element={<Account />} />
-							<Route path="/ui/directory" element={<Directory />} />
-							<Route path="/ui/networkShares" element={<NetworkShares />} />
-							<Route path="/ui/protection" element={<Protection />} />
-							<Route path="/ui/versionUpdate" element={<VersionUpdate />} />
-							<Route path="/ui/users" element={<AccountUsers />} />
-							<Route path="/ui/groups" element={<AccountGroups />} />
+							<Route path="/" element={<Navigate to="/dashboard" replace />} />
+							<Route path="/dashboard" element={<Dashboard />} />
+							<Route path="/users" element={<Users />} />
+							<Route path="/directories" element={<Directory />} />
+							<Route path="/network-shares" element={<NetworkShares />} />
+							<Route path="/protection" element={<Protection />} />
+							<Route path="/updates" element={<VersionUpdate />} />
+							<Route path="/users/create" element={<UsersCreate />} />
+							<Route path="/groups/create" element={<GroupsCreate />} />
 						</>
 					) : (
 						<>

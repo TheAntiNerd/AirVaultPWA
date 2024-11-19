@@ -1,12 +1,12 @@
 import React from 'react';
 import SideMenu from '../SideMenu';
 
-const NetworkShares = () => {
+const UsersCreate = () => {
 	return (
 		<SideMenu>
-			<div>NetworkShares</div>
+			<div>AccountUsers</div>
 		</SideMenu>
 	);
 };
 
-export default NetworkShares;
+export default UsersCreate;

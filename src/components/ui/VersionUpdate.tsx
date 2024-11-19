@@ -1,11 +1,11 @@
 import React from 'react';
-import DashboardLayout from './DashboardLayout';
+import SideMenu from '../SideMenu';
 
 const VersionUpdate = () => {
 	return (
-		<DashboardLayout>
+		<SideMenu>
 			<div>VersionUpdate</div>
-		</DashboardLayout>
+		</SideMenu>
 	);
 };
 

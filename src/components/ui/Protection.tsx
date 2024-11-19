@@ -1,11 +1,11 @@
 import React from 'react';
-import DashboardLayout from './DashboardLayout';
+import SideMenu from '../SideMenu';
 
 const Protection = () => {
 	return (
-		<DashboardLayout>
+		<SideMenu>
 			<div>Protection</div>
-		</DashboardLayout>
+		</SideMenu>
 	);
 };
 

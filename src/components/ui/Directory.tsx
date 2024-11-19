@@ -1,11 +1,10 @@
-import React from 'react';
-import DashboardLayout from './DashboardLayout';
+import SideMenu from '../SideMenu';
 
 const Directory = () => {
 	return (
-		<DashboardLayout>
+		<SideMenu>
 			<div>Directory</div>
-		</DashboardLayout>
+		</SideMenu>
 	);
 };
 

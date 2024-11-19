@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import DashboardLayout from './DashboardLayout';
+import { useEffect, useState } from 'react';
+import SideMenu from '../SideMenu';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
+import CpuIcon from '../../assets/svg/cpu-icon.svg';
+import RamIcon from '../../assets/svg/ram-icon.svg';
+import StorageIcon from '../../assets/svg/storage-icon.svg';
 
-function UserDashboard() {
+function Dashboard() {
 	const [cpu, setCpu] = useState(0);
 	const [memory, setMemory] = useState(0);
 	const [storage, setStorage] = useState(0);
@@ -21,7 +24,7 @@ function UserDashboard() {
 			label: 'CPU',
 			percentage: cpu,
 			detail: '1 of 4 used',
-			icon: '/ui/cpu-icon.svg',
+			icon: <CpuIcon />,
 			spec: 'Processor',
 			specValue: '4 cores',
 		},
@@ -29,7 +32,7 @@ function UserDashboard() {
 			label: 'Memory',
 			percentage: memory,
 			detail: '12 of 4 GiB used',
-			icon: '/ui/ram-icon.svg',
+			icon: <RamIcon />,
 			spec: 'RAM',
 			specValue: '4GB',
 		},
@@ -37,13 +40,14 @@ function UserDashboard() {
 			label: 'Storage',
 			percentage: storage,
 			detail: '0.12 TB of 15 TB',
-			icon: '/ui/storage-icon.svg',
+			icon: <StorageIcon />,
 			spec: 'Storage',
 			specValue: '16TB',
 		},
 	];
+
 	return (
-		<DashboardLayout>
+		<SideMenu>
 			<div className="flex justify-center items-start bg-gray-100 py-10 overflow-x-auto">
 				<div className="flex flex-wrap gap-8 justify-center">
 					{cardData.map((item, index) => (
@@ -67,7 +71,7 @@ function UserDashboard() {
 							</div>
 							{/* Icon and Spec Details */}
 							<div className="flex flex-col items-center text-center">
-								<img src={item.icon} alt={item.spec} className="w-10 h-10 mb-2" />
+								{item.icon} {/* Render the imported SVG component */}
 								<p className="text-gray-500 text-lg font-medium">{item.spec}</p>
 								<p className="text-gray-900 text-xl font-bold">{item.specValue}</p>
 							</div>
@@ -75,8 +79,8 @@ function UserDashboard() {
 					))}
 				</div>
 			</div>
-		</DashboardLayout>
+		</SideMenu>
 	);
 }
 
-export default UserDashboard;
+export default Dashboard;
