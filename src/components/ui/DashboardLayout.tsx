@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const menuItems = [
@@ -26,10 +26,20 @@ const logoutItem = { name: 'Logout', path: '/auth/login', icon: '/ui/log-out.svg
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
 	const location = useLocation();
-	const [accountsOpen, setAccountsOpen] = useState(false);
+	const navigate = useNavigate();
+
+	// Initialize accountsOpen from localStorage or default to false
+	const [accountsOpen, setAccountsOpen] = useState(() => {
+		const saved = localStorage.getItem('accountsOpen');
+		return saved ? JSON.parse(saved) : false;
+	});
 	const [showLogoutModal, setShowLogoutModal] = useState(false);
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-	const navigate = useNavigate();
+
+	// Update localStorage when accountsOpen changes
+	useEffect(() => {
+		localStorage.setItem('accountsOpen', JSON.stringify(accountsOpen));
+	}, [accountsOpen]);
 
 	const handleLogoutClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
@@ -46,7 +56,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 	};
 
 	return (
-		<div className="flex flex-col lg:flex-row w-full min-h-screen bg-gray-100">
+		<div className="flex flex-col lg:flex-row w-full min-h-screen bg-gray-100 text-sans">
 			{/* Top Bar */}
 			<div className="lg:hidden bg-white shadow p-4 flex justify-between items-center">
 				{/* Logo */}
@@ -75,28 +85,25 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 					<nav>
 						{menuItems.map(item => (
 							<div key={item.name}>
-								<Link
-									to={item.path}
-									onClick={e => {
-										if (item.submenu) {
-											e.preventDefault();
-											setAccountsOpen(!accountsOpen);
-										}
-									}}
-									className={`flex items-center p-2 my-1 rounded transition-colors ${
-										location.pathname === item.path
-											? 'bg-[#DBEAFE] text-gray-800'
-											: 'hover:bg-gray-200'
-									}`}>
-									<img
-										src={item.icon}
-										alt={`${item.name} Icon`}
-										width={24}
-										height={24}
-										className="mr-3"
-									/>
-									<span>{item.name}</span>
-									{item.submenu && (
+								{item.submenu ? (
+									// Submenu parent - only handle toggle, no navigation
+									<div
+										onClick={() => setAccountsOpen(!accountsOpen)}
+										className={`cursor-pointer w-full flex items-center p-2 my-1 rounded transition-colors ${
+											location.pathname.startsWith('/ui/accounts') ||
+											location.pathname === '/ui/users' ||
+											location.pathname === '/ui/groups'
+												? 'bg-[#DBEAFE] text-gray-800'
+												: 'hover:bg-gray-200'
+										}`}>
+										<img
+											src={item.icon}
+											alt={`${item.name} Icon`}
+											width={24}
+											height={24}
+											className="mr-3"
+										/>
+										<span>{item.name}</span>
 										<img
 											src="/ui/downarrow.svg"
 											alt="Toggle Icon"
@@ -106,8 +113,26 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 												accountsOpen ? 'rotate-180' : ''
 											}`}
 										/>
-									)}
-								</Link>
+									</div>
+								) : (
+									// Regular menu item
+									<Link
+										to={item.path}
+										className={`flex items-center p-2 my-1 rounded transition-colors ${
+											location.pathname === item.path
+												? 'bg-[#DBEAFE] text-gray-800'
+												: 'hover:bg-gray-200'
+										}`}>
+										<img
+											src={item.icon}
+											alt={`${item.name} Icon`}
+											width={24}
+											height={24}
+											className="mr-3"
+										/>
+										<span>{item.name}</span>
+									</Link>
+								)}
 								{item.submenu && accountsOpen && (
 									<div className="ml-8">
 										{item.submenu.map(subItem => (
