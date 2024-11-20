@@ -17,7 +17,6 @@ const menuItems = [
 	{ name: 'Dashboard', path: '/dashboard', icon: <GridIcon /> },
 	{
 		name: 'Accounts',
-		path: '/users',
 		icon: <UserIcon />,
 		submenu: [
 			{ name: 'Users', path: '/users/create' },
@@ -59,7 +58,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 	};
 
 	return (
-		<div className="flex flex-col lg:flex-row w-full min-h-screen bg-gray-100 text-sans">
+		<div className="flex flex-col lg:flex-row w-full min-h-screen bg-white text-sans">
 			{/* Top Bar */}
 			<div className="bg-white shadow p-4 flex justify-between items-center lg:hidden">
 				<Link to="/" className="flex items-center gap-2 font-semibold">
@@ -175,7 +174,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 			)}
 
 			{/* Main Content */}
-			<main className="flex-1 p-4 lg:p-20">{children}</main>
+			<main className="flex-1 p-2">{children}</main>
 		</div>
 	);
 }

@@ -48,7 +48,7 @@ function Dashboard() {
 
 	return (
 		<SideMenu>
-			<div className="flex justify-center items-start bg-gray-100 py-10 overflow-x-auto">
+			<div className="flex justify-center items-start bg-white py-10 overflow-x-auto">
 				<div className="flex flex-wrap gap-8 justify-center">
 					{cardData.map((item, index) => (
 						<div key={index} className="flex flex-col items-center w-full sm:w-80 flex-shrink-0">
