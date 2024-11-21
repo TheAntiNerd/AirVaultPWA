@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { DownArrow } from '../../assets/svg';
 import Dropdown from './DropDown';
 
 const UserSettingsPopup = ({ onClose }: { onClose: () => void }) => {
 	const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
 	const [groupDropdownOpen, setGroupDropdownOpen] = useState(false);
-
 	const [role, setRole] = useState('Default');
 	const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
 	const groups = ['Collabs', 'Teachers', 'Creators', 'Interns'];
+
+	const popupRef = useRef<HTMLDivElement | null>(null); // Reference for the popup
 
 	const handleAddGroup = (group: string) => {
 		if (selectedGroups.includes(group)) {
@@ -33,9 +34,25 @@ const UserSettingsPopup = ({ onClose }: { onClose: () => void }) => {
 		}
 	};
 
+	// Close the popup when clicking outside
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+				onClose(); // Close the popup
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [onClose]);
+
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-sans">
-			<div className="bg-white p-10 rounded-lg shadow-lg w-1/3 min-h-fit flex flex-col">
+			<div
+				ref={popupRef} // Attach the reference to the popup
+				className="bg-white p-10 rounded-lg shadow-lg w-1/3 min-h-fit flex flex-col">
 				<h2 className="text-3xl font-medium text-center text-[#44475B]">User settings</h2>
 
 				{/* Role Selector */}

@@ -1,8 +1,25 @@
-// ResetPasswordPopup.tsx
+import { useEffect, useRef } from 'react';
+
 const RemoveUserPopup = ({ onClose }: { onClose: () => void }) => {
+	const modalRef = useRef<HTMLDivElement>(null);
+
+	// Close the modal if clicked outside
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+				onClose();
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [onClose]);
+
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-sans">
-			<div className="bg-white p-6 rounded-lg shadow-lg w-1/3 h-1/3 text-center">
+			<div ref={modalRef} className="bg-white p-6 rounded-lg shadow-lg w-1/3 h-1/3 text-center">
 				<h2 className="text-[#44475B] text-3xl font-medium mt-10">Remove user?</h2>
 				<p className="mt-4 text-[#737790] text-regular">This can&apos;t be undone</p>
 				<div className="flex justify-center items-center mt-9 mx-10 space-x-3">
