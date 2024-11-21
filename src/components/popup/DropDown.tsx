@@ -39,7 +39,7 @@ const Dropdown = ({ button, children, onClose, onToggle }: DropdownProps) => {
 			<div onClick={toggleDropdown}>{button}</div>
 
 			{/* Dropdown Content */}
-			{isOpen && <div className="absolute left-0 right-0 z-10">{children}</div>}
+			{isOpen && <div className="absolute left-0 right-0 z-50">{children}</div>}
 		</div>
 	);
 };
