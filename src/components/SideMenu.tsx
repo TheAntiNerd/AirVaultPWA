@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import GridIcon from '../assets/svg/grid.svg';
@@ -19,8 +19,8 @@ const menuItems = [
 		name: 'Accounts',
 		icon: <UserIcon />,
 		submenu: [
-			{ name: 'Users', path: '/users/create' },
-			{ name: 'Groups', path: '/groups/create' },
+			{ name: 'Users', path: '/users' },
+			{ name: 'Groups', path: '/groups' },
 		],
 	},
 	{ name: 'Directory', path: '/directories', icon: <DatabaseIcon /> },
@@ -62,10 +62,12 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 			{/* Top Bar */}
 			<div className="bg-white shadow p-4 flex justify-between items-center lg:hidden">
 				<Link to="/" className="flex items-center gap-2 font-semibold">
-					<LogoIcon width={32} height={32} />
+					<span>
+						<LogoIcon />
+					</span>
 				</Link>
 				<button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-gray-800 focus:outline-none">
-					<MenuOpenIcon width={24} height={24} />
+					<MenuOpenIcon />
 				</button>
 			</div>
 
@@ -78,13 +80,15 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 					{/* Logo for large screens */}
 					<div className="hidden lg:flex items-center gap-2 mb-8">
 						<Link to="/" className="flex items-center gap-2 font-semibold">
-							<LogoIcon width={32} height={32} />
+							<span>
+								<LogoIcon />
+							</span>
 						</Link>
 					</div>
 
 					<div className="mb-8 lg:hidden flex justify-end">
 						<button onClick={() => setIsSidebarOpen(false)} className="text-gray-800 focus:outline-none">
-							<MenuCloseIcon width={24} height={24} />
+							<MenuCloseIcon />
 						</button>
 					</div>
 					<nav>
@@ -100,13 +104,13 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 										}`}>
 										{item.icon}
 										<span className="ml-3">{item.name}</span>
-										<DownArrowIcon
+										<span
 											className={`ml-auto transition-transform ${
 												accountsOpen ? 'rotate-180' : ''
-											}`}
-											width={16}
-											height={16}
-										/>
+											}`}>
+											{' '}
+											<DownArrowIcon />
+										</span>
 									</div>
 								) : (
 									<Link

@@ -8,8 +8,8 @@ import NetworkShares from './components/ui/NetworkShares';
 import Protection from './components/ui/Protection';
 import Dashboard from './components/ui/Dashboard';
 import Users from './components/ui/Users';
-import UsersCreate from './components/ui/UsersCreate';
-import GroupsCreate from './components/ui/GroupsCreate';
+import Groups from './components/ui/Groups';
+import NewUser from './components/ui/NewUser';
 
 // Function to check if PWA is already installed
 const isPWAInstalled = () => {
@@ -83,13 +83,13 @@ function App() {
 						<>
 							<Route path="/" element={<Navigate to="/dashboard" replace />} />
 							<Route path="/dashboard" element={<Dashboard />} />
-							<Route path="/users" element={<Users />} />
 							<Route path="/directories" element={<Directory />} />
 							<Route path="/network-shares" element={<NetworkShares />} />
 							<Route path="/protection" element={<Protection />} />
 							<Route path="/updates" element={<VersionUpdate />} />
-							<Route path="/users/create" element={<UsersCreate />} />
-							<Route path="/groups/create" element={<GroupsCreate />} />
+							<Route path="/users" element={<Users />} />
+							<Route path="/users/new" element={<NewUser />} /> {/* new users */}
+							<Route path="/groups" element={<Groups />} />
 						</>
 					) : (
 						<>
