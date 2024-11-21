@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PasswordEyeClose, PasswordEyeOpen } from '../../assets/svg';
 
 interface ResetPasswordPopupProps {
@@ -22,6 +22,8 @@ const ResetPasswordPopup: React.FC<ResetPasswordPopupProps> = ({
 	const [showNewPassword, setShowNewPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+	const modalRef = useRef<HTMLDivElement>(null);
+
 	const canResetPassword = () => {
 		if (userRole === 'Owner') {
 			return true;
@@ -38,6 +40,7 @@ const ResetPasswordPopup: React.FC<ResetPasswordPopupProps> = ({
 		// Default users cannot reset any password
 		return false;
 	};
+
 	const validateForm = () => {
 		if (isOwnPasswordReset) {
 			return oldPassword && newPassword && confirmNewPassword && newPassword === confirmNewPassword;
@@ -60,9 +63,23 @@ const ResetPasswordPopup: React.FC<ResetPasswordPopupProps> = ({
 		if (field === 'confirm') setShowConfirmPassword(!showConfirmPassword);
 	};
 
+	// Close the modal if clicked outside
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+				onClose();
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [onClose]);
+
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-			<div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+			<div ref={modalRef} className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
 				<h2 className="text-3xl font-medium text-[#44475B] mb-6 text-center">Reset Password</h2>
 
 				{canResetPassword() && (

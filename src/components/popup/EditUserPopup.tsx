@@ -1,8 +1,25 @@
-// ResetPasswordPopup.tsx
+import { useEffect, useRef } from 'react';
+
 const EditUserPopup = ({ onClose }: { onClose: () => void }) => {
+	const modalRef = useRef<HTMLDivElement>(null);
+
+	// Close the modal if clicked outside
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+				onClose();
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [onClose]);
+
 	return (
-		<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-sans ">
-			<div className="bg-white px-10  rounded-lg shadow-lg w-1/3 min-h-fit">
+		<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-sans">
+			<div ref={modalRef} className="bg-white px-10 rounded-lg shadow-lg w-1/3 min-h-fit">
 				<h2 className="mt-10 text-[#44475B] text-3xl font-medium text-center">Edit users</h2>
 				{/* input box */}
 				<p className="text-[#44475B] text-sm font-medium mt-6">First Name</p>

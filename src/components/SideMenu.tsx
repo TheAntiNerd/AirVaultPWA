@@ -62,7 +62,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 			{/* Top Bar */}
 			<div className="bg-white shadow p-4 flex justify-between items-center lg:hidden">
 				<Link to="/" className="flex items-center gap-2 font-semibold">
-					<span>
+					<span className="">
 						<LogoIcon />
 					</span>
 				</Link>
@@ -80,8 +80,8 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 					{/* Logo for large screens */}
 					<div className="hidden lg:flex items-center gap-2 mb-8">
 						<Link to="/" className="flex items-center gap-2 font-semibold">
-							<span>
-								<LogoIcon />
+							<span className="">
+								<LogoIcon height={40} width={40} />
 							</span>
 						</Link>
 					</div>

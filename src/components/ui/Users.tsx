@@ -83,14 +83,16 @@ const UsersCreate = () => {
 					{/* Header */}
 					<div className="flex justify-between items-center mb-6">
 						<h1 className="text-3xl font-medium text-gray-800">Users</h1>
-						<button
-							className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700"
-							onClick={handleAddUserClick}>
-							Add user
-						</button>
+						{users.length > 0 && (
+							<button
+								className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700"
+								onClick={handleAddUserClick}>
+								Add user
+							</button>
+						)}
 					</div>
 
-					{/* Table */}
+					{/* Table and Empty State */}
 					<div className="w-full h-[calc(100%-80px)] overflow-y-auto">
 						<div className="overflow-hidden rounded-md border border-[#E1E3F5]">
 							<table className="w-full border-collapse">
@@ -144,7 +146,6 @@ const UsersCreate = () => {
 											</td>
 											<td className="px-6 py-6 text-gray-600">{user.role}</td>
 											<td className="px-4 py-6 text-center">
-												{/* Replace with Dropdown Component */}
 												<Dropdown
 													button={
 														<button className="text-gray-500 hover:text-gray-700">⋮</button>
@@ -185,6 +186,22 @@ const UsersCreate = () => {
 								</tbody>
 							</table>
 						</div>
+
+						{/* Empty State */}
+						{users.length === 0 && (
+							<div className="flex flex-col items-center justify-center mt-40 text-center">
+								<p className=" text-[#44475B] mb-1">No users added so far.</p>
+								<p className="text-[#44475B] mb-6">
+									Click on the <span className="font-bold">“Add user”</span> button to build your
+									team..
+								</p>
+								<button
+									className="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700"
+									onClick={handleAddUserClick}>
+									Add user
+								</button>
+							</div>
+						)}
 					</div>
 				</div>
 
