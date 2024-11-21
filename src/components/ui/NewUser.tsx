@@ -13,7 +13,18 @@ const NewUser = () => {
 
 	const [role, setRole] = useState('Default');
 	const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
+	const [email, setEmail] = useState('');
+	const [username, setUsername] = useState('');
+
 	const groups = ['Collabs', 'Teachers', 'Creators', 'Interns'];
+
+	const maxLength = 63;
+	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setEmail(e.target.value);
+	};
+	const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setUsername(e.target.value);
+	};
 
 	const handleAddGroup = (group: string) => {
 		if (selectedGroups.includes(group)) {
@@ -72,25 +83,47 @@ const NewUser = () => {
 					</div>
 
 					{/* Email Field */}
-					<div className="mb-4">
+					<div className="relative mb-4">
 						<label className="block font-medium mb-2 text-[#44475B]">Enter the email *</label>
 						<input
 							type="email"
 							placeholder="Enter email"
+							value={email}
+							onChange={handleEmailChange}
+							maxLength={maxLength}
 							className="w-full px-6 py-3 border-2 border-[#C4C7E3] bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500"
 						/>
-						<span className="text-gray-400 text-xs">0/63</span>
+						<span
+							className="absolute right-0 bottom-0 mb-3 mr-2 text-xs text-gray-400"
+							style={{
+								transform: 'translateY(120%)',
+								padding: '0 4px',
+								backgroundColor: 'white',
+							}}>
+							{email.length}/{maxLength}
+						</span>
 					</div>
 
 					{/* Username Field */}
-					<div className="mb-4">
+					<div className="relative mb-4">
 						<label className="block font-medium mb-2 text-[#44475B]">Enter username *</label>
 						<input
 							type="text"
 							placeholder="Enter username"
+							value={username}
+							onChange={handleUserNameChange}
+							maxLength={maxLength}
 							className="w-full px-6 py-3 border-2 border-[#C4C7E3] bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500"
 						/>
-						<span className="text-gray-400 text-xs ">0/63</span>
+						<span
+							className="absolute right-0 bottom-0 mb-3 mr-2 text-xs text-gray-400"
+							style={{
+								transform: 'translateY(120%)',
+								padding: '0 4px',
+								backgroundColor: 'white',
+							}}>
+							{username.length}/{maxLength}
+						</span>
 					</div>
 
 					{/* Password Fields */}
@@ -213,6 +246,7 @@ const NewUser = () => {
 						</Dropdown>
 					</div>
 					<div className={`flex-grow mt-6 ${groupDropdownOpen ? 'pb-36' : ''}`}></div>
+
 					{/* Action Buttons */}
 					<div className="flex justify-center space-x-5 mt-6">
 						<a href="/users">
