@@ -1,8 +1,8 @@
 import SideMenu from '../SideMenu';
-import { DownArrow, PasswordEyeOpen } from '../../assets/svg';
-import { PasswordEyeClose } from '../../assets/svg';
+import { DownArrow, PasswordEyeOpen, PasswordEyeClose, BackArrowIcon } from '../../assets/svg';
 import { useState } from 'react';
 import Dropdown from '../popup/DropDown';
+
 const NewUser = () => {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -59,24 +59,25 @@ const NewUser = () => {
 	return (
 		<SideMenu>
 			<div className="flex items-center justify-center">
-				<div className="bg-white  w-[1000px] px-48 text-sans">
-					<h1 className="text-3xl font-medium my-6 text-center text-[#272B42]">Add a user</h1>
+				<div className="bg-white  max-sm:w-full w-[1000px] px-48 text-sans max-sm:px-3">
+					<h1 className="text-3xl font-medium my-6 text-center text-[#272B42] max-sm:text-left">
+						Add a user
+					</h1>
 
 					{/* Name Fields */}
 					<div className="mb-4">
 						<div>
 							<label className="block mb-2 text-[#44475B] font-medium">Enter the name</label>
-							<div className="flex items-center justify-center space-x-3">
+							<div className="grid grid-cols-2 gap-3">
 								<input
 									type="text"
 									placeholder="First name"
-									className="flex grow px-6 py-3 border-2 border-[#C4C7E3] bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500"
+									className="px-6 py-3 border-2 border-[#C4C7E3] bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500"
 								/>
-
 								<input
 									type="text"
 									placeholder="Last name"
-									className="flex grow px-6 py-3 border-2 border-[#C4C7E3] bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500"
+									className="px-6 py-3 border-2 border-[#C4C7E3] bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500"
 								/>
 							</div>
 						</div>
@@ -127,7 +128,7 @@ const NewUser = () => {
 					</div>
 
 					{/* Password Fields */}
-					<div className="grid grid-cols-2 gap-4 mb-6">
+					<div className="grid grid-cols-2 max-sm:grid-cols-1 gap-4 mb-6">
 						<div>
 							<label className="block font-medium mb-2 text-[#44475B]">Set a password</label>
 							<div className="relative">
@@ -165,13 +166,13 @@ const NewUser = () => {
 					</div>
 
 					{/* Role Dropdown */}
-					<div className="flex items-start justify-between">
-						<p className="text-[#44475B] font-medium mt-4 ">Set a specific role for them *</p>
+					<div className="flex items-start justify-between max-sm:grid max-sm:grid-cols-1">
+						<p className="text-[#44475B] font-medium mt-4 max-sm:mt-0 ">Set a specific role for them *</p>
 
 						<Dropdown
 							button={
 								<div
-									className="mt-2 w-32 text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
+									className="mt-2 w-32 max-sm:w-full text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
 									onClick={() => toggleDropdown('role')}>
 									<span className="text-[#44475B]">{role}</span>
 									<span className="text-[#737790]">
@@ -195,9 +196,11 @@ const NewUser = () => {
 						</Dropdown>
 					</div>
 
+					<div className={`max-sm:flex-grow  ${roleDropdownOpen ? 'max-sm:pb-28' : ''}`}></div>
+
 					{/* Group dropdowm */}
 					<div>
-						<p className="text-[#44475B] font-medium mt-4">
+						<p className="text-[#44475B] font-medium mt-4 max-sm:flex">
 							Add members to your groups <span className="text-[#A3A09F] font-light">(optional)</span>
 						</p>
 						<Dropdown
@@ -248,15 +251,21 @@ const NewUser = () => {
 					<div className={`flex-grow mt-6 ${groupDropdownOpen ? 'pb-36' : ''}`}></div>
 
 					{/* Action Buttons */}
-					<div className="flex justify-center space-x-5 mt-6">
+					<div className="flex justify-center space-x-5 max-sm:space-x-0 mt-6">
 						<a href="/users">
-							<button className="px-6 py-3   bg-white rounded-md text-sm text-[#44475B] focus:outline-none ">
-								← Back
+							<button className="px-6 py-3 max-sm:absolute max-sm:top-0 max-sm:left-0  bg-white rounded-md text-sm text-[#44475B] focus:outline-none ">
+								<span className="hidden max-sm:inline">
+									<BackArrowIcon />
+								</span>
+								<span className="flex max-sm:hidden">
+									<BackArrowIcon /> <span className="ml-1 text-base">Back</span>
+								</span>
 							</button>
 						</a>
 
-						<button className="px-6 py-3 bg-blue-500 rounded-md text-sm text-white focus:outline-none hover:bg-blue-600">
-							Add user
+						<button className="px-6 py-3 max-sm:w-full max-sm:mb-6 bg-blue-500 rounded-md text-sm text-white focus:outline-none hover:bg-blue-600">
+							<span className="hidden max-sm:inline">Confirm</span>
+							<span className="inline max-sm:hidden">Add user</span>
 						</button>
 					</div>
 				</div>

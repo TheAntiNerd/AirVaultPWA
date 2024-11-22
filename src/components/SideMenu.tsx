@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-import GridIcon from '../assets/svg/grid.svg';
-import UserIcon from '../assets/svg/user.svg';
-import DatabaseIcon from '../assets/svg/database.svg';
-import ShareIcon from '../assets/svg/share.svg';
-import ShieldIcon from '../assets/svg/shield.svg';
-import ArrowUpCircleIcon from '../assets/svg/arrow-up-circle.svg';
-import LogoutIcon from '../assets/svg/log-out.svg';
-import MenuOpenIcon from '../assets/svg/menuopen.svg';
-import MenuCloseIcon from '../assets/svg/menuclose.svg';
-import DownArrowIcon from '../assets/svg/downarrow.svg';
-import LogoIcon from '../assets/logo.svg';
+import {
+	GridIcon,
+	UserIcon,
+	DatabaseIcon,
+	ShareIcon,
+	ShieldIcon,
+	ArrowUpCircleIcon,
+	LogoutIcon,
+	MenuOpenIcon,
+	MenuCloseIcon,
+	DownArrow,
+	LogoIcon,
+} from '../assets/svg';
 
 const menuItems = [
 	{ name: 'Dashboard', path: '/dashboard', icon: <GridIcon /> },
@@ -62,7 +64,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 			{/* Top Bar */}
 			<div className="bg-white shadow p-4 flex justify-between items-center lg:hidden">
 				<Link to="/" className="flex items-center gap-2 font-semibold">
-					<span className="">
+					<span className={`${location.pathname.startsWith('/users/new') ? 'max-sm:hidden' : ''}`}>
 						<LogoIcon />
 					</span>
 				</Link>
@@ -81,7 +83,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 					<div className="hidden lg:flex items-center gap-2 mb-8">
 						<Link to="/" className="flex items-center gap-2 font-semibold">
 							<span className="">
-								<LogoIcon height={40} width={40} />
+								<LogoIcon />
 							</span>
 						</Link>
 					</div>
@@ -109,7 +111,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 												accountsOpen ? 'rotate-180' : ''
 											}`}>
 											{' '}
-											<DownArrowIcon />
+											<DownArrow />
 										</span>
 									</div>
 								) : (
@@ -158,7 +160,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 
 			{/* Confirm Logout Modal */}
 			{showLogoutModal && (
-				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 max-sm:p-3">
 					<div className="bg-white p-10 shadow-lg text-center w-[414px] h-[209px] rounded-lg flex flex-col items-center justify-between">
 						<h2 className="text-3xl font-medium mb-6 text-gray-800">Logout?</h2>
 						<div className="flex justify-between w-full space-x-3">
@@ -178,7 +180,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 			)}
 
 			{/* Main Content */}
-			<main className="flex-1 p-2">{children}</main>
+			<main className="flex-1 p-2 max-sm:p-0">{children}</main>
 		</div>
 	);
 }
