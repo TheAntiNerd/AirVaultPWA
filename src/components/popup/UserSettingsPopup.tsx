@@ -52,7 +52,7 @@ const UserSettingsPopup = ({ onClose }: { onClose: () => void }) => {
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-sans">
 			<div
 				ref={popupRef} // Attach the reference to the popup
-				className="bg-white p-10 rounded-lg shadow-lg w-1/3 min-h-fit flex flex-col">
+				className="bg-white p-10 rounded-lg shadow-lg w-1/3 min-h-fit flex flex-col max-sm:w-[340px] max-sm:px-3 max-sm:pb-5">
 				<h2 className="text-3xl font-medium text-center text-[#44475B]">User settings</h2>
 
 				{/* Role Selector */}
@@ -131,7 +131,7 @@ const UserSettingsPopup = ({ onClose }: { onClose: () => void }) => {
 				</Dropdown>
 
 				{/* Dynamic Height Content */}
-				<div className={`flex-grow mt-6 ${groupDropdownOpen ? 'pb-28' : ''}`}></div>
+				<div className={`flex-grow ${groupDropdownOpen ? 'pb-36' : ''}`}></div>
 
 				{/* Buttons */}
 				<div className="flex justify-center items-center mt-9 space-x-3">

@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import SideMenu from '../SideMenu';
 import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
-import CpuIcon from '../../assets/svg/cpu-icon.svg';
-import RamIcon from '../../assets/svg/ram-icon.svg';
-import StorageIcon from '../../assets/svg/storage-icon.svg';
+import { CpuIcon, RamIcon, StorageIcon } from '../../assets/svg';
 
 function Dashboard() {
 	const [cpu, setCpu] = useState(0);
