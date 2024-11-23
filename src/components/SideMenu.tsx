@@ -64,7 +64,12 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 			{/* Top Bar */}
 			<div className="bg-white shadow p-4 flex justify-between items-center lg:hidden">
 				<Link to="/" className="flex items-center gap-2 font-semibold">
-					<span className={`${location.pathname.startsWith('/users/new') ? 'max-sm:hidden' : ''}`}>
+					<span
+						className={`${
+							location.pathname.startsWith('/users/new') || location.pathname.startsWith('/groups/new')
+								? 'max-sm:hidden'
+								: ''
+						}`}>
 						<LogoIcon />
 					</span>
 				</Link>

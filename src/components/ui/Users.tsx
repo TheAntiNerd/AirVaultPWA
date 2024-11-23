@@ -254,7 +254,7 @@ const UsersCreate = () => {
 																		handleDropdownSelect('Remove User', index)
 																	}>
 																	<div>
-																		<RemoveIcon height={24} width={24} />
+																		<RemoveIcon />
 																	</div>
 																	<span className="text-xs">Remove user</span>
 																</button>
@@ -265,7 +265,7 @@ const UsersCreate = () => {
 																		handleDropdownSelect('Edit User', index)
 																	}>
 																	<div>
-																		<EditIcon height={24} width={24} />
+																		<EditIcon />
 																	</div>
 																	<span className="text-xs">Edit user</span>
 																</button>
@@ -276,7 +276,7 @@ const UsersCreate = () => {
 																		handleDropdownSelect('User settings', index)
 																	}>
 																	<div>
-																		<UserSettingIcon height={24} width={24} />
+																		<UserSettingIcon />
 																	</div>
 																	<span className="text-xs">User settings</span>
 																</button>
@@ -321,7 +321,7 @@ const UsersCreate = () => {
 									team.
 								</p>
 								<button
-									className={`hidden max-sm:block max-sm:w-full max-sm:mt-28 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700`}
+									className={`px-3 max-sm:block max-sm:w-full max-sm:mt-28 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700`}
 									onClick={handleAddUserClick}>
 									Add user
 								</button>
