@@ -20,3 +20,5 @@ export { default as StorageIcon } from './storage-icon.svg';
 export { default as BackArrowIcon } from './backarrow.svg';
 export { default as SearchIcon } from './searchicon.svg';
 export { default as ResetPWIcon } from './resetpwicon.svg';
+export { default as DeleteIcon } from './deleteicon.svg';
+export { default as SeeMoreIcon } from './seemore.svg';

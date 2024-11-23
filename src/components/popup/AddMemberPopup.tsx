@@ -2,12 +2,12 @@ import { useState, useEffect, useRef } from 'react';
 import { DownArrow } from '../../assets/svg';
 import Dropdown from './DropDown';
 
-const UserSettingsPopup = ({ onClose }: { onClose: () => void }) => {
+const AddMemberPopup = ({ onClose }: { onClose: () => void }) => {
 	const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
 	const [groupDropdownOpen, setGroupDropdownOpen] = useState(false);
 	const [role, setRole] = useState('Default');
 	const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
-	const groups = ['Collabs', 'Teachers', 'Creators', 'Interns'];
+	const groups = ['Ritu Raj', 'Shiv', 'Bishal', 'Ritu'];
 
 	const popupRef = useRef<HTMLDivElement | null>(null); // Reference for the popup
 
@@ -53,46 +53,18 @@ const UserSettingsPopup = ({ onClose }: { onClose: () => void }) => {
 			<div
 				ref={popupRef} // Attach the reference to the popup
 				className="bg-white p-10 rounded-lg shadow-lg w-1/3 min-h-fit flex flex-col max-sm:w-[320px] max-sm:px-8 max-sm:pb-5">
-				<h2 className="text-3xl font-medium text-center text-[#44475B]">User settings</h2>
+				<h2 className="text-3xl font-medium text-center text-[#44475B]">Add member</h2>
 
 				{/* Role Selector */}
-				<p className="mt-6">Role</p>
+				<p className="mt-6">Enter username</p>
 				<Dropdown
 					button={
 						<div
-							className="mt-2 text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
-							onClick={() => toggleDropdown('role')}>
-							<span className="text-[#44475B]">{role}</span>
-							<span className="text-[#737790]">
-								<DownArrow />
-							</span>
-						</div>
-					}
-					onToggle={setRoleDropdownOpen}>
-					{roleDropdownOpen && (
-						<ul className="bg-white border-2 border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-hidden">
-							{['Default', 'Moderator', 'Admin'].map(option => (
-								<li
-									key={option}
-									onClick={() => handleRoleSelect(option)}
-									className="px-4 py-2 hover:bg-[#F1F4FF] cursor-pointer text-[#44475B]">
-									{option}
-								</li>
-							))}
-						</ul>
-					)}
-				</Dropdown>
-				<div className={`flex-grow ${roleDropdownOpen ? 'pb-28' : ''}`}></div>
-				{/* Groups Selector */}
-				<p className="mt-6">Groups</p>
-				<Dropdown
-					button={
-						<div
-							className="mt-2 text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
+							className="mt-2 text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between focus:outline-none focus:border-blue-500"
 							onClick={() => toggleDropdown('group')}>
 							<div className="flex flex-wrap gap-2">
 								{selectedGroups.length === 0 ? (
-									<span>Select Groups</span>
+									<span>Enter username</span>
 								) : (
 									selectedGroups.map(group => (
 										<span
@@ -130,8 +102,37 @@ const UserSettingsPopup = ({ onClose }: { onClose: () => void }) => {
 					)}
 				</Dropdown>
 
+				<div className={`flex-grow ${groupDropdownOpen ? 'pb-40' : ''}`}></div>
+				{/* Groups Selector */}
+				<p className="mt-6">Select role</p>
+
+				<Dropdown
+					button={
+						<div
+							className="mt-2 text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between focus:outline-none focus:border-blue-500"
+							onClick={() => toggleDropdown('role')}>
+							<span className="text-[#44475B]">{role}</span>
+							<span className="text-[#737790]">
+								<DownArrow />
+							</span>
+						</div>
+					}
+					onToggle={setRoleDropdownOpen}>
+					{roleDropdownOpen && (
+						<ul className="bg-white border-2 border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-hidden">
+							{['Default', 'Moderator', 'Admin'].map(option => (
+								<li
+									key={option}
+									onClick={() => handleRoleSelect(option)}
+									className="px-4 py-2 hover:bg-[#F1F4FF] cursor-pointer text-[#44475B]">
+									{option}
+								</li>
+							))}
+						</ul>
+					)}
+				</Dropdown>
 				{/* Dynamic Height Content */}
-				<div className={`flex-grow ${groupDropdownOpen ? 'pb-36' : ''}`}></div>
+				<div className={`flex-grow ${roleDropdownOpen ? 'pb-28' : ''}`}></div>
 
 				{/* Buttons */}
 				<div className="flex justify-center items-center mt-9 space-x-3">
@@ -149,4 +150,4 @@ const UserSettingsPopup = ({ onClose }: { onClose: () => void }) => {
 	);
 };
 
-export default UserSettingsPopup;
+export default AddMemberPopup;

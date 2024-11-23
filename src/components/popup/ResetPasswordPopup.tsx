@@ -81,7 +81,7 @@ const ResetPasswordPopup: React.FC<ResetPasswordPopupProps> = ({
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
 			<div
 				ref={modalRef}
-				className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md max-sm:w-[340px] max-sm:px-3">
+				className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md max-sm:w-[320px] max-sm:px-8">
 				<h2 className="text-3xl font-medium text-[#44475B] mb-6 text-center">Reset Password</h2>
 
 				{canResetPassword() && (

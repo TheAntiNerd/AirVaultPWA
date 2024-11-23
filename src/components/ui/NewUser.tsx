@@ -2,6 +2,7 @@ import SideMenu from '../SideMenu';
 import { DownArrow, PasswordEyeOpen, PasswordEyeClose, BackArrowIcon } from '../../assets/svg';
 import { useState } from 'react';
 import Dropdown from '../popup/DropDown';
+import { useNavigate } from 'react-router-dom';
 
 const NewUser = () => {
 	const [showPassword, setShowPassword] = useState(false);
@@ -10,11 +11,11 @@ const NewUser = () => {
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
 	const [groupDropdownOpen, setGroupDropdownOpen] = useState(false);
-
 	const [role, setRole] = useState('Default');
 	const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
 	const [email, setEmail] = useState('');
 	const [username, setUsername] = useState('');
+	const navigate = useNavigate();
 
 	const groups = ['Collabs', 'Teachers', 'Creators', 'Interns'];
 
@@ -24,6 +25,9 @@ const NewUser = () => {
 	};
 	const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setUsername(e.target.value);
+	};
+	const handleBackClick = () => {
+		navigate('/users');
 	};
 
 	const handleAddGroup = (group: string) => {
@@ -252,16 +256,16 @@ const NewUser = () => {
 
 					{/* Action Buttons */}
 					<div className="flex justify-center space-x-5 max-sm:space-x-0 mt-6">
-						<a href="/users">
-							<button className="px-6 py-3 max-sm:absolute max-sm:top-0 max-sm:left-0  bg-white rounded-md text-sm text-[#44475B] focus:outline-none ">
-								<span className="hidden max-sm:inline">
-									<BackArrowIcon />
-								</span>
-								<span className="flex max-sm:hidden">
-									<BackArrowIcon /> <span className="ml-1 text-base">Back</span>
-								</span>
-							</button>
-						</a>
+						<button
+							onClick={handleBackClick}
+							className="px-6 py-3 max-sm:absolute max-sm:top-0 max-sm:left-0  bg-white rounded-md text-sm text-[#44475B] focus:outline-none ">
+							<span className="hidden max-sm:inline">
+								<BackArrowIcon />
+							</span>
+							<span className="flex max-sm:hidden">
+								<BackArrowIcon /> <span className="ml-1 text-base">Back</span>
+							</span>
+						</button>
 
 						<button className="px-6 py-3 max-sm:w-full max-sm:mb-6 bg-blue-500 rounded-md text-sm text-white focus:outline-none hover:bg-blue-600">
 							<span className="hidden max-sm:inline">Confirm</span>

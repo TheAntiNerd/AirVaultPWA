@@ -10,6 +10,7 @@ import Dashboard from './components/ui/Dashboard';
 import Users from './components/ui/Users';
 import Groups from './components/ui/Groups';
 import NewUser from './components/ui/NewUser';
+import NewGroup from './components/ui/NewGroup';
 
 // Function to check if PWA is already installed
 const isPWAInstalled = () => {
@@ -90,6 +91,7 @@ function App() {
 							<Route path="/users" element={<Users />} />
 							<Route path="/users/new" element={<NewUser />} /> {/* new users */}
 							<Route path="/groups" element={<Groups />} />
+							<Route path="/groups/new" element={<NewGroup />} />
 						</>
 					) : (
 						<>
