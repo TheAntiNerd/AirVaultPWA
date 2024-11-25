@@ -24,3 +24,8 @@ export { default as DeleteIcon } from './deleteicon.svg';
 export { default as SeeMoreIcon } from './seemore.svg';
 export { default as VersionIcon } from './versionicon.svg';
 export { default as NewVersionIcon } from './newversion.svg';
+export { default as CollabIcon } from './collabs.svg';
+export { default as GroupsIcon } from './groups.svg';
+export { default as DetailsIcon } from './details.svg';
+export { default as DirectoryIcon } from './directoryicon.svg';
+export { default as AddDirectory } from './adddirectory.svg';
