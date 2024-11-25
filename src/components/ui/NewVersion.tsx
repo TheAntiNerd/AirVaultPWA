@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import LoaderFull from '../wait/LoaderFull';
 import SideMenu from '../SideMenu';
 import { NewVersionIcon } from '../../assets/svg';
 import RemoveUserPopup from '../popup/RemoveUserPopup';
@@ -41,10 +40,10 @@ const NewVersion = () => {
 	return (
 		<SideMenu>
 			<div className=" text-sans">
-				{isLoading && <LoaderFull />} {/* Show loader until update completes */}
 				{!isLoading && isSuccess && (
-					<div className="flex flex-col items-center justify-center mt-28">
+					<div className="flex flex-col items-center justify-center mt-20">
 						<NewVersionIcon />
+
 						<p className="mt-2 text-[#8C8FA3] font-medium text-xs">AV version 0.0.2</p>
 						<h1 className="text-2xl font-semibold text-[#44475B] my-6">You are up to date</h1>
 						<div className="max-sm:flex max-sm:flex-col max-sm:fixed max-sm:bottom-0 max-sm:left-0 max-sm:right-0 max-sm:px-3">
@@ -64,11 +63,16 @@ const NewVersion = () => {
 						</div>
 					</div>
 				)}
+				{/* Show loader until update completes */}
+
 				{isLoading && (
 					<>
-						<div className="flex flex-col items-center justify-center -mt-80">
-							<h1 className="text-2xl font-medium text-[#44475B]">{`Working on Updates ${percentage}%`}</h1>
-							<p className="text-base text-[#8C8FA3] mt-1">Please keep your device turned on.</p>
+						<div className="flex min-h-screen items-center justify-center -mt-16">
+							<div className="flex flex-col items-center justify-center">
+								<div className="loader mb-8" />
+								<h1 className="text-2xl font-medium text-[#44475B]">{`Working on Updates ${percentage}%`}</h1>
+								<p className="text-base text-[#8C8FA3] mt-1">Please keep your device turned on.</p>
+							</div>
 						</div>
 					</>
 				)}

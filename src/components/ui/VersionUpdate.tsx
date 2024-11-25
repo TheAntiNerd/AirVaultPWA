@@ -87,15 +87,15 @@ const VersionUpdate = () => {
 				{/* Button */}
 				<div className="flex items-center justify-center pt-4 max-sm:px-3">
 					<button
-						className="bg-[#298DFF] max-sm:w-full px-6 py-4 rounded-lg text-white font-medium flex flex-col items-center justify-center w-40 relative"
+						className="bg-[#298DFF] max-sm:w-full px-6 py-3 rounded-lg text-white font-medium flex flex-col items-center justify-center w-40 relative"
 						onClick={handleClick}
-						disabled={isLoading} // Disable button while loading
-					>
+						disabled={isLoading}>
 						<div className="flex flex-col items-center">
-							{isLoading && (
-								<div className="w-6 h-6 border-4 border-[#8C8FA3] border-t-transparent rounded-full animate-spin mb-2"></div>
+							{isLoading ? (
+								<div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin "></div>
+							) : (
+								<span>{buttonText}</span> // Only show text when not loading
 							)}
-							<span>{buttonText}</span>
 						</div>
 					</button>
 				</div>
