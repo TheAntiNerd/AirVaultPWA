@@ -22,3 +22,5 @@ export { default as SearchIcon } from './searchicon.svg';
 export { default as ResetPWIcon } from './resetpwicon.svg';
 export { default as DeleteIcon } from './deleteicon.svg';
 export { default as SeeMoreIcon } from './seemore.svg';
+export { default as VersionIcon } from './versionicon.svg';
+export { default as NewVersionIcon } from './newversion.svg';
