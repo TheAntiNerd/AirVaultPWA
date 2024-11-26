@@ -60,13 +60,15 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 	};
 
 	return (
-		<div className="flex flex-col lg:flex-row w-full min-h-screen bg-white text-sans">
+		<div className="flex flex-col lg:flex-row w-full min-h-screen bg-white text-sans ">
 			{/* Top Bar */}
 			<div className="bg-white shadow p-4 flex justify-between items-center lg:hidden">
 				<Link to="/" className="flex items-center gap-2 font-semibold">
 					<span
 						className={`${
-							location.pathname.startsWith('/users/new') || location.pathname.startsWith('/groups/new')
+							location.pathname.startsWith('/users/new') ||
+							location.pathname.startsWith('/groups/new') ||
+							location.pathname.startsWith('/directories')
 								? 'max-sm:hidden'
 								: ''
 						}`}>
