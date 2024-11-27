@@ -34,3 +34,4 @@ export { default as ToggleGreenIcon } from './togglegreen.svg';
 export { default as ToggleDarkIcon } from './toggleDark.svg';
 export { default as RemovePoolsIcons } from './removefrompools.svg';
 export { default as HoverTick } from './hovertick.svg';
+export { default as SwitchIcon } from './switchicon.svg';
