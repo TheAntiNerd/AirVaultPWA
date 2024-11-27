@@ -8,26 +8,12 @@ type AddMemberPopupProps = {
 	placeholderp?: string;
 };
 
-const AddMemberPopup = ({
-	onClose,
-	placeholderh1 = 'Add member',
-	placeholderp = 'Select role',
-}: AddMemberPopupProps) => {
+const AddSMBPopup = ({ onClose, placeholderh1 = 'Add member', placeholderp = 'Select role' }: AddMemberPopupProps) => {
 	const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
-	const [groupDropdownOpen, setGroupDropdownOpen] = useState(false);
 	const [role, setRole] = useState('Default');
-	const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
-	const groups = ['Ritu Raj', 'Shiv', 'Bishal', 'Ritu'];
+	const [username, setUsername] = useState('');
 
 	const popupRef = useRef<HTMLDivElement | null>(null); // Reference for the popup
-
-	const handleAddGroup = (group: string) => {
-		if (selectedGroups.includes(group)) {
-			setSelectedGroups(prev => prev.filter(item => item !== group));
-		} else {
-			setSelectedGroups(prev => [...prev, group]);
-		}
-	};
 
 	const handleRoleSelect = (selectedRole: string) => {
 		setRole(selectedRole);
@@ -37,9 +23,7 @@ const AddMemberPopup = ({
 	const toggleDropdown = (dropdown: 'role' | 'group') => {
 		if (dropdown === 'role') {
 			setRoleDropdownOpen(prev => !prev);
-			setGroupDropdownOpen(false); // Close the group dropdown when toggling role
 		} else {
-			setGroupDropdownOpen(prev => !prev);
 			setRoleDropdownOpen(false); // Close the role dropdown when toggling group
 		}
 	};
@@ -58,63 +42,43 @@ const AddMemberPopup = ({
 		};
 	}, [onClose]);
 
+	const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setUsername(e.target.value);
+	};
+
+	const maxLength = 63;
+
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-sans">
 			<div
 				ref={popupRef} // Attach the reference to the popup
 				className="bg-white p-10 rounded-lg shadow-lg w-1/3 min-h-fit flex flex-col max-sm:w-[320px] max-sm:px-8 max-sm:pb-5">
-				<h2 className="text-3xl font-medium text-center text-[#44475B]">{placeholderh1}</h2>
+				<h2 className="text-3xl font-medium text-center text-[#44475B] mb-4">{placeholderh1}</h2>
 
-				{/* Role Selector */}
-				<p className="mt-6">Enter username</p>
-				<Dropdown
-					button={
-						<div
-							className="mt-2 text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between focus:outline-none focus:border-blue-500"
-							onClick={() => toggleDropdown('group')}>
-							<div className="flex flex-wrap gap-2">
-								{selectedGroups.length === 0 ? (
-									<span>Enter username</span>
-								) : (
-									selectedGroups.map(group => (
-										<span
-											key={group}
-											className="bg-white text-[#44475B] py-2 px-4 rounded-full text-sm flex items-center space-x-1 border-2 border-[#44475B] cursor-default">
-											<span>{group}</span>
-											<span
-												onClick={e => {
-													e.stopPropagation();
-													handleAddGroup(group);
-												}}
-												className="text-xs text-gray-500 cursor-pointer">
-												X
-											</span>
-										</span>
-									))
-								)}
-							</div>
-						</div>
-					}
-					onToggle={setGroupDropdownOpen}>
-					{groupDropdownOpen && (
-						<ul className="bg-white border-2 border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-hidden">
-							{groups.map(group => (
-								<li
-									key={group}
-									onClick={() => handleAddGroup(group)}
-									className={`px-4 py-2 hover:bg-[#F1F4FF] cursor-pointer text-[#44475B] ${
-										selectedGroups.includes(group) ? 'text-gray-400 cursor-not-allowed' : ''
-									}`}>
-									{group}
-								</li>
-							))}
-						</ul>
-					)}
-				</Dropdown>
+				{/* input field */}
+				<div className="relative mb-4">
+					<label className="block font-medium mb-2 text-[#44475B]">Name *</label>
+					<input
+						type="text"
+						placeholder="Enter username"
+						value={username}
+						onChange={handleUserNameChange}
+						maxLength={maxLength}
+						className="w-full px-3 py-3 border-2 border-[#C4C7E3] bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500"
+					/>
+					<span
+						className="absolute right-0 bottom-0 mb-3 mr-2 text-xs text-gray-400"
+						style={{
+							transform: 'translateY(120%)',
+							padding: '0 4px',
+							backgroundColor: 'white',
+						}}>
+						{username.length}/{maxLength}
+					</span>
+				</div>
 
-				<div className={`flex-grow ${groupDropdownOpen ? 'pb-40' : ''}`}></div>
 				{/* Groups Selector */}
-				<p className="mt-6">{placeholderp}</p>
+				<p className="mt-4">{placeholderp}</p>
 
 				<Dropdown
 					button={
@@ -160,4 +124,4 @@ const AddMemberPopup = ({
 	);
 };
 
-export default AddMemberPopup;
+export default AddSMBPopup;

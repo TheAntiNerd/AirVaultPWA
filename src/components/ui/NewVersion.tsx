@@ -70,7 +70,15 @@ const NewVersion = () => {
 						<div className="flex min-h-screen items-center justify-center -mt-16">
 							<div className="flex flex-col items-center justify-center">
 								<div className="loader mb-8" />
-								<h1 className="text-2xl font-medium text-[#44475B]">{`Working on Updates ${percentage}%`}</h1>
+								<div className="relative">
+									<h1 className="text-2xl font-medium text-[#44475B] mr-[58px]">
+										Working on Updates
+									</h1>
+									<span className="absolute text-2xl text-[#44475B]   right-0 top-[-0px]">
+										{`${percentage}`}%
+									</span>
+								</div>
+
 								<p className="text-base text-[#8C8FA3] mt-1">Please keep your device turned on.</p>
 							</div>
 						</div>
