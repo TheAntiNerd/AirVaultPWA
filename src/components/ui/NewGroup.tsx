@@ -66,7 +66,7 @@ const NewGroup = () => {
 									<BackArrowIcon />
 								</span>
 							</button>
-							{groupName}
+							{groupName} {/* from navigate state */}
 						</h1>{' '}
 						{/* this will change dynamically */}
 						{users.length > 0 && (

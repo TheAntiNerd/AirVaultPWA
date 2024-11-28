@@ -397,7 +397,7 @@ const Directory = () => {
 				{popupType === 'collabarators' && (
 					<AddMemberPopup
 						onClose={handlePopupClose}
-						placeholderh1={'Collabators'}
+						placeholderh1={'Collabarators'}
 						placeholderp={'Access Level'}
 					/>
 				)}

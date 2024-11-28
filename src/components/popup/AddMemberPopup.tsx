@@ -112,7 +112,7 @@ const AddMemberPopup = ({
 					)}
 				</Dropdown>
 
-				<div className={`flex-grow ${groupDropdownOpen ? 'pb-40' : ''}`}></div>
+				{/* <div className={`flex-grow ${groupDropdownOpen ? 'pb-40' : ''}`}></div> */}
 				{/* Groups Selector */}
 				<p className="mt-6">{placeholderp}</p>
 
@@ -142,10 +142,10 @@ const AddMemberPopup = ({
 					)}
 				</Dropdown>
 				{/* Dynamic Height Content */}
-				<div className={`flex-grow ${roleDropdownOpen ? 'pb-28' : ''}`}></div>
+				{/* <div className={`flex-grow ${roleDropdownOpen ? 'pb-28' : ''}`}></div> */}
 
 				{/* Buttons */}
-				<div className="flex justify-center items-center mt-9 space-x-3">
+				<div className="flex justify-center items-center mt-9 space-x-3 ">
 					<button
 						className="bg-white flex-grow text-[#737790] px-6 py-3 rounded-lg border border-[#E1E3F5] focus:outline-none"
 						onClick={onClose}>

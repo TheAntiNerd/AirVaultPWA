@@ -42,7 +42,7 @@ const NetworkShares = () => {
 	]);
 
 	const [popupType, setPopupType] = useState<string | null>(null);
-	const [ispopupType, issetPopupType] = useState(null); //turn on service set give "turnOff or turnOn"
+	const [ispopupType, issetPopupType] = useState(''); //turn on service set give "turnOff or turnOn"
 	const [mobileDropdownStates, setMobileDropdownStates] = useState(new Array(users.length).fill(false));
 
 	const handlePopupClose = () => {
@@ -81,7 +81,7 @@ const NetworkShares = () => {
 						<div className="flex items-center space-x-4 max-sm:flex-col ">
 							<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3">SMB</h1>
 							<div
-								className={` py-1 px-3 rounded-full text-white text-xs ${
+								className={` py-1 px-3 rounded-full text-white text-xs max-sm:hidden ${
 									ispopupType === 'turnOn' ? 'bg-green-500' : 'bg-gray-400'
 								}`}>
 								{ispopupType === 'turnOn' ? 'Active' : 'Disabled'}
