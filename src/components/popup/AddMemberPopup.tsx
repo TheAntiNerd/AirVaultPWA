@@ -141,8 +141,6 @@ const AddMemberPopup = ({
 						</ul>
 					)}
 				</Dropdown>
-				{/* Dynamic Height Content */}
-				{/* <div className={`flex-grow ${roleDropdownOpen ? 'pb-28' : ''}`}></div> */}
 
 				{/* Buttons */}
 				<div className="flex justify-center items-center mt-9 space-x-3 ">

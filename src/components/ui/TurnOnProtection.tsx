@@ -4,11 +4,16 @@ import { DirectoryIcon, DownArrow, SearchIcon } from '../../assets/svg';
 import Dropdown from '../popup/DropDown';
 import { useNavigate } from 'react-router-dom';
 
+interface Folder {
+	name: string;
+	subfolders: Folder[];
+}
+
 const TurnOnProtection = () => {
 	const [isProtectionOn, setIsProtectionOn] = useState(false);
 	const [selectedPath, setSelectedPath] = useState(''); // Stores the selected path
 	const [highlightedFolder, setHighlightedFolder] = useState(''); // Tracks the highlighted folder
-	const [expandedFolders, setExpandedFolders] = useState({}); // Tracks expanded folders
+	const [expandedFolders, setExpandedFolders] = useState<Record<string, boolean>>({}); // Tracks expanded folders
 	const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
 	const [role, setRole] = useState('--Select--');
 	const navigate = useNavigate();
@@ -51,10 +56,18 @@ const TurnOnProtection = () => {
 			name: 'courses',
 			subfolders: [],
 		},
+		{
+			name: 'course',
+			subfolders: [],
+		},
+		{
+			name: 'cours',
+			subfolders: [],
+		},
 	];
 
 	// Toggle folder visibility
-	const toggleFolder = path => {
+	const toggleFolder = (path: string) => {
 		setExpandedFolders(prev => ({
 			...prev,
 			[path]: !prev[path],
@@ -77,16 +90,19 @@ const TurnOnProtection = () => {
 	};
 
 	// Handle folder click
-	const handleFolderClick = path => {
+	const handleFolderClick = (path: string) => {
 		setSelectedPath(path); // Update the selected path
 		setHighlightedFolder(path); // Highlight the clicked folder
 	};
 
 	/*  function to render folders and subfolders */
-	const renderFolders = (folderList, currentPath) => {
+	const renderFolders = (folderList: Folder[], currentPath: string, isRoot = true) => {
 		return (
-			<div className="border-2 rounded-lg border-[#C4C7E3] mb-3 text-sans">
-				<ul className=" mt-2 px-2 text-sm ">
+			<div
+				className={`${
+					isRoot ? 'border-2 rounded-lg border-[#C4C7E3] mb-3' : ''
+				} max-h-[200px] overflow-y-auto custom-scrollbar`}>
+				<ul className="mt-2 px-2 text-sm">
 					{folderList.map((folder, index) => {
 						const folderPath = `${currentPath} > ${folder.name}`;
 						const isHighlighted = highlightedFolder === folderPath;
@@ -95,17 +111,18 @@ const TurnOnProtection = () => {
 						return (
 							<li key={index} className="mb-2">
 								<div
-									className={`cursor-pointer flex items-center mt-2 ${
-										isHighlighted ? 'text-[#298DFF] text-sm' : 'text-[#44475B]'
+									className={`cursor-pointer flex items-center ${
+										isHighlighted ? 'text-[#298DFF]' : 'text-[#44475B]'
 									}`}>
-									<span className="mr-2 cursor-pointer " onClick={() => toggleFolder(folderPath)}>
+									<span
+										className="mr-2 cursor-pointer flex items-center"
+										onClick={() => toggleFolder(folderPath)}>
 										{folder.subfolders.length > 0 ? (
 											isExpanded ? (
 												<span className="flex items-center">
-													<span className="mr-1 ">
+													<span className="mr-1">
 														<DownArrow />
 													</span>
-
 													<DirectoryIcon />
 												</span>
 											) : (
@@ -120,13 +137,17 @@ const TurnOnProtection = () => {
 											<DirectoryIcon />
 										)}
 									</span>
-
-									<span onClick={() => handleFolderClick(folderPath)}>{folder.name}</span>
+									<span onClick={() => handleFolderClick(folderPath)} className="flex-grow">
+										{folder.name}
+									</span>
 								</div>
+
 								{/* Render Subfolders */}
-								{isExpanded &&
-									folder.subfolders.length > 0 &&
-									renderFolders(folder.subfolders, folderPath)}
+								{isExpanded && folder.subfolders.length > 0 && (
+									<div className="pl-4 mt-1">
+										{renderFolders(folder.subfolders, folderPath, false)}
+									</div>
+								)}
 							</li>
 						);
 					})}
@@ -154,7 +175,7 @@ const TurnOnProtection = () => {
 
 						{/* for mobile */}
 						<div className="px-3 mt-4">
-							<h1 className="text-[#44475B] text-semibold text-2xl hidden text-left max-sm:block mb-4">
+							<h1 className="text-[#44475B] font-semibold text-2xl hidden text-left max-sm:block mb-4">
 								Protection
 							</h1>
 							<div className="hidden max-sm:block  max-sm:w-full mb-4 ">
@@ -166,8 +187,8 @@ const TurnOnProtection = () => {
 
 									{/* Search Input */}
 									<input
-										type="search"
-										className="border-2 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
+										type="input"
+										className="border-2 focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 										placeholder="Search"
 									/>
 								</div>
@@ -201,11 +222,13 @@ const TurnOnProtection = () => {
 									Ransomware protection is <span className="font-medium">off</span>
 								</h2>
 								<div className="hidden max-sm:flex ">
-									<button
-										className="bg-[#298DFF] text-white font-medium px-6 py-3 rounded-md  w-full absolute bottom-0"
-										onClick={() => setIsProtectionOn(true)}>
-										Turn it on
-									</button>
+									<div className="w-full rounded-md flex fixed bottom-0 left-0 px-3 pb-4">
+										<button
+											className="bg-[#298DFF] flex-grow text-white font-medium px-6 py-3 rounded-md"
+											onClick={() => setIsProtectionOn(true)}>
+											Turn it on
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -220,7 +243,7 @@ const TurnOnProtection = () => {
 						</h1>
 						<div className="w-full rounded-lg">
 							{/* Selected Path Display */}
-							<div className="mb-4">
+							<div className="mb-1">
 								<label
 									htmlFor="folder-selection"
 									className="block text-sm font-medium text-[#44475B] mb-2">

@@ -38,3 +38,33 @@
 			50% calc(100% + 2px), 100% 50%, 100% calc(0% - 2px), 100% calc(100% + 2px);
 	}
 }
+
+.custom-scrollbar {
+	overflow-y: auto;
+	border: 2px solid #d8daeb;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+	width: 4px; /* Extremely thin */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+	background-color: #d8daeb;
+	border-radius: 1px;
+	height: 10px; /* Reduced height for very short scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track-piece:start,
+.custom-scrollbar::-webkit-scrollbar-track-piece:end {
+	background: transparent !important;
+	display: none !important;
+}
+
+.custom-scrollbar::-webkit-scrollbar-button {
+	display: none !important; /* Removes arrow buttons */
+	height: 0 !important;
+}

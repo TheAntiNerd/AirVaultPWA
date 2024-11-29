@@ -37,6 +37,9 @@ const SidebarNetwork = () => {
 	const remainingGroups = groups.slice(3);
 
 	const [isToggled, setIsToggled] = useState(false);
+	const [inputValue, setInputValue] = useState<string>('');
+	const [error, setError] = useState<string>('');
+
 	const [showButton, setShowButton] = useState(false);
 	const [showAllUsers, setShowAllUsers] = useState(false);
 	const [openGroupDropdownIndex, setOpenGroupDropdownIndex] = useState<number | null>(null);
@@ -86,6 +89,19 @@ const SidebarNetwork = () => {
 		}
 	};
 
+	const validateInput = (value: string): void => {
+		const regex = /^[a-z].*$/; // Must start with a lowercase letter
+		if (!regex.test(value)) {
+			setError('Input must start with a lowercase letter.');
+		} else {
+			setError('');
+		}
+	};
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+		const value = e.target.value;
+		setInputValue(value);
+		validateInput(value);
+	};
 	const toggleDropdown = (index: number, type: 'group' | 'user') => {
 		if (type === 'group') {
 			// Close group dropdown if open, otherwise open it
@@ -140,15 +156,22 @@ const SidebarNetwork = () => {
 							<label htmlFor="text" className="text-[#44475B] font-medium text-sm">
 								Share name*
 							</label>
-							<div className="relative flex items-center mt-1">
-								<span className="absolute left-2 text-[#9AA1B7]">
-									<SearchIcon />
-								</span>
-								<input
-									type="search"
-									className="border-2 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
-									placeholder="Search"
-								/>
+							<div className="max-w-md mx-auto mt-1">
+								<div className="relative flex items-center">
+									<span className="absolute left-2 text-[#9AA1B7]">
+										<SearchIcon />
+									</span>
+									<input
+										type="text"
+										className={`border-2 rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none ${
+											error ? 'border-red-500' : 'border-[#C4C7E3] focus:border-blue-500'
+										}`}
+										placeholder="Search"
+										value={inputValue}
+										onChange={handleChange}
+									/>
+								</div>
+								{error && <p className="text-red-500 mt-2">{error}</p>}
 							</div>
 						</div>
 						<div className="mt-3 w-full flex">
@@ -166,8 +189,8 @@ const SidebarNetwork = () => {
 							<SearchIcon />
 						</span>
 						<input
-							type="search"
-							className="border-2 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
+							type="input"
+							className="border-2 focus:border-blue-500  border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 							placeholder="Search"
 						/>
 					</div>

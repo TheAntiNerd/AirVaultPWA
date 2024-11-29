@@ -1,3 +1,4 @@
+/* mobile popup */
 import { useEffect, useRef } from 'react';
 import { HoverTick, RemovePoolsIcons } from '../../assets/svg';
 

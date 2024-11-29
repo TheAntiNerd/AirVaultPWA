@@ -37,7 +37,7 @@ const EditUserPopup = ({ onClose }: { onClose: () => void }) => {
 					placeholder="Enter Last Name"
 				/>
 
-				<div className="flex items-center justify-center space-x-3 mt-9 mb-5">
+				<div className="flex items-center justify-center space-x-3 mt-10 mb-5">
 					<button
 						className="bg-white text-[#737790] px-4 py-3 rounded-lg flex-grow border border-[#E1E3F5] focus:outline-none"
 						onClick={onClose}>

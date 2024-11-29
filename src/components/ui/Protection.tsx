@@ -119,8 +119,8 @@ const Protection = () => {
 
 							{/* Search Input */}
 							<input
-								type="search"
-								className="border-2 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
+								type="input"
+								className="border-2 focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 								placeholder="Search"
 							/>
 						</div>
@@ -142,7 +142,7 @@ const Protection = () => {
 										</th>
 
 										<th className="px-6 max-sm:px-3 py-4  text-left text-sm font-semibold text-gray-600 ">
-											<div className="flex flex-col items-start max-sm:items-end max-sm:mr-16">
+											<div className="flex flex-col items-end max-sm:items-end max-sm:mr-16">
 												Status
 											</div>
 										</th>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import SideMenu from '../SideMenu';
 import {
 	EditIcon,
@@ -11,8 +11,6 @@ import {
 	AddDirectory,
 	BackArrowIcon,
 	MenuCloseIcon,
-	RemovePoolsIcons,
-	HoverTick,
 } from '../../assets/svg';
 import RemoveUserPopup from '../popup/RemoveUserPopup';
 
@@ -55,41 +53,6 @@ const Directory = () => {
 	const [popupType, setPopupType] = useState<string | null>(null);
 	const [showSidebar, setShowSidebar] = useState(false);
 	const [selectedUser, setSelectedUser] = useState<number | null>(null);
-
-	/* for mobile popup */
-	/* const modalRef = useRef<HTMLDivElement>(null);
-	const overlayRef = useRef<HTMLDivElement>(null);
-
-	// Prevent scrolling and ensure modal is at bottom
-	useEffect(() => {
-		// Disable body scroll
-		document.body.style.overflow = 'hidden';
-
-		// Ensure modal is always at the bottom when opened
-		if (modalRef.current) {
-			modalRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-		}
-
-		// Cleanup function to re-enable scrolling
-		return () => {
-			document.body.style.overflow = 'unset';
-		};
-	}, []);
-	const onMobileClose = () => {};
-	// Close the modal if clicked outside
-	useEffect(() => {
-		const handleClickOutside = (event: MouseEvent) => {
-			if (overlayRef.current && modalRef.current && !modalRef.current.contains(event.target as Node)) {
-				onMobileClose();
-			}
-		};
-
-		document.addEventListener('mousedown', handleClickOutside);
-		return () => {
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
-	}, [onMobileClose]); */
-	/* end of mobile popup */
 
 	const handlePopupClose = () => {
 		setPopupType(null);
@@ -153,8 +116,8 @@ const Directory = () => {
 
 								{/* Search Input */}
 								<input
-									type="search"
-									className="border-2 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
+									type="input"
+									className="border-2  focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 									placeholder="Search"
 								/>
 							</div>
@@ -232,65 +195,6 @@ const Directory = () => {
 												</ul>
 											</Dropdown>
 										</div>
-										{/* mobile layout */}
-										{/* <div
-											ref={overlayRef}
-											className={`hidden fixed inset-0 bg-black bg-opacity-50 max-sm:flex justify-center items-end z-50 text-sans overflow-hidden${
-												showSidebar ? 'max-sm:hidden' : ''
-											}`}>
-											<div
-												ref={modalRef}
-												className="bg-white rounded-t-lg shadow-lg w-full max-w-[410px] max-sm:w-full absolute bottom-0">
-												<div className="px-3 py-4">
-													<h2 className="text-[#44475B] font-medium text-left">emai</h2>
-													<p className="text-[#8C8FA3] text-sm mt-1">dgdgd</p>
-												</div>
-												<div>
-													<div>
-														<div
-															onClick={() => handleDropdownSelect('Edit User', index)}
-															className="flex items-center justify-between hover:bg-[#EBF2FA]">
-															<label className="text-[#44475B] px-3 py-3 flex items-center space-x-2 group">
-																<EditIcon />
-																<span>Rename</span>
-															</label>
-														</div>
-														<div
-															onClick={() => handleDropdownSelect('collabs', index)}
-															className="flex items-center justify-between hover:bg-[#EBF2FA]">
-															<label className="text-[#44475B] px-3 py-3 flex items-center space-x-2 group">
-																<CollabIcon />
-																<span>Collaborators</span>
-															</label>
-														</div>
-														<div
-															onClick={handleAddGroupClick}
-															className="flex items-center justify-between hover:bg-[#EBF2FA]">
-															<label className="text-[#44475B] px-3 py-3 flex items-center space-x-2 group">
-																<GroupsIcon />
-																<span>Groups</span>
-															</label>
-														</div>
-														<div
-															onClick={() => {
-																handleDetailsClick(index);
-															}}
-															className="flex items-center justify-between hover:bg-[#EBF2FA]">
-															<label className="text-[#44475B] px-3 py-3 flex items-center space-x-2 group">
-																<DetailsIcon />
-																<span>Details</span>
-															</label>
-														</div>
-													</div>
-													<button
-														onClick={() => handleDropdownSelect('Remove User', index)}
-														className="flex items-center space-x-2 text-[#44475B] hover:bg-[#EBF2FA] w-full mb-2 p-3">
-														<DeleteIcon />
-														<span>Delete directory</span>
-													</button>
-												</div>
-											</div>
-										</div> */}
 									</div>
 								</li>
 							))}
@@ -354,13 +258,15 @@ const Directory = () => {
 									<BackArrowIcon />
 								</button>
 								{/* H1 for pc */}
-								<div className="max-sm:hidden flex items-center justify-between mt-5">
-									<div className="flex items-center space-x-2">
+								<div className=" flex items-center justify-between mt-5">
+									<div className="max-sm:hidden flex items-center space-x-2">
 										<DirectoryIcon />
-										<h1 className="text-[#44475B] font-medium text-lg">Client resources details</h1>
+										<h1 className="text-[#44475B] font-medium text-lg">
+											{selectedUser !== null ? users[selectedUser].name : ''}
+										</h1>
 									</div>
 
-									<span onClick={handleSidebarClose}>
+									<span onClick={handleSidebarClose} className="cursor-pointer max-sm:hidden">
 										<MenuCloseIcon />
 									</span>
 								</div>
