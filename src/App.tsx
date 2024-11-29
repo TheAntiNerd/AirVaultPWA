@@ -12,6 +12,8 @@ import Groups from './components/ui/Groups';
 import NewUser from './components/ui/NewUser';
 import NewGroup from './components/ui/NewGroup';
 import NewVersion from './components/ui/NewVersion';
+import NewProtection from './components/ui/NewProtection';
+import TurnOnProtection from './components/ui/TurnOnProtection';
 
 // Function to check if PWA is already installed
 const isPWAInstalled = () => {
@@ -87,7 +89,9 @@ function App() {
 							<Route path="/dashboard" element={<Dashboard />} />
 							<Route path="/directories" element={<Directory />} />
 							<Route path="/network-shares" element={<NetworkShares />} />
-							<Route path="/protection" element={<Protection />} />
+							<Route path="/protection" element={<TurnOnProtection />} />
+							<Route path="/protection/On" element={<Protection />} />
+							<Route path="/protection/new" element={<NewProtection />} />
 							<Route path="/updates" element={<VersionUpdate />} />
 							<Route path="/updates/new" element={<NewVersion />} />
 							<Route path="/users" element={<Users />} />

@@ -24,7 +24,7 @@ const NetworkShares = () => {
 		{
 			name: 'Moderators',
 			route: `//;10.10.10.17/team`,
-			path: '../mt/brahmtal',
+			path: '../mt/brahmtal/sgdgg/',
 			status: 'off',
 		},
 		{
@@ -42,7 +42,7 @@ const NetworkShares = () => {
 	]);
 
 	const [popupType, setPopupType] = useState<string | null>(null);
-	const [ispopupType, issetPopupType] = useState(null); //turn on service set give "turnOff or turnOn"
+	const [ispopupType, issetPopupType] = useState(''); //turn on service set give "turnOff or turnOn"
 	const [mobileDropdownStates, setMobileDropdownStates] = useState(new Array(users.length).fill(false));
 
 	const handlePopupClose = () => {
@@ -81,7 +81,7 @@ const NetworkShares = () => {
 						<div className="flex items-center space-x-4 max-sm:flex-col ">
 							<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3">SMB</h1>
 							<div
-								className={` py-1 px-3 rounded-full text-white text-xs ${
+								className={` py-1 px-3 rounded-full text-white text-xs max-sm:hidden ${
 									ispopupType === 'turnOn' ? 'bg-green-500' : 'bg-gray-400'
 								}`}>
 								{ispopupType === 'turnOn' ? 'Active' : 'Disabled'}
@@ -89,11 +89,13 @@ const NetworkShares = () => {
 						</div>
 
 						<div className="flex items-center space-x-6">
-							<button
-								className={`max-sm:hidden bg-blue-600 text-white px-5  py-2 rounded-md hover:bg-blue-700`}
-								onClick={handleAddUserClick}>
-								+ New SMB
-							</button>
+							{users.length > 0 && (
+								<button
+									className={`max-sm:hidden bg-blue-600 text-white px-5  py-2 rounded-md hover:bg-blue-700`}
+									onClick={handleAddUserClick}>
+									+ New SMB
+								</button>
+							)}
 							<Dropdown
 								button={<button className="text-gray-500 hover:text-gray-700 max-sm:hidden">⋮</button>}
 								onToggle={isOpen => isOpen}>
@@ -133,8 +135,8 @@ const NetworkShares = () => {
 
 							{/* Search Input */}
 							<input
-								type="search"
-								className="border-2 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
+								type="input"
+								className="border-2 focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 								placeholder="Search"
 							/>
 						</div>
@@ -174,7 +176,7 @@ const NetworkShares = () => {
 												<td className="px-6 max-sm:px-3 py-4 text-[#44475B] ">
 													<div className="flex flex-col items-start">
 														<span className="font-regular">{user.name}</span>
-														<span className=" text-xs text-[#737790] rounded-full text-left max-w-[200px] truncate">
+														<span className=" text-xs text-[#737790] rounded-full text-left max-w-[150px] truncate">
 															{user.route}
 														</span>
 													</div>

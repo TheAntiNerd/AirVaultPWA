@@ -68,7 +68,8 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 						className={`${
 							location.pathname.startsWith('/users/new') ||
 							location.pathname.startsWith('/groups/new') ||
-							location.pathname.startsWith('/directories')
+							location.pathname.startsWith('/directories') ||
+							location.pathname.startsWith('/protection/new')
 								? 'max-sm:hidden'
 								: ''
 						}`}>

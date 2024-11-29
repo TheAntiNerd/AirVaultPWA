@@ -40,7 +40,7 @@ const CreateGroupPopup = ({
 						className="w-full border-2 border-[#C4C7E3] focus:border-blue-500 focus:outline-none rounded-lg px-3 py-3"
 					/>
 				</div>
-				<div className="flex justify-center items-center mt-9 mx-10 max-sm:mx-0 space-x-3 mb-10 max-sm:mb-5 max-sm:mt-6">
+				<div className="flex justify-center items-center mt-9 mx-10 max-sm:mx-0 space-x-3 mb-10 max-sm:mt-6">
 					<button
 						className="bg-white flex-grow text-[#737790] px-6 py-3 rounded-lg border border-[#E1E3F5]"
 						onClick={onClose}>

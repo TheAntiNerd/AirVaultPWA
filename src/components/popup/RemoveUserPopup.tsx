@@ -33,9 +33,9 @@ const RemoveUserPopup = ({ text = 'Remove user', onClose, description = "This ca
 			<div
 				ref={modalRef}
 				className="bg-white rounded-lg shadow-lg w-[410px] min-h-fit text-center max-sm:w-[320px]">
-				<h2 className="text-[#44475B] text-3xl font-medium mt-10">{text}</h2>
+				<h2 className="text-[#44475B] text-2xl font-medium mt-10">{text}</h2>
 				<p className="mt-4 text-[#737790] text-regular text-center px-10">{description}</p>
-				<div className="flex justify-center items-center mt-9 mx-10 space-x-3 mb-5">
+				<div className="flex justify-center items-center mt-9 mx-10 space-x-3 mb-10">
 					<button
 						className="bg-white flex-grow text-[#737790] px-6 py-3 rounded-lg border border-[#E1E3F5]"
 						onClick={onClose}>

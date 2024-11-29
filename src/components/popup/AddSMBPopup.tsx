@@ -1,31 +1,164 @@
 import { useState, useEffect, useRef } from 'react';
-import { DownArrow } from '../../assets/svg';
-import Dropdown from './DropDown';
+import { DirectoryIcon, DownArrow } from '../../assets/svg';
 
 type AddMemberPopupProps = {
 	onClose: () => void;
 	placeholderh1?: string;
 	placeholderp?: string;
 };
+interface Folder {
+	name: string;
+	subfolders: Folder[];
+}
 
-const AddSMBPopup = ({ onClose, placeholderh1 = 'Add member', placeholderp = 'Select role' }: AddMemberPopupProps) => {
-	const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
-	const [role, setRole] = useState('Default');
+const AddSMBPopup = ({ onClose, placeholderh1 = 'Add member' }: AddMemberPopupProps) => {
+	const folders = [
+		{
+			name: 'cloud',
+			subfolders: [],
+		},
+		{
+			name: 'AirVault',
+			subfolders: [
+				{
+					name: 'SubVault1',
+					subfolders: [],
+				},
+				{
+					name: 'SubVault2',
+					subfolders: [],
+				},
+			],
+		},
+		{
+			name: 'archive',
+			subfolders: [],
+		},
+		{
+			name: 'content',
+			subfolders: [
+				{
+					name: 'docs',
+					subfolders: [
+						{ name: 'files', subfolders: [] },
+						{ name: 'media', subfolders: [] },
+					],
+				},
+			],
+		},
+		{
+			name: 'freelance',
+			subfolders: [],
+		},
+		{
+			name: 'vaultAIr',
+			subfolders: [],
+		},
+		{
+			name: 'Nav',
+			subfolders: [],
+		},
+		{
+			name: 'Brnad',
+			subfolders: [],
+		},
+		{
+			name: 'cour',
+			subfolders: [],
+		},
+	];
+
 	const [username, setUsername] = useState('');
+	const [error, setError] = useState<string>('');
+	const [selectedPath, setSelectedPath] = useState(''); // Stores the selected path
+	const [highlightedFolder, setHighlightedFolder] = useState(''); // Tracks the highlighted folder
+	const [expandedFolders, setExpandedFolders] = useState<Record<string, boolean>>({}); // Tracks expanded folders
 
 	const popupRef = useRef<HTMLDivElement | null>(null); // Reference for the popup
 
-	const handleRoleSelect = (selectedRole: string) => {
-		setRole(selectedRole);
-		setRoleDropdownOpen(false); // Close the role dropdown after selection
+	/* folder selection */
+	const renderFolders = (folderList: Folder[], currentPath: string, isRoot = true) => {
+		return (
+			<div
+				className={`${
+					isRoot ? 'border-2 rounded-lg border-[#C4C7E3] mb-3' : ''
+				}  max-h-[200px] overflow-y-auto custom-scrollbar py-2`}>
+				<ul className="mt-2 px-2 text-sm">
+					{folderList.map((folder, index) => {
+						const folderPath = `${currentPath} > ${folder.name}`;
+						const isHighlighted = highlightedFolder === folderPath;
+						const isExpanded = expandedFolders[folderPath];
+
+						return (
+							<li key={index} className="mb-2">
+								<div
+									className={`cursor-pointer flex items-center ${
+										isHighlighted ? 'text-[#298DFF]' : 'text-[#44475B]'
+									}`}>
+									<span
+										className="mr-2 cursor-pointer flex items-center"
+										onClick={() => toggleFolder(folderPath)}>
+										{folder.subfolders.length > 0 ? (
+											isExpanded ? (
+												<span className="flex items-center">
+													<span className="mr-1">
+														<DownArrow />
+													</span>
+													<DirectoryIcon />
+												</span>
+											) : (
+												<span className="flex items-center">
+													<span className="-rotate-90 mr-1">
+														<DownArrow />
+													</span>
+													<DirectoryIcon />
+												</span>
+											)
+										) : (
+											<DirectoryIcon />
+										)}
+									</span>
+									<span onClick={() => handleFolderClick(folderPath)} className="flex-grow">
+										{folder.name}
+									</span>
+								</div>
+
+								{/* Render Subfolders */}
+								{isExpanded && folder.subfolders.length > 0 && (
+									<div className="pl-4 mt-1">
+										{renderFolders(folder.subfolders, folderPath, false)}
+									</div>
+								)}
+							</li>
+						);
+					})}
+				</ul>
+			</div>
+		);
 	};
 
-	const toggleDropdown = (dropdown: 'role' | 'group') => {
-		if (dropdown === 'role') {
-			setRoleDropdownOpen(prev => !prev);
+	const handleFolderClick = (path: string) => {
+		setSelectedPath(path); // Update the selected path
+		setHighlightedFolder(path); // Highlight the clicked folder
+	};
+	const validateUserName = (value: string): void => {
+		const regex = /^[a-z][a-zA-Z]*$/; // Starts with a lowercase letter, no numbers or symbols
+		if (!regex.test(value)) {
+			setError('Username must start with a lowercase letter.');
 		} else {
-			setRoleDropdownOpen(false); // Close the role dropdown when toggling group
+			setError('');
 		}
+	};
+	const toggleFolder = (path: string) => {
+		setExpandedFolders(prev => ({
+			...prev,
+			[path]: !prev[path],
+		}));
+	};
+	const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+		const value = e.target.value;
+		setUsername(value);
+		validateUserName(value);
 	};
 
 	// Close the popup when clicking outside
@@ -42,10 +175,6 @@ const AddSMBPopup = ({ onClose, placeholderh1 = 'Add member', placeholderp = 'Se
 		};
 	}, [onClose]);
 
-	const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setUsername(e.target.value);
-	};
-
 	const maxLength = 63;
 
 	return (
@@ -56,7 +185,8 @@ const AddSMBPopup = ({ onClose, placeholderh1 = 'Add member', placeholderp = 'Se
 				<h2 className="text-3xl font-medium text-center text-[#44475B] mb-4">{placeholderh1}</h2>
 
 				{/* input field */}
-				<div className="relative mb-4">
+
+				<div className="relative mb-2">
 					<label className="block font-medium mb-2 text-[#44475B]">Name *</label>
 					<input
 						type="text"
@@ -64,8 +194,11 @@ const AddSMBPopup = ({ onClose, placeholderh1 = 'Add member', placeholderp = 'Se
 						value={username}
 						onChange={handleUserNameChange}
 						maxLength={maxLength}
-						className="w-full px-3 py-3 border-2 border-[#C4C7E3] bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500"
+						className={`w-full px-3 py-3 border-2 bg-white rounded-md text-sm text-[#44475B] focus:outline-none ${
+							error ? 'border-red-500' : 'border-[#C4C7E3] focus:border-blue-500'
+						}`}
 					/>
+
 					<span
 						className="absolute right-0 bottom-0 mb-3 mr-2 text-xs text-gray-400"
 						style={{
@@ -75,38 +208,20 @@ const AddSMBPopup = ({ onClose, placeholderh1 = 'Add member', placeholderp = 'Se
 						}}>
 						{username.length}/{maxLength}
 					</span>
+					<div className="my-2">{error && <p className="text-red-500 text-sm mb-2">{error}</p>}</div>
 				</div>
 
 				{/* Groups Selector */}
-				<p className="mt-4">{placeholderp}</p>
 
-				<Dropdown
-					button={
-						<div
-							className="mt-2 text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between focus:outline-none focus:border-blue-500"
-							onClick={() => toggleDropdown('role')}>
-							<span className="text-[#44475B]">{role}</span>
-							<span className="text-[#737790]">
-								<DownArrow />
-							</span>
-						</div>
-					}
-					onToggle={setRoleDropdownOpen}>
-					{roleDropdownOpen && (
-						<ul className="bg-white border-2 border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-hidden">
-							{['Default', 'Moderator', 'Admin'].map(option => (
-								<li
-									key={option}
-									onClick={() => handleRoleSelect(option)}
-									className="px-4 py-2 hover:bg-[#F1F4FF] cursor-pointer text-[#44475B]">
-									{option}
-								</li>
-							))}
-						</ul>
-					)}
-				</Dropdown>
-				{/* Dynamic Height Content */}
-				<div className={`flex-grow ${roleDropdownOpen ? 'pb-28' : ''}`}></div>
+				<div className="mb-1">
+					<label htmlFor="folder-selection" className="block text-sm font-medium text-[#44475B] mb-2">
+						Location*
+					</label>
+					<div className="border-2 py-3 border-[#C4C7E3] focus:outline-none focus:border-blue-500 rounded-md text-[#737790] px-6">
+						{selectedPath || 'Select a folder'}
+					</div>
+				</div>
+				<div>{renderFolders(folders, 'mat dev > device > Vault')}</div>
 
 				{/* Buttons */}
 				<div className="flex justify-center items-center mt-9 space-x-3">

@@ -2,22 +2,19 @@ import { useState, useEffect, useRef } from 'react';
 import { DownArrow } from '../../assets/svg';
 import Dropdown from './DropDown';
 
-const RolePopup = ({ onClose }: { onClose: () => void }) => {
+const FrequencyPopup = ({ onClose }: { onClose: () => void }) => {
 	const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
-	const [groupDropdownOpen, setGroupDropdownOpen] = useState(false);
-	const [role, setRole] = useState('Default');
+	const [role, setRole] = useState('--Select--');
 	const popupRef = useRef<HTMLDivElement | null>(null); // Reference for the popup
 	const handleRoleSelect = (selectedRole: string) => {
 		setRole(selectedRole);
 		setRoleDropdownOpen(false); // Close the role dropdown after selection
 	};
 
-	const toggleDropdown = (dropdown: 'role' | 'group') => {
+	const toggleDropdown = (dropdown: 'role') => {
 		if (dropdown === 'role') {
 			setRoleDropdownOpen(prev => !prev);
-			setGroupDropdownOpen(false); // Close the group dropdown when toggling role
 		} else {
-			setGroupDropdownOpen(prev => !prev);
 			setRoleDropdownOpen(false); // Close the role dropdown when toggling group
 		}
 	};
@@ -40,11 +37,11 @@ const RolePopup = ({ onClose }: { onClose: () => void }) => {
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-sans">
 			<div
 				ref={popupRef} // Attach the reference to the popup
-				className="bg-white p-10 rounded-lg shadow-lg w-1/3 min-h-fit flex flex-col max-sm:w-[320px] max-sm:px-8 max-sm:pb-10">
-				<h2 className="text-3xl font-medium text-center text-[#44475B]">Select Role</h2>
+				className="bg-white p-10 rounded-lg shadow-lg w-1/3 min-h-fit flex flex-col max-sm:w-[320px] max-sm:px-8 max-sm:pb-5">
+				<h2 className="text-3xl font-medium text-center text-[#44475B]">Edit frequency</h2>
 
 				{/* Role Selector */}
-				<p className="mt-6">Select Role</p>
+				<p className="mt-6">Frequency</p>
 				<Dropdown
 					button={
 						<div
@@ -58,12 +55,12 @@ const RolePopup = ({ onClose }: { onClose: () => void }) => {
 					}
 					onToggle={setRoleDropdownOpen}>
 					{roleDropdownOpen && (
-						<ul className="bg-white border-2 border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-hidden">
-							{['Default', 'Moderator', 'Admin'].map(option => (
+						<ul className="bg-white border-2 border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10  overflow-hidden">
+							{['1 hour', '6 hours', '12 hours', '1 day', '3 days', '1 week'].map(option => (
 								<li
 									key={option}
 									onClick={() => handleRoleSelect(option)}
-									className="px-4 py-2 hover:bg-[#F1F4FF] cursor-pointer text-[#44475B]">
+									className="px-4 py-1 hover:bg-[#F1F4FF] cursor-pointer text-[#44475B]">
 									{option}
 								</li>
 							))}
@@ -79,7 +76,7 @@ const RolePopup = ({ onClose }: { onClose: () => void }) => {
 						Cancel
 					</button>
 					<button className="bg-blue-500 flex-grow text-white px-6 py-3 rounded-lg focus:outline-none">
-						Add
+						Yes! do it
 					</button>
 				</div>
 			</div>
@@ -87,4 +84,4 @@ const RolePopup = ({ onClose }: { onClose: () => void }) => {
 	);
 };
 
-export default RolePopup;
+export default FrequencyPopup;

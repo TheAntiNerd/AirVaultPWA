@@ -66,7 +66,7 @@ const NewGroup = () => {
 									<BackArrowIcon />
 								</span>
 							</button>
-							{groupName}
+							{groupName} {/* from navigate state */}
 						</h1>{' '}
 						{/* this will change dynamically */}
 						{users.length > 0 && (
@@ -88,8 +88,8 @@ const NewGroup = () => {
 
 							{/* Search Input */}
 							<input
-								type="search"
-								className="border-2 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
+								type="input"
+								className="border-2 focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 								placeholder="Search"
 							/>
 						</div>
