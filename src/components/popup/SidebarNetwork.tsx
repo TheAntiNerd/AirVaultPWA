@@ -79,7 +79,7 @@ const SidebarNetwork = () => {
 		};
 	}, []);
 
-	const handleRoleSelect = (option: string, index: number, type: 'user' | 'group') => {
+	const handleRoleSelect = (type: 'user' | 'group') => {
 		if (type === 'user') {
 			// close user dropdown
 			setOpenUserDropdownIndex(null);
@@ -234,7 +234,7 @@ const SidebarNetwork = () => {
 												{['Default', 'Moderator', 'Admin'].map(option => (
 													<li
 														key={option}
-														onClick={() => handleRoleSelect(option, index, 'user')}
+														onClick={() => handleRoleSelect('user')}
 														className="px-4 py-2 hover:bg-[#F1F4FF] cursor-pointer text-[#44475B]">
 														{option}
 													</li>
@@ -303,7 +303,7 @@ const SidebarNetwork = () => {
 												{['Default', 'Moderator', 'Admin'].map(option => (
 													<li
 														key={option}
-														onClick={() => handleRoleSelect(option, index, 'group')}
+														onClick={() => handleRoleSelect('group')}
 														className="px-4 py-2 hover:bg-[#F1F4FF] cursor-pointer text-[#44475B]">
 														{option}
 													</li>

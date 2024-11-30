@@ -74,7 +74,7 @@ const Directory = () => {
 	const handleAddGroupClick = () => {
 		setPopupType('groups');
 	};
-	const handleDropdownSelect = (option: string, userIndex: number) => {
+	const handleDropdownSelect = (option: string) => {
 		setPopupType(option === 'Remove User' ? 'removeUser' : option === 'collabs' ? 'collabarators' : 'addGroup');
 	};
 
@@ -152,7 +152,7 @@ const Directory = () => {
 												<ul className="py-2 text-sm text-left text-[#44475B] absolute right-5 bg-white shadow-md rounded-lg w-48 h-56">
 													<li
 														className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm"
-														onClick={() => handleDropdownSelect('Edit User', index)}>
+														onClick={() => handleDropdownSelect('Edit User')}>
 														<span className="mr-3">
 															<EditIcon />
 														</span>
@@ -160,7 +160,7 @@ const Directory = () => {
 													</li>
 													<li
 														className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm"
-														onClick={() => handleDropdownSelect('collabs', index)}>
+														onClick={() => handleDropdownSelect('collabs')}>
 														<span className="mr-3">
 															<CollabIcon />
 														</span>
@@ -186,7 +186,7 @@ const Directory = () => {
 													</li>
 													<li
 														className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm"
-														onClick={() => handleDropdownSelect('Remove User', index)}>
+														onClick={() => handleDropdownSelect('Remove User')}>
 														<span className="mr-3">
 															<DeleteIcon />
 														</span>

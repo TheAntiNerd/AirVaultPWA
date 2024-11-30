@@ -68,7 +68,7 @@ const NetworkShares = () => {
 		setMobileDropdownStates(newDropdownStates);
 	};
 
-	const handleDropdownSelect = (option: string, userIndex: number) => {
+	const handleDropdownSelect = (option: string) => {
 		setPopupType(option === 'Remove User' ? 'removeUser' : option === 'Edit group' ? 'editGroup' : 'addGroup');
 	};
 
@@ -214,16 +214,10 @@ const NetworkShares = () => {
 												<td className="px-6 py-6 max-sm:hidden">
 													<div className="flex items-start justify-center">
 														<span className="flex items-center space-x-6 text-gray-600">
-															<button
-																onClick={() =>
-																	handleDropdownSelect('Edit group', index)
-																}>
+															<button onClick={() => handleDropdownSelect('Edit group')}>
 																<EditIcon />
 															</button>
-															<button
-																onClick={() =>
-																	handleDropdownSelect('Remove User', index)
-																}>
+															<button onClick={() => handleDropdownSelect('Remove User')}>
 																<DeleteIcon />
 															</button>
 														</span>
@@ -244,17 +238,13 @@ const NetworkShares = () => {
 															<div className="flex  pt-6 pb-4 justify-center gap-12">
 																<button
 																	className="flex items-center text-sm text-[#44475B] space-x-2"
-																	onClick={() =>
-																		handleDropdownSelect('Edit group', index)
-																	}>
+																	onClick={() => handleDropdownSelect('Edit group')}>
 																	<EditIcon />
 																	<span>Edit</span>
 																</button>
 																<button
 																	className="flex items-center text-sm text-[#44475B] space-x-2"
-																	onClick={() =>
-																		handleDropdownSelect('Remove User', index)
-																	}>
+																	onClick={() => handleDropdownSelect('Remove User')}>
 																	<DeleteIcon />
 																	<span>Delete</span>
 																</button>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import SideMenu from '../SideMenu';
 import { DirectoryIcon, DownArrow, SearchIcon } from '../../assets/svg';
 import Dropdown from '../popup/DropDown';
