@@ -42,7 +42,7 @@ const NetworkShares = () => {
 	]);
 
 	const [popupType, setPopupType] = useState<string | null>(null);
-	const [ispopupType, issetPopupType] = useState(''); //turn on service set give "turnOff or turnOn"
+	const [isHistoryOff, setIsHistoryOff] = useState(true); //turn on service set give "turnOff or turnOn"
 	const [mobileDropdownStates, setMobileDropdownStates] = useState(new Array(users.length).fill(false));
 
 	const handlePopupClose = () => {
@@ -60,6 +60,16 @@ const NetworkShares = () => {
 			status: updatedUsers[index].status === 'on' ? 'off' : 'on',
 		};
 		setUsers(updatedUsers);
+	};
+
+	const handleOnToggle = (type: string) => {
+		if (type === 'turnOff') {
+			setIsHistoryOff(false);
+			setPopupType('turnOff');
+		} else if (type === 'turnOn') {
+			setIsHistoryOff(true);
+			setPopupType('turnOn');
+		}
 	};
 	/* mobile dropdown */
 	const toggleMobileDropdown = (index: number) => {
@@ -82,9 +92,9 @@ const NetworkShares = () => {
 							<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3">SMB</h1>
 							<div
 								className={` py-1 px-3 rounded-full text-white text-xs max-sm:hidden ${
-									ispopupType === 'turnOn' ? 'bg-green-500' : 'bg-gray-400'
+									isHistoryOff ? 'bg-green-500' : 'bg-gray-400'
 								}`}>
-								{ispopupType === 'turnOn' ? 'Active' : 'Disabled'}
+								{isHistoryOff ? 'Active' : 'Disabled'}
 							</div>
 						</div>
 
@@ -100,25 +110,24 @@ const NetworkShares = () => {
 								button={<button className="text-gray-500 hover:text-gray-700 max-sm:hidden">⋮</button>}
 								onToggle={isOpen => isOpen}>
 								<ul className="py-2 text-sm text-left text-[#44475B] absolute right-0 top-3 bg-white shadow-xl rounded-lg w-44 h-12">
-									{ispopupType === 'turnOff' && (
-										<li
+									{isHistoryOff ? (
+										<button
 											className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm text-nowrap"
-											onClick={() => issetPopupType('turnOn')}>
-											<span className="mr-3">
-												<SwitchIcon />
-											</span>
-											Turn on service
-										</li>
-									)}
-									{ispopupType === 'turnOn' && (
-										<li
-											className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm text-nowrap"
-											onClick={() => issetPopupType('turnOff')}>
+											onClick={() => handleOnToggle('turnOff')}>
 											<span className="mr-3">
 												<SwitchIcon />
 											</span>
 											Turn off service
-										</li>
+										</button>
+									) : (
+										<button
+											className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm text-nowrap"
+											onClick={() => handleOnToggle('turnOn')}>
+											<span className="mr-3">
+												<SwitchIcon />
+											</span>
+											Turn On service
+										</button>
 									)}
 								</ul>
 							</Dropdown>
@@ -158,7 +167,7 @@ const NetworkShares = () => {
 										</th>
 
 										<th className="px-6 max-sm:px-3 py-4  text-left text-sm font-semibold text-gray-600 ">
-											<div className="flex flex-col items-start max-sm:items-end max-sm:mr-16">
+											<div className="flex flex-col items-start max-sm:items-end max-sm:mr-20">
 												Status
 											</div>
 										</th>
@@ -191,7 +200,7 @@ const NetworkShares = () => {
 														<span className="text-gray-600 flex items-center">
 															<button
 																onClick={() => handleToggle(index)}
-																className="max-sm:ml-2 flex items-center justify-center">
+																className="max-sm:ml-5 flex items-center justify-center">
 																{user.status === 'on' ? (
 																	<ToggleGreenIcon />
 																) : (
@@ -288,14 +297,14 @@ const NetworkShares = () => {
 
 				{/* Popups */}
 
-				{ispopupType === 'turnOn' && (
+				{popupType === 'turnOn' && (
 					<RemoveUserPopup
 						onClose={handlePopupClose}
 						text={'Turn on service?'}
 						description={'You can turn it off later.'}
 					/>
 				)}
-				{ispopupType === 'turnOff' && (
+				{popupType === 'turnOff' && (
 					<RemoveUserPopup
 						onClose={handlePopupClose}
 						text={'Turn off service?'}
