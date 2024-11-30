@@ -84,7 +84,7 @@ const Protection = () => {
 		setMobileDropdownStates(newDropdownStates);
 	};
 
-	const handleDropdownSelect = (option: string, userIndex: number) => {
+	const handleDropdownSelect = (option: string) => {
 		setPopupType(
 			option === 'Remove User' ? 'removeUser' : option === 'Edit frequency' ? 'editFrequency' : 'addGroup'
 		);
@@ -200,10 +200,7 @@ const Protection = () => {
 																onClick={() => handleNavigate(index)}>
 																<DownArrow />
 															</button>
-															<button
-																onClick={() =>
-																	handleDropdownSelect('Remove User', index)
-																}>
+															<button onClick={() => handleDropdownSelect('Remove User')}>
 																<DeleteIcon />
 															</button>
 														</span>
@@ -246,7 +243,7 @@ const Protection = () => {
 																<button
 																	className="flex items-center flex-col text-sm text-[#44475B]"
 																	onClick={() =>
-																		handleDropdownSelect('Edit frequency', index)
+																		handleDropdownSelect('Edit frequency')
 																	}>
 																	<EditIcon />
 																	<span className="text-nowrap truncate w-[70px] mt-1">
@@ -255,9 +252,7 @@ const Protection = () => {
 																</button>
 																<button
 																	className="flex items-center flex-col text-sm text-[#44475B] mt-1 "
-																	onClick={() =>
-																		handleDropdownSelect('Remove User', index)
-																	}>
+																	onClick={() => handleDropdownSelect('Remove User')}>
 																	<DeleteIcon />
 																	<span className="text-nowrap truncate w-[70px]">
 																		Remove folder

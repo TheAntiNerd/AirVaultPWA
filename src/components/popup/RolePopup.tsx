@@ -4,7 +4,7 @@ import Dropdown from './DropDown';
 
 const RolePopup = ({ onClose }: { onClose: () => void }) => {
 	const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
-	const [groupDropdownOpen, setGroupDropdownOpen] = useState(false);
+
 	const [role, setRole] = useState('Default');
 	const popupRef = useRef<HTMLDivElement | null>(null); // Reference for the popup
 	const handleRoleSelect = (selectedRole: string) => {
@@ -15,9 +15,7 @@ const RolePopup = ({ onClose }: { onClose: () => void }) => {
 	const toggleDropdown = (dropdown: 'role' | 'group') => {
 		if (dropdown === 'role') {
 			setRoleDropdownOpen(prev => !prev);
-			setGroupDropdownOpen(false); // Close the group dropdown when toggling role
 		} else {
-			setGroupDropdownOpen(prev => !prev);
 			setRoleDropdownOpen(false); // Close the role dropdown when toggling group
 		}
 	};

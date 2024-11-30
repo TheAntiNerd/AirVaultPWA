@@ -48,7 +48,7 @@ const NewGroup = () => {
 		setPopupType('AddMember');
 	};
 
-	const handleDropdownSelect = (option: string, userIndex: number) => {
+	const handleDropdownSelect = (option: string) => {
 		setPopupType(option === 'Remove User' ? 'removeUser' : option === 'Edit User' ? 'editUser' : 'userSettings');
 	};
 
@@ -148,7 +148,7 @@ const NewGroup = () => {
 													<ul className="py-2 text-sm text-left text-[#44475B] absolute right-5 bg-white shadow-2xl rounded-lg w-40 h-24">
 														<li
 															className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm"
-															onClick={() => handleDropdownSelect('Remove User', index)}>
+															onClick={() => handleDropdownSelect('Remove User')}>
 															<span className="mr-3">
 																<RemoveIcon />
 															</span>
@@ -156,7 +156,7 @@ const NewGroup = () => {
 														</li>
 														<li
 															className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm"
-															onClick={() => handleDropdownSelect('Edit User', index)}>
+															onClick={() => handleDropdownSelect('Edit User')}>
 															<span className="mr-3">
 																<EditIcon />
 															</span>
@@ -198,9 +198,7 @@ const NewGroup = () => {
 															<div className="flex items-center justify-center space-x-16 mt-6 w-full mb-3">
 																<button
 																	className="flex flex-col items-center gap-3 text-[#44475B] "
-																	onClick={() =>
-																		handleDropdownSelect('Remove User', index)
-																	}>
+																	onClick={() => handleDropdownSelect('Remove User')}>
 																	<div>
 																		<DeleteIcon />
 																	</div>
@@ -209,9 +207,7 @@ const NewGroup = () => {
 
 																<button
 																	className="flex flex-col items-center gap-3 text-[#44475B] "
-																	onClick={() =>
-																		handleDropdownSelect('Edit User', index)
-																	}>
+																	onClick={() => handleDropdownSelect('Edit User')}>
 																	<div>
 																		<EditIcon />
 																	</div>
