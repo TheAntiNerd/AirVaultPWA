@@ -31,7 +31,7 @@ export { default as DirectoryIcon } from './directoryicon.svg';
 export { default as AddDirectory } from './adddirectory.svg';
 export { default as NetworkIcon } from './networkicon.svg';
 export { default as ToggleGreenIcon } from './togglegreen.svg';
-export { default as ToggleDarkIcon } from './toggleDark.svg';
+export { default as ToggleDarkIcon } from './toggledark.svg';
 export { default as RemovePoolsIcons } from './removefrompools.svg';
 export { default as HoverTick } from './hovertick.svg';
 export { default as SwitchIcon } from './switchicon.svg';

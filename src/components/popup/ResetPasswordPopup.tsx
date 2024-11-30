@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PasswordEyeClose, PasswordEyeOpen } from '../../assets/svg';
 
 interface ResetPasswordPopupProps {
@@ -76,6 +76,10 @@ const ResetPasswordPopup: React.FC<ResetPasswordPopupProps> = ({
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, [onClose]);
+
+	if (!canResetPassword()) {
+		return null; // If the user cannot reset the password, close the popup immediately.
+	}
 
 	return (
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">

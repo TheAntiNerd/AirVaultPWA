@@ -42,7 +42,7 @@ const NewProtection = () => {
 	};
 
 	const handleBackClick = () => {
-		navigate('/protection');
+		navigate('/protection/on');
 	};
 	const handleOnToggle = (type: string) => {
 		if (type === 'turnOff') {

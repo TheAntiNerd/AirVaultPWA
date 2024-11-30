@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import SideMenu from '../SideMenu';
 import { NewVersionIcon } from '../../assets/svg';
 import RemoveUserPopup from '../popup/RemoveUserPopup';
+import { Link } from 'react-router-dom';
 
 const NewVersion = () => {
 	const [percentage, setPercentage] = useState(0);
@@ -48,9 +49,11 @@ const NewVersion = () => {
 						<h1 className="text-2xl font-semibold text-[#44475B] my-6">You are up to date</h1>
 						<div className="max-sm:flex max-sm:flex-col max-sm:fixed max-sm:bottom-0 max-sm:left-0 max-sm:right-0 max-sm:px-3">
 							<div className="flex justify-center w-full">
-								<button className="px-5 py-3 bg-[#298DFF] rounded-lg text-white font-medium w-full max-w-xs">
-									Check for updates
-								</button>
+								<Link to="/updates">
+									<button className="px-5 py-3 cursor-pointer bg-[#298DFF] rounded-lg text-white font-medium w-full max-w-xs">
+										Check for updates
+									</button>
+								</Link>
 							</div>
 
 							<div className="flex justify-center w-full mt-4">

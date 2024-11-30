@@ -13,6 +13,7 @@ import {
 	MenuCloseIcon,
 	DownArrow,
 	LogoIcon,
+	IpIcon,
 } from '../assets/svg';
 
 const menuItems = [
@@ -63,27 +64,16 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 		<div className="flex flex-col lg:flex-row w-full min-h-screen bg-white text-sans ">
 			{/* Top Bar */}
 			<div className="bg-white shadow p-4 flex justify-between items-center lg:hidden">
-				<Link to="/" className="flex items-center gap-2 font-semibold">
-					<span
-						className={`${
-							location.pathname.startsWith('/users/new') ||
-							location.pathname.startsWith('/groups/new') ||
-							location.pathname.startsWith('/directories') ||
-							location.pathname.startsWith('/protection/new')
-								? 'max-sm:hidden'
-								: ''
-						}`}>
-						<LogoIcon />
-					</span>
-				</Link>
 				<button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-gray-800 focus:outline-none">
 					<MenuOpenIcon />
 				</button>
-				{/* 	<Link to="/saved-ip" className="flex items-end justify-between ">
-					<span className={`${Location.pathname.startsWith('/')?'':''}`}>
-						<IpIcon />
-					</span>
-				</Link> */}
+				<Link to="/saved-ip" className="flex items-end justify-between">
+					{location.pathname.startsWith('/dashboard') && (
+						<span>
+							<IpIcon />
+						</span>
+					)}
+				</Link>
 			</div>
 
 			{/* Sidebar */}
@@ -92,13 +82,22 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 					isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
 				} lg:translate-x-0 transition-transform lg:w-64 fixed lg:static inset-0 bg-white text-gray-800 p-4 border-r flex flex-col justify-between z-40`}>
 				<div>
-					{/* Logo for large screens */}
-					<div className="hidden lg:flex items-center gap-2 mb-8">
-						<Link to="/" className="flex items-center gap-2 font-semibold">
-							<span className="">
+					<div className="hidden lg:flex items-center justify-between gap-2 mb-8">
+						<Link to="/" className="flex px-3 font-semibold">
+							<span className="flex items-start">
 								<LogoIcon />
 							</span>
 						</Link>
+
+						<span className="flex items-end">
+							<Link to="/saved-ip">
+								{location.pathname.startsWith('/dashboard') && (
+									<span className="flex items-center px-3 py-1 rounded-full bg-[#DFF0D7] text-[#445B45]">
+										<IpIcon /> <span className="text-xs font-medium ml-1">connected</span>
+									</span>
+								)}
+							</Link>
+						</span>
 					</div>
 
 					<div className="mb-8 lg:hidden flex justify-end">

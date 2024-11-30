@@ -74,7 +74,7 @@ const TurnOnProtection = () => {
 		}));
 	};
 	const handleNavigation = () => {
-		navigate('/protection/On');
+		navigate('/protection/on');
 	};
 
 	const toggleDropdown = (dropdown: 'role') => {

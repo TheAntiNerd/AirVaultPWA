@@ -81,8 +81,8 @@ const AddSMBPopup = ({ onClose, placeholderh1 = 'Add member' }: AddMemberPopupPr
 		return (
 			<div
 				className={`${
-					isRoot ? 'border-2 rounded-lg border-[#C4C7E3] mb-3' : ''
-				}  max-h-[200px] overflow-y-auto custom-scrollbar py-2`}>
+					isRoot ? 'border-2 rounded-lg border-[#C4C7E3] mb-3 custom-scrollbar' : ''
+				}  max-h-[200px] overflow-y-auto  py-2`}>
 				<ul className="mt-2 px-2 text-sm">
 					{folderList.map((folder, index) => {
 						const folderPath = `${currentPath} > ${folder.name}`;
@@ -125,9 +125,7 @@ const AddSMBPopup = ({ onClose, placeholderh1 = 'Add member' }: AddMemberPopupPr
 
 								{/* Render Subfolders */}
 								{isExpanded && folder.subfolders.length > 0 && (
-									<div className="pl-4 mt-1">
-										{renderFolders(folder.subfolders, folderPath, false)}
-									</div>
+									<div className="pl-4">{renderFolders(folder.subfolders, folderPath, false)}</div>
 								)}
 							</li>
 						);
@@ -181,7 +179,7 @@ const AddSMBPopup = ({ onClose, placeholderh1 = 'Add member' }: AddMemberPopupPr
 		<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-sans">
 			<div
 				ref={popupRef} // Attach the reference to the popup
-				className="bg-white p-10 rounded-lg shadow-lg w-1/3 min-h-fit flex flex-col max-sm:w-[320px] max-sm:px-8 max-sm:pb-5">
+				className="bg-white  p-10 max-sm:pt-4 rounded-lg shadow-lg w-1/3 min-h-fit flex flex-col max-sm:w-[320px] max-sm:px-8 max-sm:pb-10">
 				<h2 className="text-3xl font-medium text-center text-[#44475B] mb-4">{placeholderh1}</h2>
 
 				{/* input field */}
@@ -200,7 +198,7 @@ const AddSMBPopup = ({ onClose, placeholderh1 = 'Add member' }: AddMemberPopupPr
 					/>
 
 					<span
-						className="absolute right-0 bottom-0 mb-3 mr-2 text-xs text-gray-400"
+						className="absolute right-0 bottom-0 mb-5 mr-2 text-xs text-gray-400"
 						style={{
 							transform: 'translateY(120%)',
 							padding: '0 4px',
@@ -224,7 +222,7 @@ const AddSMBPopup = ({ onClose, placeholderh1 = 'Add member' }: AddMemberPopupPr
 				<div>{renderFolders(folders, 'mat dev > device > Vault')}</div>
 
 				{/* Buttons */}
-				<div className="flex justify-center items-center mt-9 space-x-3">
+				<div className="flex justify-center items-center mt-2 space-x-3">
 					<button
 						className="bg-white flex-grow text-[#737790] px-6 py-3 rounded-lg border border-[#E1E3F5] focus:outline-none"
 						onClick={onClose}>
