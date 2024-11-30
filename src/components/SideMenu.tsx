@@ -13,6 +13,7 @@ import {
 	MenuCloseIcon,
 	DownArrow,
 	LogoIcon,
+	IpIcon,
 } from '../assets/svg';
 
 const menuItems = [
@@ -79,6 +80,11 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 				<button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-gray-800 focus:outline-none">
 					<MenuOpenIcon />
 				</button>
+				{/* 	<Link to="/saved-ip" className="flex items-end justify-between ">
+					<span className={`${Location.pathname.startsWith('/')?'':''}`}>
+						<IpIcon />
+					</span>
+				</Link> */}
 			</div>
 
 			{/* Sidebar */}
