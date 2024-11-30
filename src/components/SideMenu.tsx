@@ -13,7 +13,6 @@ import {
 	MenuCloseIcon,
 	DownArrow,
 	LogoIcon,
-	IpIcon,
 } from '../assets/svg';
 
 const menuItems = [
