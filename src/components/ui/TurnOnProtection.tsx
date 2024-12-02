@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import SideMenu from '../SideMenu';
-import { DirectoryIcon, DownArrow, SearchIcon } from '../../assets/svg';
+import { BackArrowIcon, DirectoryIcon, DownArrow, SearchIcon } from '../../assets/svg';
 import Dropdown from '../popup/DropDown';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface Folder {
 	name: string;
@@ -100,8 +100,8 @@ const TurnOnProtection = () => {
 		return (
 			<div
 				className={`${
-					isRoot ? 'border-2 rounded-lg border-[#C4C7E3] mb-3' : ''
-				} max-h-[200px] overflow-y-auto custom-scrollbar`}>
+					isRoot ? 'border rounded-lg border-[#C4C7E3] mb-3 custom-scrollbar' : ''
+				} max-h-[200px] overflow-y-auto`}>
 				<ul className="mt-2 px-2 text-sm">
 					{folderList.map((folder, index) => {
 						const folderPath = `${currentPath} > ${folder.name}`;
@@ -158,7 +158,7 @@ const TurnOnProtection = () => {
 
 	return (
 		<SideMenu>
-			<div className="max-w-[1200px] mx-auto">
+			<div className="max-w-[1200px] mx-auto max-sm:pt-10">
 				{!isProtectionOn ? (
 					/* for pc */
 					<>
@@ -174,21 +174,21 @@ const TurnOnProtection = () => {
 						</div>
 
 						{/* for mobile */}
-						<div className="px-3 mt-4">
-							<h1 className="text-[#44475B] font-semibold text-2xl hidden text-left max-sm:block mb-4">
+						<div className="px-3 max-sm:px-0 mt-4">
+							<h1 className="text-[#44475B] font-semibold text-3xl hidden text-left max-sm:block mb-4 max-sm:px-3">
 								Protection
 							</h1>
 							<div className="hidden max-sm:block  max-sm:w-full mb-4 ">
-								<div className="relative flex items-center">
+								<div className="relative flex items-center  max-sm:px-3">
 									{/* Search Icon */}
-									<span className="absolute left-2 text-[#9AA1B7]">
+									<span className="absolute left-4 text-[#9AA1B7]">
 										<SearchIcon />
 									</span>
 
 									{/* Search Input */}
 									<input
 										type="input"
-										className="border-2 focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
+										className="border focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 										placeholder="Search"
 									/>
 								</div>
@@ -197,20 +197,20 @@ const TurnOnProtection = () => {
 									<table className="w-full border-collapse max-sm:overflow-hidden">
 										<thead className="bg-gray-50">
 											<tr>
-												<th className="px-6 max-sm:px-3 py-4 text-left text-sm font-semibold text-gray-600">
+												<th className="px-6 max-sm:px-3 py-6 text-left text-sm font-semibold text-gray-600">
 													<div className="flex flex-col items-start">Name</div>
 												</th>
 
-												<th className="px-20 py-4 text-left text-sm font-semibold text-gray-600 max-sm:hidden">
+												<th className="px-20 py-6 text-left text-sm font-semibold text-gray-600 max-sm:hidden">
 													<div className="flex flex-col items-start ">Path</div>
 												</th>
 
-												<th className="px-6 max-sm:px-3 py-4  text-left text-sm font-semibold text-gray-600 ">
+												<th className="px-6 max-sm:px-3 py-6  text-left text-sm font-semibold text-gray-600 ">
 													<div className="flex flex-col items-start max-sm:items-end max-sm:mr-16">
 														Status
 													</div>
 												</th>
-												<th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 max-sm:hidden ">
+												<th className="px-6 py-6 text-left text-sm font-semibold text-gray-600 max-sm:hidden ">
 													<div className="flex flex-col items-start"></div>
 												</th>
 											</tr>
@@ -235,6 +235,12 @@ const TurnOnProtection = () => {
 					</>
 				) : (
 					<div className="flex flex-col items-center justify-center min-h-fit mt-4 w-[600px] mx-auto max-sm:px-3 max-sm:w-full">
+						<span
+							onClick={() => setIsProtectionOn(false)}
+							className="hidden max-sm:block absolute left-3 top-20">
+							<BackArrowIcon />
+						</span>
+
 						<h1 className="text-center text-3xl font-medium text-[#272B42] mb-6 max-sm:hidden">
 							Choose your protection options
 						</h1>
@@ -249,7 +255,7 @@ const TurnOnProtection = () => {
 									className="block text-sm font-medium text-[#44475B] mb-2">
 									Select folder
 								</label>
-								<div className="border-2 py-3 border-[#C4C7E3] focus:outline-none focus:border-blue-500 rounded-md text-[#737790] px-6">
+								<div className="border py-3 border-[#C4C7E3] focus:outline-none focus:border-blue-500 rounded-md text-[#737790] px-6">
 									{selectedPath || 'Select a folder'}
 								</div>
 							</div>
@@ -262,7 +268,7 @@ const TurnOnProtection = () => {
 							<Dropdown
 								button={
 									<div
-										className="mt-2 text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
+										className="mt-2 text-[#737790] border border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
 										onClick={() => toggleDropdown('role')}>
 										<span className="text-[#44475B]">{role}</span>
 										<span className="text-[#737790]">
@@ -272,7 +278,7 @@ const TurnOnProtection = () => {
 								}
 								onToggle={setRoleDropdownOpen}>
 								{roleDropdownOpen && (
-									<ul className="bg-white border-2 border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10  overflow-hidden">
+									<ul className="bg-white border border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10  overflow-hidden">
 										{['1 hour', '6 hours', '12 hours', '1 day', '3 days', '1 week'].map(option => (
 											<li
 												key={option}

@@ -32,7 +32,7 @@ const NewGroup = () => {
 
 	const [popupType, setPopupType] = useState<string | null>(null);
 
-	const [dropdownOpen, setDropdownOpen] = useState(Array(users.length).fill(false));
+	const [dropdownOpen, setDropdownOpen] = useState<boolean[]>(new Array(users.length).fill(false));
 
 	const navigate = useNavigate();
 
@@ -51,7 +51,12 @@ const NewGroup = () => {
 	const handleDropdownSelect = (option: string) => {
 		setPopupType(option === 'Remove User' ? 'removeUser' : option === 'Edit User' ? 'editUser' : 'userSettings');
 	};
-
+	const toggleDropdown = (index: number) => {
+		const newDropdownState = [...dropdownOpen];
+		// Toggle the clicked row's dropdown and close others
+		newDropdownState[index] = !newDropdownState[index];
+		setDropdownOpen(newDropdownState);
+	};
 	return (
 		<SideMenu>
 			<div className="flex justify-center items-start min-h-screen">
@@ -96,24 +101,24 @@ const NewGroup = () => {
 					</div>
 
 					{/* Table and Empty State */}
-					<div className=" overflow-hidden">
-						<div className="overflow-hidden rounded-md border border-[#E1E3F5] max-sm:border-b">
+					<div className="overflow-visible">
+						<div className="rounded-md max-sm:rounded-none border border-[#E1E3F5] max-sm:border-b">
 							<table className="w-full border-collapse max-sm:overflow-hidden">
 								{/* Table Header */}
 								<thead className="bg-gray-50">
 									<tr>
-										<div className=" max-sm:flex max-sm:justify-between ">
+										<div className="max-sm:flex max-sm:justify-between">
 											<th className="px-6 max-sm:flex max-sm:items-start max-sm:px-3 py-6 text-left text-sm font-semibold text-gray-600">
 												Name
 											</th>
 
-											<th className=" hidden max-sm:flex max-sm:justify-end py-6 max-sm:pr-20  text-sm font-semibold text-gray-600">
+											<th className="hidden max-sm:flex max-sm:justify-end py-6 max-sm:pr-20 text-sm font-semibold text-gray-600">
 												Webrole
 											</th>
 										</div>
 
 										<th className="max-sm:hidden px-6 max-sm:items-start max-sm:px-3 py-6 text-left text-sm font-semibold text-gray-600"></th>
-										<th className="ml-auto items-end max-sm:hidden px-6 py-6 text-sm font-semibold text-gray-600 ">
+										<th className="ml-auto items-end max-sm:hidden px-6 py-6 text-sm font-semibold text-gray-600">
 											<div className="flex flex-col items-start">Webrole</div>
 										</th>
 										<th className="max-sm:hidden px-6 max-sm:items-start max-sm:px-3 py-6 text-left text-sm font-semibold text-gray-600"></th>
@@ -125,16 +130,18 @@ const NewGroup = () => {
 									{users.map((user, index) => (
 										<tr
 											key={index}
-											className="border-t max-sm:border-[#E1E3F5] max-sm:mb-4  max-sm:rounded-lg">
+											className="border-t max-sm:border-[#E1E3F5] max-sm:mb-4 max-sm:rounded-lg cursor-pointer"
+											onClick={() => toggleDropdown(index)} // Handle click to toggle dropdown
+										>
 											{/* Desktop Layout */}
 											<td className="px-6 py-6 text-[#44475B] max-sm:hidden">
 												<div className="flex flex-col items-start">
 													<span className="font-regular">{user.name}</span>
 												</div>
 											</td>
-											<td className="px-6 py-6 text-gray-600  max-sm:hidden"></td>
-											<td className="px-6 py-6 text-gray-600  max-sm:hidden">
-												<div className="flex flex-col items-start">{user.role} </div>
+											<td className="px-6 py-6 text-gray-600 max-sm:hidden"></td>
+											<td className="px-6 py-6 text-gray-600 max-sm:hidden">
+												<div className="flex flex-col items-start">{user.role}</div>
 											</td>
 
 											<td className="px-4 py-6 text-center max-sm:hidden">
@@ -168,7 +175,7 @@ const NewGroup = () => {
 
 											{/* Mobile Layout */}
 											<td className="hidden max-sm:block">
-												<div className="pt-4 px-3 pb-2 w-full flex items-center">
+												<div className="py-4 px-3  w-full flex items-center">
 													<span className="text-[#44475B] text-nowrap">{user.name}</span>
 
 													<div className="flex items-center space-x-9 ml-auto">
@@ -179,12 +186,7 @@ const NewGroup = () => {
 														<button
 															className={`transform transition-transform ${
 																dropdownOpen[index] ? 'rotate-180' : ''
-															} text-gray-500 hover:text-gray-700`}
-															onClick={() => {
-																const newOpen = [...dropdownOpen];
-																newOpen[index] = !newOpen[index];
-																setDropdownOpen(newOpen);
-															}}>
+															} text-gray-500 hover:text-gray-700`}>
 															<DownArrow />
 														</button>
 													</div>
@@ -197,7 +199,7 @@ const NewGroup = () => {
 															{/* Actions */}
 															<div className="flex items-center justify-center space-x-16 mt-6 w-full mb-3">
 																<button
-																	className="flex flex-col items-center gap-3 text-[#44475B] "
+																	className="flex flex-col items-center gap-3 text-[#44475B]"
 																	onClick={() => handleDropdownSelect('Remove User')}>
 																	<div>
 																		<DeleteIcon />
@@ -206,7 +208,7 @@ const NewGroup = () => {
 																</button>
 
 																<button
-																	className="flex flex-col items-center gap-3 text-[#44475B] "
+																	className="flex flex-col items-center gap-3 text-[#44475B]"
 																	onClick={() => handleDropdownSelect('Edit User')}>
 																	<div>
 																		<EditIcon />
@@ -236,7 +238,7 @@ const NewGroup = () => {
 						{/* Empty State */}
 						{users.length === 0 && (
 							<div className="flex flex-col items-center justify-center mt-24 text-center max-sm:px-3 max-sm:relative">
-								<p className=" text-[#44475B] mb-1">No users added so far.</p>
+								<p className="text-[#44475B] mb-1">No users added so far.</p>
 								<p className="text-[#44475B] mb-6">
 									Click on the <span className="font-bold">“Add member”</span> button to build your
 									team.

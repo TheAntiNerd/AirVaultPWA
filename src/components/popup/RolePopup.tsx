@@ -46,7 +46,7 @@ const RolePopup = ({ onClose }: { onClose: () => void }) => {
 				<Dropdown
 					button={
 						<div
-							className="mt-2 text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
+							className="mt-2 text-[#737790] border border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
 							onClick={() => toggleDropdown('role')}>
 							<span className="text-[#44475B]">{role}</span>
 							<span className="text-[#737790]">
@@ -56,7 +56,7 @@ const RolePopup = ({ onClose }: { onClose: () => void }) => {
 					}
 					onToggle={setRoleDropdownOpen}>
 					{roleDropdownOpen && (
-						<ul className="bg-white border-2 border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-hidden">
+						<ul className="bg-white border border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-hidden">
 							{['Default', 'Moderator', 'Admin'].map(option => (
 								<li
 									key={option}

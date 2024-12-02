@@ -160,7 +160,7 @@ const SidebarNetwork = () => {
 								<input
 									type="text"
 									tabIndex={-1}
-									className={`border-2 rounded-md w-full pl-3 py-2 text-[#9AA1B7] focus:outline-none ${
+									className={`border rounded-md w-full pl-2 py-2 text-[#9AA1B7] focus:outline-none ${
 										error ? 'border-red-500' : 'border-[#C4C7E3] focus:border-blue-500'
 									}`}
 									placeholder="Enter username"
@@ -174,7 +174,7 @@ const SidebarNetwork = () => {
 						<div className="mt-3 w-full flex">
 							<button
 								tabIndex={-1}
-								className="flex-grow px-4 py-2 border-2 rounded-md font-medium text-[#298DFF] border-[#E1E3F5] bg-white">
+								className="flex-grow px-4 py-2 border rounded-md font-medium text-[#298DFF] border-[#E1E3F5] bg-white">
 								Start share
 							</button>
 						</div>
@@ -190,7 +190,7 @@ const SidebarNetwork = () => {
 						<input
 							type="input"
 							tabIndex={-1}
-							className="border-2 focus:border-blue-500  border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
+							className="border focus:border-blue-500  border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 							placeholder="Search"
 						/>
 					</div>
@@ -222,7 +222,7 @@ const SidebarNetwork = () => {
 									<span className="max-sm:hidden">
 										<button
 											tabIndex={-1}
-											className="mt-2 text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-2 cursor-pointer flex items-center justify-between"
+											className="mt-2 text-[#737790] border border-[#C4C7E3] rounded-lg px-2 py-2 cursor-pointer flex items-center justify-between"
 											onClick={() => toggleDropdown(index, 'user')}>
 											<span className="text-[#44475B]">{user.role}</span>
 											<span className="text-[#737790] ml-2">
@@ -231,7 +231,7 @@ const SidebarNetwork = () => {
 										</button>
 
 										{openUserDropdownIndex === index && (
-											<ul className="absolute bg-white border-2 border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-y-auto">
+											<ul className="absolute bg-white border border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-y-auto">
 												{['Default', 'Moderator', 'Admin'].map(option => (
 													<li
 														key={option}
@@ -289,7 +289,7 @@ const SidebarNetwork = () => {
 									<span className="max-sm:hidden">
 										<button
 											tabIndex={-1}
-											className="mt-2 text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-2 cursor-pointer flex items-center justify-between"
+											className="mt-2 text-[#737790] border border-[#C4C7E3] rounded-lg px-2 py-2 cursor-pointer flex items-center justify-between"
 											onClick={() => toggleDropdown(index, 'group')}>
 											<span
 												className="text-[#44475B]"
@@ -302,7 +302,7 @@ const SidebarNetwork = () => {
 										</button>
 
 										{openGroupDropdownIndex === index && (
-											<ul className="absolute bg-white border-2 border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-y-auto">
+											<ul className="absolute bg-white border border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-y-auto">
 												{['Default', 'Moderator', 'Admin'].map(option => (
 													<li
 														key={option}

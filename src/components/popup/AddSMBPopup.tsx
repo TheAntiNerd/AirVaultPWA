@@ -81,7 +81,7 @@ const AddSMBPopup = ({ onClose, placeholderh1 = 'Add member' }: AddMemberPopupPr
 		return (
 			<div
 				className={`${
-					isRoot ? 'border-2 rounded-lg border-[#C4C7E3] mb-3 custom-scrollbar' : ''
+					isRoot ? 'border rounded-lg border-[#C4C7E3] mb-3 custom-scrollbar' : ''
 				}  max-h-[200px] overflow-y-auto  py-2`}>
 				<ul className="mt-2 px-2 text-sm">
 					{folderList.map((folder, index) => {
@@ -192,7 +192,7 @@ const AddSMBPopup = ({ onClose, placeholderh1 = 'Add member' }: AddMemberPopupPr
 						value={username}
 						onChange={handleUserNameChange}
 						maxLength={maxLength}
-						className={`w-full px-3 py-3 border-2 bg-white rounded-md text-sm text-[#44475B] focus:outline-none ${
+						className={`w-full px-3 py-3 border bg-white rounded-md text-sm text-[#44475B] focus:outline-none ${
 							error ? 'border-red-500' : 'border-[#C4C7E3] focus:border-blue-500'
 						}`}
 					/>
@@ -215,7 +215,7 @@ const AddSMBPopup = ({ onClose, placeholderh1 = 'Add member' }: AddMemberPopupPr
 					<label htmlFor="folder-selection" className="block text-sm font-medium text-[#44475B] mb-2">
 						Location*
 					</label>
-					<div className="border-2 py-3 border-[#C4C7E3] focus:outline-none focus:border-blue-500 rounded-md text-[#737790] px-6">
+					<div className="border py-3 border-[#C4C7E3] focus:outline-none focus:border-blue-500 rounded-md text-[#737790] px-6">
 						{selectedPath || 'Select a folder'}
 					</div>
 				</div>

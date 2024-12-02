@@ -60,7 +60,7 @@ const UserSettingsPopup = ({ onClose }: { onClose: () => void }) => {
 				<Dropdown
 					button={
 						<div
-							className="mt-2 text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
+							className="mt-2 text-[#737790] border border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
 							onClick={() => toggleDropdown('role')}>
 							<span className="text-[#44475B]">{role}</span>
 							<span className="text-[#737790]">
@@ -70,7 +70,7 @@ const UserSettingsPopup = ({ onClose }: { onClose: () => void }) => {
 					}
 					onToggle={setRoleDropdownOpen}>
 					{roleDropdownOpen && (
-						<ul className="bg-white border-2 border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-hidden">
+						<ul className="bg-white border border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-hidden">
 							{['Default', 'Moderator', 'Admin'].map(option => (
 								<li
 									key={option}
@@ -87,7 +87,7 @@ const UserSettingsPopup = ({ onClose }: { onClose: () => void }) => {
 				<Dropdown
 					button={
 						<div
-							className="mt-2 text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
+							className="mt-2 text-[#737790] border border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
 							onClick={() => toggleDropdown('group')}>
 							<div className="flex flex-wrap gap-2">
 								{selectedGroups.length === 0 ? (
@@ -96,7 +96,7 @@ const UserSettingsPopup = ({ onClose }: { onClose: () => void }) => {
 									selectedGroups.map(group => (
 										<span
 											key={group}
-											className="bg-white text-[#44475B] py-2 px-4 rounded-full text-sm flex items-center space-x-1 border-2 border-[#44475B] cursor-default">
+											className="bg-white text-[#44475B] py-2 px-4 rounded-full text-sm flex items-center space-x-1 border border-[#44475B] cursor-default">
 											<span>{group}</span>
 											<span
 												onClick={e => {
@@ -114,7 +114,7 @@ const UserSettingsPopup = ({ onClose }: { onClose: () => void }) => {
 					}
 					onToggle={setGroupDropdownOpen}>
 					{groupDropdownOpen && (
-						<ul className="bg-white border-2 border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-hidden">
+						<ul className="bg-white border border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-hidden">
 							{groups.map(group => (
 								<li
 									key={group}

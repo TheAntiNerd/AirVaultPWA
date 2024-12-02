@@ -125,7 +125,7 @@ const ResetPasswordPopup: React.FC<ResetPasswordPopupProps> = ({
 								id="new-password"
 								value={newPassword}
 								onChange={e => setNewPassword(e.target.value)}
-								className="w-full p-3 border-2 border-[#C4C7E3] rounded-lg focus:outline-none focus:border-[#298DFF]"
+								className="w-full p-3 border border-[#C4C7E3] rounded-lg focus:outline-none focus:border-[#298DFF]"
 								required
 							/>
 							<div
@@ -146,7 +146,7 @@ const ResetPasswordPopup: React.FC<ResetPasswordPopupProps> = ({
 								id="confirm-new-password"
 								value={confirmNewPassword}
 								onChange={e => setConfirmNewPassword(e.target.value)}
-								className="w-full p-3 border-2 border-[#C4C7E3] rounded-lg focus:outline-none focus:border-[#298DFF]"
+								className="w-full p-3 border border-[#C4C7E3] rounded-lg focus:outline-none focus:border-[#298DFF]"
 								required
 							/>
 							<div

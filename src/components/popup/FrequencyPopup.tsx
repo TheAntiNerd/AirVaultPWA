@@ -45,7 +45,7 @@ const FrequencyPopup = ({ onClose }: { onClose: () => void }) => {
 				<Dropdown
 					button={
 						<div
-							className="mt-2 text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
+							className="mt-2 text-[#737790] border border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
 							onClick={() => toggleDropdown('role')}>
 							<span className="text-[#44475B]">{role}</span>
 							<span className="text-[#737790]">
@@ -55,7 +55,7 @@ const FrequencyPopup = ({ onClose }: { onClose: () => void }) => {
 					}
 					onToggle={setRoleDropdownOpen}>
 					{roleDropdownOpen && (
-						<ul className="bg-white border-2 border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10  overflow-hidden">
+						<ul className="bg-white border border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10  overflow-hidden">
 							{['1 hour', '6 hours', '12 hours', '1 day', '3 days', '1 week'].map(option => (
 								<li
 									key={option}

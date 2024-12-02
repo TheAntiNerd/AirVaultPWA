@@ -8,7 +8,6 @@ import {
 	GroupsIcon,
 	DetailsIcon,
 	DirectoryIcon,
-	AddDirectory,
 	BackArrowIcon,
 	MenuCloseIcon,
 } from '../../assets/svg';
@@ -85,7 +84,7 @@ const Directory = () => {
 					<div
 						className={`${
 							showSidebar ? 'w-[920px]' : 'w-[1200px]'
-						} max-sm:w-full h-screen pt-6 max-sm:px-0 bg-white text-sans transition-width duration-30`}>
+						} max-sm:w-full h-screen pt-10 max-sm:px-0 bg-white text-sans transition-width duration-30`}>
 						{/* Header */}
 						<div className="flex justify-between items-center mb-6">
 							<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3 flex items-center">
@@ -94,11 +93,11 @@ const Directory = () => {
 
 							{users.length > 0 && (
 								<button
-									className={` px-3 ml-3 mr-3 max-sm:hidden bottom-0 left-0 right-0 max-sm:mb-4  py-2 border-2 border-[#E1E3F5] bg-white text-[#298DFF] font-medium rounded-md`}
+									className={` px-3 ml-3 mr-3 max-sm:hidden bottom-0 left-0 right-0 max-sm:mb-4  py-2 border border-[#E1E3F5] text-white bg-[#298DFF] font-medium rounded-md`}
 									onClick={handleAddUserClick}>
 									<span className="inline-block align-middle">
 										<span className="inline-block align-middle mr-2 -mt-1">
-											<AddDirectory />
+											<DirectoryIcon />
 										</span>
 										New directory
 									</span>
@@ -117,105 +116,101 @@ const Directory = () => {
 								{/* Search Input */}
 								<input
 									type="input"
-									className="border-2  focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
+									className="border  focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 									placeholder="Search"
 								/>
 							</div>
 						</div>
 
 						{/* Table and Empty State */}
-						<ul className="w-full list-none max-sm:overflow-hidden max-sm:px-3">
+						<ul className="w-full list-none max-sm:overflow-visible max-sm:px-2 z-10">
 							{users.map((user, index) => (
-								<li key={index} className=" py-2 cursor-pointer hover:bg-[#E5F1FF] hover:rounded-md">
-									<div className="flex items-center justify-between ">
-										{/* User Name */}
-										<div className="flex my-2 ">
-											<div className="flex items-center justify-center space-x-3">
-												<DirectoryIcon />
-												<span className="font-regular text-center text-[#44475B]">
-													{user.name}
-												</span>
+								<div className="hover:bg-[#E5F1FF] hover:rounded-md px-2">
+									<li key={index} className="py-2 cursor-pointer   ">
+										<div className="flex items-center justify-between">
+											{/* User Name */}
+											<div className="flex my-2">
+												<div className="flex items-center justify-center space-x-3">
+													<DirectoryIcon />
+													<span className="font-regular text-center text-[#44475B]">
+														{user.name}
+													</span>
+												</div>
+
+												<span className="mt-1 text-xs px-2 py-1 rounded-full"></span>
 											</div>
 
-											<span className="mt-1 text-xs px-2 py-1 rounded-full"></span>
+											{/* Dropdown */}
+											<div className="relative">
+												<Dropdown
+													button={
+														<button className="text-gray-500 hover:text-gray-700 mr-4">
+															⋮
+														</button>
+													}
+													onToggle={isOpen => isOpen}>
+													<ul className="py-2 text-sm text-left text-[#44475B] absolute right-5 bg-white shadow-md rounded-lg w-48 h-56 z-20 max-sm:overflow-visible">
+														<li
+															className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm"
+															onClick={() => handleDropdownSelect('Edit User')}>
+															<span className="mr-3">
+																<EditIcon />
+															</span>
+															Rename
+														</li>
+														<li
+															className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm"
+															onClick={() => handleDropdownSelect('collabs')}>
+															<span className="mr-3">
+																<CollabIcon />
+															</span>
+															Collaborators
+														</li>
+														<li
+															className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm"
+															onClick={handleAddGroupClick}>
+															<span className="mr-3">
+																<GroupsIcon />
+															</span>
+															Groups
+														</li>
+														<li
+															className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm"
+															onClick={() => {
+																handleDetailsClick(index);
+															}}>
+															<span className="mr-3">
+																<DetailsIcon />
+															</span>
+															Details
+														</li>
+														<li
+															className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm"
+															onClick={() => handleDropdownSelect('Remove User')}>
+															<span className="mr-3">
+																<DeleteIcon />
+															</span>
+															Delete directory
+														</li>
+													</ul>
+												</Dropdown>
+											</div>
 										</div>
-
-										{/* Dropdown */}
-										<div className="relative max-sm:">
-											<Dropdown
-												button={
-													<button className="text-gray-500 hover:text-gray-700 mr-4">
-														⋮
-													</button>
-												}
-												onToggle={isOpen => isOpen}>
-												<ul className="py-2 text-sm text-left text-[#44475B] absolute right-5 bg-white shadow-md rounded-lg w-48 h-56">
-													<li
-														className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm"
-														onClick={() => handleDropdownSelect('Edit User')}>
-														<span className="mr-3">
-															<EditIcon />
-														</span>
-														Rename
-													</li>
-													<li
-														className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm"
-														onClick={() => handleDropdownSelect('collabs')}>
-														<span className="mr-3">
-															<CollabIcon />
-														</span>
-														Collaborators
-													</li>
-													<li
-														className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm"
-														onClick={handleAddGroupClick}>
-														<span className="mr-3">
-															<GroupsIcon />
-														</span>
-														Groups
-													</li>
-													<li
-														className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm"
-														onClick={() => {
-															handleDetailsClick(index);
-														}}>
-														<span className="mr-3">
-															<DetailsIcon />
-														</span>
-														Details
-													</li>
-													<li
-														className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm"
-														onClick={() => handleDropdownSelect('Remove User')}>
-														<span className="mr-3">
-															<DeleteIcon />
-														</span>
-														Delete directory
-													</li>
-												</ul>
-											</Dropdown>
-										</div>
-									</div>
-								</li>
+									</li>
+								</div>
 							))}
 						</ul>
 
 						<div className="max-sm:px-3 max-sm:mb-5 z-1">
 							{users.length > 0 && (
 								<button
-									className={`
-                hidden max-sm:inline-block 
-                px-3 ml-3 mr-3 max-sm:fixed 
-                bottom-0 left-0 right-0 max-sm:mb-4 
-                py-2 border-2 border-[#E1E3F5] 
-                bg-white text-[#298DFF] 
-                font-medium rounded-md
-                ${showSidebar ? 'max-sm:hidden' : ''} 
-            `}
+									className={` hidden max-sm:inline-block px-3 ml-3 mr-3 max-sm:fixed bottom-0 left-0 right-0 max-sm:mb-4 py-2 border border-[#E1E3F5] bg-blue-600 text-white font-medium rounded-md ${
+										showSidebar ? 'max-sm:hidden' : ''
+									} `}
 									onClick={handleAddUserClick}>
 									<span className="inline-block align-middle">
 										<span className="inline-block align-middle mr-2 -mt-1">
-											<AddDirectory />
+											<DirectoryIcon />
 										</span>
 										New directory
 									</span>
@@ -232,11 +227,11 @@ const Directory = () => {
 									one.
 								</p>
 								<button
-									className={` px-3 ml-3 mr-3 max-sm:fixed bottom-0 left-0 right-0 max-sm:mb-4  py-2 border-2 border-[#E1E3F5] bg-white text-[#298DFF] font-medium rounded-md`}
+									className={` px-3 ml-3 mr-3 max-sm:fixed bottom-0 left-0 right-0 max-sm:mb-4  py-2 border border-[#E1E3F5] bg-blue-600 text-white font-medium rounded-md`}
 									onClick={handleAddUserClick}>
 									<span className="inline-block align-middle">
 										<span className="inline-block align-middle mr-2 -mt-1">
-											<AddDirectory />
+											<DirectoryIcon />
 										</span>
 										New directory
 									</span>
@@ -251,14 +246,14 @@ const Directory = () => {
 						<aside
 							className={`${
 								showSidebar ? 'translate-x-0' : '-translate-x-full'
-							} lg:translate-x-0  transition-transform w-[360px] max-sm:absolute h-screen max-sm:max-w-full fixed lg:static inset-0 bg-white text-gray-800 p-4 md:border-l flex flex-col justify-between z-50`}>
-							<div>
+							} lg:translate-x-0  transition-transform w-[360px] max-sm:absolute h-screen max-sm:max-w-full fixed lg:static inset-0 bg-white text-gray-800  flex flex-col justify-between z-50`}>
+							<div className="p-4 md:border-l">
 								{/* Button for mobile */}
 								<button onClick={handleSidebarClose} className="hidden max-sm:block">
 									<BackArrowIcon />
 								</button>
 								{/* H1 for pc */}
-								<div className=" flex items-center justify-between mt-5">
+								<div className=" flex items-center justify-between mt-5 max-sm:mt-0">
 									<div className="max-sm:hidden flex items-center space-x-2">
 										<DirectoryIcon />
 										<h1 className="text-[#44475B] font-medium text-lg">

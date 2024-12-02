@@ -45,9 +45,23 @@ const UsersCreate = () => {
 
 	const [popupType, setPopupType] = useState<string | null>(null);
 	const [selectedUserIndex, setSelectedUserIndex] = useState<number | null>(null);
-	const [dropdownOpen, setDropdownOpen] = useState(Array(users.length).fill(false));
+	const [dropdownOpen, setDropdownOpen] = useState<boolean[]>([]);
 
 	const navigate = useNavigate();
+
+	const handleRowClick = (index: number) => {
+		const newDropdownOpen = [...dropdownOpen];
+
+		// Toggle the current row's state: if it's open, close it; otherwise, open it and close all others
+		newDropdownOpen[index] = !newDropdownOpen[index];
+
+		// Ensure other rows are closed
+		for (let i = 0; i < newDropdownOpen.length; i++) {
+			if (i !== index) newDropdownOpen[i] = false;
+		}
+
+		setDropdownOpen(newDropdownOpen);
+	};
 
 	const getStatusClasses = (status: string) => {
 		switch (status) {
@@ -104,15 +118,15 @@ const UsersCreate = () => {
 							{/* Search Input */}
 							<input
 								type="input"
-								className="border-2 focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
+								className="border focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 								placeholder="Search"
 							/>
 						</div>
 					</div>
 
 					{/* Table and Empty State */}
-					<div className=" overflow-hidden">
-						<div className="overflow-hidden rounded-md border border-[#E1E3F5] max-sm:border-b">
+					<div className="overflow-visible">
+						<div className="max-sm:rounded-none rounded-md border border-[#E1E3F5] max-sm:border-b">
 							<table className="w-full border-collapse max-sm:overflow-hidden">
 								{/* Table Header */}
 								<thead className="bg-gray-50">
@@ -121,11 +135,11 @@ const UsersCreate = () => {
 											<th className="px-6 max-sm:px-3 py-6 text-left text-sm font-semibold text-gray-600">
 												Name
 											</th>
-											<th className=" hidden max-sm:flex max-sm:justify-end py-6 max-sm:pr-16  text-sm font-semibold text-gray-600">
+											<th className=" hidden max-sm:flex max-sm:justify-end py-6 max-sm:pr-16 text-sm font-semibold text-gray-600">
 												Webrole
 											</th>
 										</div>
-										<th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 max-sm:hidden">
+										<th className="px-6 py-6 text-left text-sm font-semibold text-gray-600 max-sm:hidden">
 											Username
 										</th>
 										<th className="px-6 py-6 text-left text-sm font-semibold text-gray-600 max-sm:hidden">
@@ -137,14 +151,15 @@ const UsersCreate = () => {
 										<th className="px-6 py-6 text-center text-sm font-semibold text-gray-600 max-sm:hidden"></th>
 									</tr>
 								</thead>
-								<tbody>{/* Table body content here */}</tbody>
 
 								{/* Table Body */}
 								<tbody>
 									{users.map((user, index) => (
 										<tr
 											key={index}
-											className="border-t max-sm:border-[#E1E3F5] max-sm:mb-4  max-sm:rounded-lg">
+											className="border-t max-sm:border-[#E1E3F5] max-sm:mb-4 max-sm:rounded-lg"
+											onClick={() => handleRowClick(index)} // Handle row click
+										>
 											{/* Desktop Layout */}
 											<td className="px-6 py-6 text-[#44475B] max-sm:hidden">
 												<div className="flex flex-col items-start">
@@ -211,11 +226,11 @@ const UsersCreate = () => {
 
 											{/* Mobile Layout */}
 											<td className="hidden max-sm:block">
-												<div className="pt-4 px-3 pb-2 w-full flex items-center">
+												<div className=" px-3 py-4 w-full flex items-center">
 													<span className="text-[#44475B] text-nowrap">{user.name}</span>
 
-													<div className="flex items-center space-x-2 ml-auto">
-														<span className="text-[#44475B] text-sm text-nowrap !text-left">
+													<div className="flex items-center space-x-8 ml-auto">
+														<span className="text-[#44475B] text-sm text-nowrap ">
 															{user.role}
 														</span>
 
@@ -223,11 +238,7 @@ const UsersCreate = () => {
 															className={`transform transition-transform ${
 																dropdownOpen[index] ? 'rotate-180' : ''
 															} text-gray-500 hover:text-gray-700`}
-															onClick={() => {
-																const newOpen = [...dropdownOpen];
-																newOpen[index] = !newOpen[index];
-																setDropdownOpen(newOpen);
-															}}>
+															onClick={() => handleRowClick(index)}>
 															<DownArrow />
 														</button>
 													</div>
@@ -236,10 +247,10 @@ const UsersCreate = () => {
 												{/* Expanded View */}
 												<div>
 													{dropdownOpen[index] && (
-														<div className="px-3 py-2 text-sm text-[#44475B] font-light">
+														<div className="px-3 py-2 text-[#44475B] font-light">
 															<div>
-																<span className="font-light mr-6 ">Username</span>{' '}
-																{user.username}
+																<span className="font-light mr-6 ">Username</span>
+																<span className="">{user.username}</span>
 															</div>
 															<div className="mt-4">
 																<span className=" mr-6">Password</span>{' '}

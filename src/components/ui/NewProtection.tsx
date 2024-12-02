@@ -79,7 +79,7 @@ const NewProtection = () => {
 							<Dropdown
 								button={<button className="text-gray-500 hover:text-gray-700 max-sm:hidden">⋮</button>}
 								onToggle={isOpen => isOpen}>
-								<div className="absolute right-0 w-40 bg-white border-2 rounded-lg flex flex-col space-y-3 px-2 shadow-md">
+								<div className="absolute right-0 w-40 bg-white border rounded-lg flex flex-col space-y-3 px-2 shadow-md">
 									{isHistoryOff ? (
 										<button
 											className="flex items-center mt-2 text-sm space-x-2 text-[#44475B]"
