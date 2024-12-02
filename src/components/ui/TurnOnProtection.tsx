@@ -2,7 +2,7 @@ import { useState } from 'react';
 import SideMenu from '../SideMenu';
 import { BackArrowIcon, DirectoryIcon, DownArrow, SearchIcon } from '../../assets/svg';
 import Dropdown from '../popup/DropDown';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface Folder {
 	name: string;
