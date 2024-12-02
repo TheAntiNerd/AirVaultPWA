@@ -61,26 +61,31 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 	};
 
 	return (
-		<div className="flex flex-col lg:flex-row w-full min-h-screen bg-white text-sans ">
+		<div className="flex flex-col lg:flex-row w-full h-screen bg-white text-sans ">
 			{/* Top Bar */}
-			<div className="bg-white shadow p-4 flex justify-between items-center lg:hidden">
-				<button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="text-gray-800 focus:outline-none">
-					<MenuOpenIcon />
-				</button>
-				<Link to="/saved-ip" className="flex items-end justify-between">
-					{location.pathname.startsWith('/dashboard') && (
-						<span>
-							<IpIcon />
-						</span>
-					)}
-				</Link>
-			</div>
+			{location.pathname.startsWith('/saved-ip') ? null : (
+				<div className="bg-white shadow p-3 flex justify-between items-center lg:hidden sticky top-0 z-10">
+					<button
+						onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+						className="text-gray-800 focus:outline-none">
+						<MenuOpenIcon />
+					</button>
+
+					<Link to="/saved-ip" className="flex items-end justify-between">
+						{location.pathname.startsWith('/dashboard') && (
+							<span>
+								<IpIcon />
+							</span>
+						)}
+					</Link>
+				</div>
+			)}
 
 			{/* Sidebar */}
 			<aside
 				className={`${
-					isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-				} lg:translate-x-0 transition-transform lg:w-64 fixed lg:static inset-0 bg-white text-gray-800 p-4 border-r flex flex-col justify-between z-40`}>
+					isSidebarOpen ? 'translate-x-0 opacity-100 scale-100' : '-translate-x-full opacity-100 scale-100'
+				} lg:translate-x-0 transition-all duration-500 ease-in-out lg:w-64 fixed lg:static inset-0 bg-white text-gray-800 p-4 border-r flex flex-col justify-between z-40`}>
 				<div>
 					<div className="hidden lg:flex items-center justify-between gap-2 mb-8">
 						<Link to="/" className="flex px-3 font-semibold">
@@ -100,8 +105,13 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 						</span>
 					</div>
 
-					<div className="mb-8 lg:hidden flex justify-end">
-						<button onClick={() => setIsSidebarOpen(false)} className="text-gray-800 focus:outline-none">
+					<div className="mb-8 lg:hidden flex items-start justify-between">
+						<span className="flex items-start order-0 justify-center px-2">
+							<LogoIcon />
+						</span>
+						<button
+							onClick={() => setIsSidebarOpen(false)}
+							className="text-gray-800 focus:outline-none flex">
 							<MenuCloseIcon />
 						</button>
 					</div>
@@ -119,7 +129,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 										{item.icon}
 										<span className="ml-3">{item.name}</span>
 										<span
-											className={`ml-auto transition-transform ${
+											className={`ml-auto transition-transform duration-300 ease-in-out ${
 												accountsOpen ? 'rotate-180' : ''
 											}`}>
 											{' '}
@@ -161,7 +171,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 				<nav>
 					<button
 						onClick={handleLogoutClick}
-						className={`flex items-center p-2 my-1 rounded transition-colors ${
+						className={`flex items-center p-2 mb-10 rounded transition-colors ${
 							location.pathname === logoutItem.path ? 'bg-[#DBEAFE] text-gray-800' : 'hover:bg-gray-200'
 						}`}>
 						{logoutItem.icon}
@@ -172,13 +182,13 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 
 			{/* Confirm Logout Modal */}
 			{showLogoutModal && (
-				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 max-sm:p-3">
-					<div className="bg-white p-10 shadow-lg text-center w-[414px] h-[209px] rounded-lg flex flex-col items-center justify-between">
-						<h2 className="text-3xl font-medium mb-6 text-gray-800">Logout?</h2>
+				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 max-sm:px-3">
+					<div className="bg-white p-10 shadow-lg text-center w-[414px] h-[209px] max-sm:w-full rounded-lg flex flex-col items-center justify-between">
+						<h2 className="text-2xl font-medium mb-6 text-gray-800">Logout?</h2>
 						<div className="flex justify-between w-full space-x-3">
 							<button
 								onClick={handleCloseModal}
-								className="w-[161px] h-[48px] py-3 text-base bg-white border-[#E1E3F5] border-2 rounded-md hover:bg-gray-400 text-[#737790] transition-colors">
+								className="w-[161px] h-[48px] py-3 text-base bg-white border-[#E1E3F5] border rounded-md hover:bg-gray-400 text-[#737790] transition-colors">
 								Cancel
 							</button>
 							<button

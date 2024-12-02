@@ -15,17 +15,38 @@ const NewUser = () => {
 	const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
 	const [email, setEmail] = useState('');
 	const [username, setUsername] = useState('');
+	const [error, setError] = useState('');
+	const [errorEmail, setEmailError] = useState('');
+	const [errorPassword, setPasswordError] = useState('');
 	const navigate = useNavigate();
 
 	const groups = ['Collabs', 'Teachers', 'Creators', 'Interns'];
 
 	const maxLength = 63;
+
 	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setEmail(e.target.value);
+		const input = e.target.value;
+		setEmail(input);
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		// Validate the email format
+		if (input && !emailRegex.test(input)) {
+			setEmailError('Please enter a valid email address.');
+		} else {
+			setEmailError('');
+		}
 	};
 	const handleUserNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setUsername(e.target.value);
+		const input = e.target.value;
+		setUsername(input);
+
+		// Check if the input starts with a lowercase letter
+		if (input && !/^[a-z]/.test(input)) {
+			setError('Username must start with a lowercase letter.');
+		} else {
+			setError('');
+		}
 	};
+
 	const handleBackClick = () => {
 		navigate('/users');
 	};
@@ -56,8 +77,26 @@ const NewUser = () => {
 	const toggleVisibility = (field: string) => {
 		if (field === 'password') {
 			setShowPassword(!showPassword);
-		} else {
+		} else if (field === 'confirm') {
 			setShowConfirmPassword(!showConfirmPassword);
+		}
+	};
+
+	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPassword(e.target.value);
+		validatePasswords(e.target.value, confirmPassword);
+	};
+
+	const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setConfirmPassword(e.target.value);
+		validatePasswords(password, e.target.value);
+	};
+
+	const validatePasswords = (password: string, confirmPassword: string) => {
+		if (confirmPassword && password !== confirmPassword) {
+			setPasswordError('Passwords do not match.');
+		} else {
+			setPasswordError('');
 		}
 	};
 	return (
@@ -76,12 +115,12 @@ const NewUser = () => {
 								<input
 									type="text"
 									placeholder="First name"
-									className="px-6 py-3 border-2 border-[#C4C7E3] bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500"
+									className="px-2 py-3 border border-[#C4C7E3] bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500"
 								/>
 								<input
 									type="text"
 									placeholder="Last name"
-									className="px-6 py-3 border-2 border-[#C4C7E3] bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500"
+									className="px-2 py-3 border border-[#C4C7E3] bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500"
 								/>
 							</div>
 						</div>
@@ -96,7 +135,9 @@ const NewUser = () => {
 							value={email}
 							onChange={handleEmailChange}
 							maxLength={maxLength}
-							className="w-full px-6 py-3 border-2 border-[#C4C7E3] bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500"
+							className={`w-full px-2 py-3 border rounded-md text-sm 
+								${errorEmail ? 'border-red-500 focus:border-red-500' : 'border-[#C4C7E3] focus:border-blue-500'} 
+								bg-white text-[#44475B] focus:outline-none`}
 						/>
 						<span
 							className="absolute right-0 bottom-0 mb-3 mr-2 text-xs text-gray-400"
@@ -107,6 +148,7 @@ const NewUser = () => {
 							}}>
 							{email.length}/{maxLength}
 						</span>
+						{errorEmail && <p className="text-red-500 text-xs mt-1">{errorEmail}</p>}
 					</div>
 
 					{/* Username Field */}
@@ -118,7 +160,9 @@ const NewUser = () => {
 							value={username}
 							onChange={handleUserNameChange}
 							maxLength={maxLength}
-							className="w-full px-6 py-3 border-2 border-[#C4C7E3] bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500"
+							className={`w-full px-2 py-3 border rounded-md text-sm 
+								${error ? 'border-red-500 focus:border-red-500' : 'border-[#C4C7E3] focus:border-blue-500'} 
+								bg-white text-[#44475B] focus:outline-none`}
 						/>
 						<span
 							className="absolute right-0 bottom-0 mb-3 mr-2 text-xs text-gray-400"
@@ -129,18 +173,23 @@ const NewUser = () => {
 							}}>
 							{username.length}/{maxLength}
 						</span>
+						{error && <p className="mt-1 text-xs text-red-500">{error}</p>}
 					</div>
 
 					{/* Password Fields */}
 					<div className="grid grid-cols-2 max-sm:grid-cols-1 gap-4 mb-6">
-						<div>
+						<div className="flex flex-col">
 							<label className="block font-medium mb-2 text-[#44475B]">Set a password</label>
 							<div className="relative">
 								<input
 									type={showPassword ? 'text' : 'password'}
 									value={password}
-									onChange={e => setPassword(e.target.value)}
-									className="w-full px-6 py-3 border-2 border-[#C4C7E3] bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500"
+									onChange={handlePasswordChange}
+									className={`w-full px-2 py-3 border rounded-md text-sm text-[#44475B] focus:outline-none ${
+										errorPassword
+											? 'border-red-500 focus:border-red-500'
+											: 'border-[#C4C7E3] focus:border-blue-500'
+									}`}
 									required
 								/>
 								<div
@@ -150,14 +199,18 @@ const NewUser = () => {
 								</div>
 							</div>
 						</div>
-						<div>
+						<div className="flex flex-col">
 							<label className="block font-medium mb-2 text-[#44475B]">Confirm password</label>
 							<div className="relative">
 								<input
 									type={showConfirmPassword ? 'text' : 'password'}
 									value={confirmPassword}
-									onChange={e => setConfirmPassword(e.target.value)}
-									className="w-full px-6 py-3 border-2 border-[#C4C7E3] bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500"
+									onChange={handleConfirmPasswordChange}
+									className={`w-full px-2 py-3 border rounded-md text-sm text-[#44475B] focus:outline-none ${
+										errorPassword
+											? 'border-red-500 focus:border-red-500'
+											: 'border-[#C4C7E3] focus:border-blue-500'
+									}`}
 									required
 								/>
 								<div
@@ -167,6 +220,13 @@ const NewUser = () => {
 								</div>
 							</div>
 						</div>
+
+						{/* Error message */}
+						{errorPassword && (
+							<div className="col-span-full">
+								<p className="text-red-500 text-xs -mt-3">{errorPassword}</p>
+							</div>
+						)}
 					</div>
 
 					{/* Role Dropdown */}
@@ -176,7 +236,7 @@ const NewUser = () => {
 						<Dropdown
 							button={
 								<div
-									className="mt-2 w-32 max-sm:w-full text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
+									className="mt-2 w-32 max-sm:w-full text-[#737790] border border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
 									onClick={() => toggleDropdown('role')}>
 									<span className="text-[#44475B]">{role}</span>
 									<span className="text-[#737790]">
@@ -186,7 +246,7 @@ const NewUser = () => {
 							}
 							onToggle={setRoleDropdownOpen}>
 							{roleDropdownOpen && (
-								<ul className="bg-white border-2 border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10  max-h-40 overflow-hidden">
+								<ul className="bg-white border border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10  max-h-40 overflow-hidden">
 									{['Default', 'Moderator', 'Admin'].map(option => (
 										<li
 											key={option}
@@ -210,7 +270,7 @@ const NewUser = () => {
 						<Dropdown
 							button={
 								<div
-									className="mt-2 text-[#737790] border-2 border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
+									className="mt-2 text-[#737790] border border-[#C4C7E3] rounded-lg px-2 py-3 cursor-pointer flex items-center justify-between"
 									onClick={() => toggleDropdown('group')}>
 									<div className="flex flex-wrap gap-2">
 										{selectedGroups.length === 0 ? (
@@ -219,7 +279,7 @@ const NewUser = () => {
 											selectedGroups.map(group => (
 												<span
 													key={group}
-													className="bg-white text-[#44475B] py-2 px-4 rounded-full text-sm flex items-center space-x-1 border-2 border-[#44475B] cursor-default">
+													className="bg-white text-[#44475B] py-2 px-4 rounded-full text-sm flex items-center space-x-1 border border-[#44475B] cursor-default">
 													<span>{group}</span>
 													<span
 														onClick={e => {
@@ -237,7 +297,7 @@ const NewUser = () => {
 							}
 							onToggle={setGroupDropdownOpen}>
 							{groupDropdownOpen && (
-								<ul className="bg-white border-2 border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-hidden">
+								<ul className="bg-white border border-[#C4C7E3] rounded-lg shadow-lg mt-1 z-10 max-h-40 overflow-hidden">
 									{groups.map(group => (
 										<li
 											key={group}
@@ -258,7 +318,7 @@ const NewUser = () => {
 					<div className="flex justify-center space-x-5 max-sm:space-x-0 mt-6">
 						<button
 							onClick={handleBackClick}
-							className="px-6 py-3 max-sm:absolute max-sm:top-0 max-sm:left-0  bg-white rounded-md text-sm text-[#44475B] focus:outline-none ">
+							className="px-3 py-3 max-sm:absolute max-sm:top-10 max-sm:left-0  bg-white rounded-md text-sm text-[#44475B] focus:outline-none ">
 							<span className="hidden max-sm:inline">
 								<BackArrowIcon />
 							</span>

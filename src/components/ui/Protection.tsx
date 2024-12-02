@@ -9,6 +9,7 @@ import {
 	ToggleDarkIcon,
 	SwitchIcon,
 	SeeMoreIcon,
+	BackArrowIcon,
 } from '../../assets/svg';
 import RemoveUserPopup from '../popup/RemoveUserPopup';
 import AddSMBPopup from '../popup/AddSMBPopup';
@@ -20,32 +21,32 @@ const Protection = () => {
 		{
 			name: 'Admin',
 
-			path: '22 Oct, 2024 at 11:45',
+			path: '22 Oct, 2024 at  11:45',
 			status: 'on',
 		},
 		{
 			name: 'Moderators',
 
-			path: '22 Oct, 2024 at 1:45',
+			path: '22 Oct, 2024 at  1:45',
 			status: 'off',
 		},
 		{
 			name: 'Freelancers',
 
-			path: '23 Oct, 2024 at 11:45',
+			path: '23 Oct, 2024 at  11:45',
 			status: 'off',
 		},
 		{
 			name: 'Editors',
 
-			path: '24 Oct, 2024 at 11:45',
+			path: '24 Oct, 2024 at  11:45',
 			status: 'on',
 		},
 	]);
 
 	const [popupType, setPopupType] = useState<string | null>(null);
 	const [isHistoryOff, setIsHistoryOff] = useState(true);
-	const [mobileDropdownStates, setMobileDropdownStates] = useState(new Array(users.length).fill(false));
+	const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(null);
 	const navigate = useNavigate();
 
 	const handleNavigate = (index: number) => {
@@ -59,7 +60,9 @@ const Protection = () => {
 	};
 
 	//handle toggle
-	const handleToggle = (index: number) => {
+	// Update the toggle function to prevent event propagation
+	const handleToggle = (index: number, e: React.MouseEvent) => {
+		e.stopPropagation(); // Prevent the click from propagating to the row
 		const updatedUsers = [...users];
 		updatedUsers[index] = {
 			...updatedUsers[index],
@@ -67,6 +70,7 @@ const Protection = () => {
 		};
 		setUsers(updatedUsers);
 	};
+
 	//history button in mobile
 	const handleOnToggle = (type: string) => {
 		if (type === 'turnOff') {
@@ -79,9 +83,11 @@ const Protection = () => {
 	};
 	/* mobile dropdown */
 	const toggleMobileDropdown = (index: number) => {
-		const newDropdownStates = [...mobileDropdownStates];
-		newDropdownStates[index] = !newDropdownStates[index];
-		setMobileDropdownStates(newDropdownStates);
+		if (openDropdownIndex === index) {
+			setOpenDropdownIndex(null); // Close if the same row is clicked
+		} else {
+			setOpenDropdownIndex(index); // Open the clicked row dropdown
+		}
 	};
 
 	const handleDropdownSelect = (option: string) => {
@@ -95,9 +101,15 @@ const Protection = () => {
 			<div className="flex justify-center items-start min-h-screen">
 				<div className="w-[1200px] max-sm:w-full h-screen pt-6 max-sm:pt-2 max-sm:px-0 bg-white text-sans">
 					{/* Header */}
+					<span
+						onClick={() => navigate('/protection')}
+						className="hidden max-sm:block absolute left-3 top-20">
+						<BackArrowIcon />
+					</span>
+
 					<div className="flex justify-between items-center mb-6">
 						<div className="flex items-center space-x-4 max-sm:flex-col ">
-							<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3"></h1>
+							<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3 max-sm:mt-12">Protection</h1>
 						</div>
 
 						<div className="flex items-center space-x-6">
@@ -120,33 +132,33 @@ const Protection = () => {
 							{/* Search Input */}
 							<input
 								type="input"
-								className="border-2 focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
+								className="border focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 								placeholder="Search"
 							/>
 						</div>
 					</div>
 
-					{/* Table and Empty State */}
-					<div className=" overflow-hidden">
-						<div className="overflow-hidden rounded-md border border-[#E1E3F5] max-sm:border-b">
+					{/* Table */}
+					<div className="overflow-visible">
+						<div className=" rounded-md border border-[#E1E3F5] max-sm:border-b max-sm:rounded-none">
 							<table className="w-full border-collapse max-sm:overflow-hidden">
 								{/* Table Header */}
 								<thead className="bg-gray-50">
 									<tr>
-										<th className="px-6 max-sm:px-3 py-4 text-left text-sm font-semibold text-gray-600">
+										<th className="px-6 max-sm:px-3 py-6 text-left text-sm font-semibold text-gray-600">
 											<div className="flex flex-col items-start">Name</div>
 										</th>
 
-										<th className="px-20 py-4 text-left text-sm font-semibold text-gray-600 max-sm:hidden">
-											<div className="flex flex-col items-start ">Last snapshot captured</div>
+										<th className="px-20 py-6 text-left text-sm font-semibold text-gray-600 max-sm:hidden">
+											<div className="flex flex-col items-start">Last snapshot captured</div>
 										</th>
 
-										<th className="px-6 max-sm:px-3 py-4  text-left text-sm font-semibold text-gray-600 ">
+										<th className="px-6 max-sm:px-3 py-6 text-left text-sm font-semibold text-gray-600">
 											<div className="flex flex-col items-end max-sm:items-end max-sm:mr-16">
 												Status
 											</div>
 										</th>
-										<th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 max-sm:hidden ">
+										<th className="px-6 py-6 text-left text-sm font-semibold text-gray-600 max-sm:hidden">
 											<div className="flex flex-col items-start"></div>
 										</th>
 									</tr>
@@ -155,9 +167,13 @@ const Protection = () => {
 								<tbody>
 									{users.map((user, index) => (
 										<>
-											<tr key={index} className="border-t">
+											<tr
+												key={index}
+												className="border-t cursor-pointer"
+												onClick={() => toggleMobileDropdown(index)} // Toggle dropdown visibility
+											>
 												{/* Desktop Layout */}
-												<td className="px-6 max-sm:px-3 py-4 text-[#44475B] ">
+												<td className="px-6 max-sm:px-3 py-4 text-[#44475B]">
 													<div className="flex flex-col items-start">
 														<span className="font-regular">{user.name}</span>
 													</div>
@@ -171,8 +187,8 @@ const Protection = () => {
 													<div className="flex flex-col items-end">
 														<span className="text-gray-600 flex items-center">
 															<button
-																onClick={() => handleToggle(index)}
-																className=" flex items-center justify-center">
+																onClick={e => handleToggle(index, e)}
+																className="flex items-center justify-center">
 																{user.status === 'on' ? (
 																	<ToggleGreenIcon />
 																) : (
@@ -183,15 +199,17 @@ const Protection = () => {
 																onClick={() => toggleMobileDropdown(index)}
 																className="hidden max-sm:flex items-center justify-center ml-8 transform transition-transform duration-200 ease-in-out"
 																style={{
-																	transform: mobileDropdownStates[index]
-																		? 'rotate(180deg)'
-																		: 'rotate(0deg)',
+																	transform:
+																		openDropdownIndex === index
+																			? 'rotate(180deg)'
+																			: 'rotate(0deg)',
 																}}>
 																<DownArrow />
 															</button>
 														</span>
 													</div>
 												</td>
+
 												<td className="px-6 py-6 max-sm:hidden">
 													<div className="flex items-start justify-center">
 														<span className="flex items-center space-x-6 text-gray-600">
@@ -207,8 +225,9 @@ const Protection = () => {
 													</div>
 												</td>
 											</tr>
+
 											{/* mobile dropdown */}
-											{mobileDropdownStates[index] && (
+											{openDropdownIndex === index && (
 												<tr className="sm:hidden">
 													<td colSpan={3} className="px-3 py-3">
 														<div className="flex flex-col space-y-2">
@@ -220,7 +239,7 @@ const Protection = () => {
 																	{user.path}
 																</span>
 															</div>
-															<div className="flex  pt-4 pb-2 justify-center gap-4">
+															<div className="flex pt-4 pb-2 justify-center gap-4">
 																{isHistoryOff ? (
 																	<button
 																		className="flex items-center flex-col text-sm text-[#44475B]"
@@ -251,7 +270,7 @@ const Protection = () => {
 																	</span>
 																</button>
 																<button
-																	className="flex items-center flex-col text-sm text-[#44475B] mt-1 "
+																	className="flex items-center flex-col text-sm text-[#44475B] mt-1"
 																	onClick={() => handleDropdownSelect('Remove User')}>
 																	<DeleteIcon />
 																	<span className="text-nowrap truncate w-[70px]">
@@ -276,31 +295,17 @@ const Protection = () => {
 								</tbody>
 							</table>
 						</div>
+
 						{/* mobile button */}
 						<div className="max-sm:px-3 max-sm:mb-5">
 							{users.length > 0 && (
 								<button
-									className={`hidden max-sm:block  max-sm:w-full max-sm:mt-10 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 `}
+									className="hidden max-sm:block max-sm:w-full max-sm:mt-10 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
 									onClick={() => handleAddFolder()}>
 									+ Add folder
 								</button>
 							)}
 						</div>
-
-						{/* Empty State */}
-						{/* 	{users.length === 0 && (
-							<div className="flex flex-col items-center justify-center mt-48 text-center max-sm:px-3 max-sm:relative max-sm:mb-4">
-								<p className=" text-[#44475B] mb-1">No directories added so far.</p>
-								<p className="text-[#44475B] mb-6">
-									Click on the <span className="font-bold">“+ New SMB”</span> button to get started.
-								</p>
-								<button
-									className={` px-3 max-sm:block max-sm:w-full max-sm:mt-32 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700`}
-									onClick={handleAddUserClick}>
-									+ Add folder
-								</button>
-							</div>
-						)} */}
 					</div>
 				</div>
 

@@ -111,11 +111,11 @@ function App() {
 											<div className="w-full flex justify-center items-center mb-8">
 												<Logo />
 											</div>
-											<div>
-												<h1 className="text-center text-4xl text-gray-500 mb-4">
+											<div className="max-sm:px-3 ">
+												<h1 className="text-center  text-3xl text-[#44475B] mb-4">
 													Install AirVault Dashboard
 												</h1>
-												<p className="text-gray-500 text-center mb-4">
+												<p className="text-[#44475B] text-sm text-center max-sm:text-left mb-10">
 													You are ready to use your AirVault. Install your AirVault Dashboard
 													by clicking on the button below.
 												</p>
@@ -129,15 +129,15 @@ function App() {
 											</div>
 										</div>
 									) : (
-										<div className="flex-grow width-full max-w-md">
+										<div className="flex-grow width-full max-w-md max-sm:px-3">
 											<div className="w-full flex justify-center items-center mb-8">
 												<Logo />
 											</div>
 											<div>
-												<h1 className="text-center text-4xl text-gray-500 mb-4">
+												<h1 className="text-center text-3xl max-sm:text-left text-[#44475B] mb-4">
 													App installation not available
 												</h1>
-												<p className="text-gray-500">
+												<p className="text-[#44475B]">
 													This can be due to one of the following reasons:
 													<ul>
 														<li>Your browser does not support PWA</li>

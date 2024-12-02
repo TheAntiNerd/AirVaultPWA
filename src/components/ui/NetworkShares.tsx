@@ -42,8 +42,8 @@ const NetworkShares = () => {
 	]);
 
 	const [popupType, setPopupType] = useState<string | null>(null);
-	const [isHistoryOff, setIsHistoryOff] = useState(true); //turn on service set give "turnOff or turnOn"
-	const [mobileDropdownStates, setMobileDropdownStates] = useState(new Array(users.length).fill(false));
+	const [isHistoryOff, setIsHistoryOff] = useState(true);
+	const [activeDropdownIndex, setActiveDropdownIndex] = useState<number | null>(null);
 
 	const handlePopupClose = () => {
 		setPopupType(null);
@@ -53,7 +53,8 @@ const NetworkShares = () => {
 		setPopupType('newSmb');
 	};
 	//handle toggle
-	const handleToggle = (index: number) => {
+	const handleToggle = (index: number, e: React.MouseEvent) => {
+		e.stopPropagation(); // Prevent the click from propagating to the row
 		const updatedUsers = [...users];
 		updatedUsers[index] = {
 			...updatedUsers[index],
@@ -72,10 +73,15 @@ const NetworkShares = () => {
 		}
 	};
 	/* mobile dropdown */
-	const toggleMobileDropdown = (index: number) => {
-		const newDropdownStates = [...mobileDropdownStates];
-		newDropdownStates[index] = !newDropdownStates[index];
-		setMobileDropdownStates(newDropdownStates);
+	const toggleMobileDropdown = (index: number, e: React.MouseEvent) => {
+		e.stopPropagation(); // Prevent event propagation
+
+		// If the clicked row is the same as the active one, close it; otherwise, open the clicked one
+		if (activeDropdownIndex === index) {
+			setActiveDropdownIndex(null); // Close the dropdown if it's already open
+		} else {
+			setActiveDropdownIndex(index); // Open the clicked dropdown and close the others
+		}
 	};
 
 	const handleDropdownSelect = (option: string) => {
@@ -89,7 +95,7 @@ const NetworkShares = () => {
 					{/* Header */}
 					<div className="flex justify-between items-center mb-6">
 						<div className="flex items-center space-x-4 max-sm:flex-col ">
-							<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3">SMB</h1>
+							<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3 max-sm:pt-10">SMB</h1>
 							<div
 								className={` py-1 px-3 rounded-full text-white text-xs max-sm:hidden ${
 									isHistoryOff ? 'bg-green-500' : 'bg-gray-400'
@@ -145,33 +151,33 @@ const NetworkShares = () => {
 							{/* Search Input */}
 							<input
 								type="input"
-								className="border-2 focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
+								className="border focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 								placeholder="Search"
 							/>
 						</div>
 					</div>
 
 					{/* Table and Empty State */}
-					<div className=" overflow-hidden">
-						<div className="overflow-hidden rounded-md border border-[#E1E3F5] max-sm:border-b">
+					<div className=" overflow-visible">
+						<div className=" rounded-md border border-[#E1E3F5] max-sm:border-b max-sm:rounded-none">
 							<table className="w-full border-collapse max-sm:overflow-hidden">
 								{/* Table Header */}
 								<thead className="bg-gray-50">
 									<tr>
-										<th className="px-6 max-sm:px-3 py-4 text-left text-sm font-semibold text-gray-600">
+										<th className="px-6 max-sm:px-3 py-6 text-left text-sm font-semibold text-gray-600">
 											<div className="flex flex-col items-start">Name</div>
 										</th>
 
-										<th className="px-20 py-4 text-left text-sm font-semibold text-gray-600 max-sm:hidden">
+										<th className="px-20 py-6 text-left text-sm font-semibold text-gray-600 max-sm:hidden">
 											<div className="flex flex-col items-start ">Path</div>
 										</th>
 
-										<th className="px-6 max-sm:px-3 py-4  text-left text-sm font-semibold text-gray-600 ">
+										<th className="px-6 max-sm:px-3 py-6  text-left text-sm font-semibold text-gray-600 ">
 											<div className="flex flex-col items-start max-sm:items-end max-sm:mr-20">
 												Status
 											</div>
 										</th>
-										<th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 max-sm:hidden ">
+										<th className="px-6 py-6 text-left text-sm font-semibold text-gray-600 max-sm:hidden ">
 											<div className="flex flex-col items-start"></div>
 										</th>
 									</tr>
@@ -180,7 +186,10 @@ const NetworkShares = () => {
 								<tbody>
 									{users.map((user, index) => (
 										<>
-											<tr key={index} className="border-t">
+											<tr
+												key={index}
+												className="border-t"
+												onClick={e => toggleMobileDropdown(index, e)}>
 												{/* Desktop Layout */}
 												<td className="px-6 max-sm:px-3 py-4 text-[#44475B] ">
 													<div className="flex flex-col items-start">
@@ -199,7 +208,7 @@ const NetworkShares = () => {
 													<div className="flex flex-col items-start">
 														<span className="text-gray-600 flex items-center">
 															<button
-																onClick={() => handleToggle(index)}
+																onClick={e => handleToggle(index, e)}
 																className="max-sm:ml-5 flex items-center justify-center">
 																{user.status === 'on' ? (
 																	<ToggleGreenIcon />
@@ -208,18 +217,20 @@ const NetworkShares = () => {
 																)}
 															</button>
 															<button
-																onClick={() => toggleMobileDropdown(index)}
+																onClick={e => toggleMobileDropdown(index, e)}
 																className="hidden max-sm:flex items-center justify-center ml-8 transform transition-transform duration-200 ease-in-out"
 																style={{
-																	transform: mobileDropdownStates[index]
-																		? 'rotate(180deg)'
-																		: 'rotate(0deg)',
+																	transform:
+																		activeDropdownIndex === index
+																			? 'rotate(180deg)'
+																			: 'rotate(0deg)',
 																}}>
 																<DownArrow />
 															</button>
 														</span>
 													</div>
 												</td>
+
 												<td className="px-6 py-6 max-sm:hidden">
 													<div className="flex items-start justify-center">
 														<span className="flex items-center space-x-6 text-gray-600">
@@ -233,8 +244,9 @@ const NetworkShares = () => {
 													</div>
 												</td>
 											</tr>
-											{/* mobile dropdown */}
-											{mobileDropdownStates[index] && (
+
+											{/* Mobile dropdown */}
+											{activeDropdownIndex === index && (
 												<tr className="sm:hidden">
 													<td colSpan={3} className="px-3 py-3">
 														<div className="flex flex-col space-y-2">
@@ -244,7 +256,7 @@ const NetworkShares = () => {
 																	{user.path}
 																</span>
 															</div>
-															<div className="flex  pt-6 pb-4 justify-center gap-12">
+															<div className="flex pt-6 pb-4 justify-center gap-12">
 																<button
 																	className="flex items-center text-sm text-[#44475B] space-x-2"
 																	onClick={() => handleDropdownSelect('Edit group')}>

@@ -48,7 +48,7 @@ const EditIPPopup = ({ onClose, placeholderh1 = 'Edit' }: AddMemberPopupProps) =
 						value={username}
 						onChange={handleUserNameChange}
 						maxLength={maxLength}
-						className={`w-full px-3 py-4 border-2 bg-white rounded-md border-[#C4C7E3] text-sm text-[#44475B] focus:outline-none focus:border-blue-500 
+						className={`w-full px-3 py-4 border bg-white rounded-md border-[#C4C7E3] text-sm text-[#44475B] focus:outline-none focus:border-blue-500 
 						}`}
 					/>
 
@@ -67,7 +67,7 @@ const EditIPPopup = ({ onClose, placeholderh1 = 'Edit' }: AddMemberPopupProps) =
 					<input
 						type="input"
 						placeholder="Enter IP address"
-						className={`w-full px-3 py-4 border-2 bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500 border-[#C4C7E3]`}
+						className={`w-full px-3 py-4 border bg-white rounded-md text-sm text-[#44475B] focus:outline-none focus:border-blue-500 border-[#C4C7E3]`}
 					/>
 				</div>
 

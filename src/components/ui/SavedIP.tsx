@@ -33,7 +33,7 @@ const SavedIP = () => {
 	]);
 
 	const [popupType, setPopupType] = useState<string | null>(null);
-	const [dropdownOpen, setDropdownOpen] = useState(Array(users.length).fill(false));
+	const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(null);
 	const [isAddingIP, setIsAddingIP] = useState(false);
 	const [ipName, setIPName] = useState('');
 	const [ipAddress, setIPAddress] = useState('');
@@ -45,7 +45,9 @@ const SavedIP = () => {
 	const handleAddUserClick = () => {
 		setIsAddingIP(true);
 	};
-
+	const handleDropdownToggle = (index: number) => {
+		setOpenDropdownIndex(openDropdownIndex === index ? null : index);
+	};
 	const handleDoneClick = () => {
 		if (ipName.trim() && ipAddress.trim()) {
 			const newUser = {
@@ -87,10 +89,10 @@ const SavedIP = () => {
 			<SideMenu>
 				<div className="flex justify-center items-start min-h-screen">
 					<div className="w-[1200px] max-sm:w-full h-screen pt-6 px-3 max-sm:px-3 bg-white text-sans ">
-						<span className="flex items-center justify-center mb-2">
+						<span className="flex items-center justify-center mb-3">
 							<Logo />
 						</span>
-						<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3 mb-6 text-center">
+						<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3 mb-10 text-center">
 							Join a network
 						</h1>
 
@@ -111,8 +113,7 @@ const SavedIP = () => {
 
 							<div className="mb-6">
 								<label htmlFor="ipName" className="block font-medium text-[#44475B] mb-2">
-									Name the network{' '}
-									<span className="text-[#A3A09F] underline text-xs">(optional)</span>
+									Name the network
 								</label>
 								<input
 									id="ipName"
@@ -142,13 +143,13 @@ const SavedIP = () => {
 			<div className="flex justify-center items-start min-h-screen">
 				<div className="w-[1200px] max-sm:w-full h-screen pt-6 px-3 max-sm:px-0 bg-white text-sans">
 					{/* Header */}
-					<div className="flex justify-between items-center mb-6">
+					<div className="flex justify-between items-center mb-5">
 						<span
-							className="cursor-pointer hidden max-sm:flex absolute top-12 left-3 max-sm:mt-1 "
+							className="cursor-pointer hidden max-sm:flex absolute top-3 left-3 max-sm:mt-1 "
 							onClick={() => handleNavigate()}>
 							<BackArrowIcon />
 						</span>
-						<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3">Saved IPs</h1>
+						<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3 mt-5">Saved IPs</h1>
 
 						{users.length > 0 && (
 							<button
@@ -170,15 +171,15 @@ const SavedIP = () => {
 							{/* Search Input */}
 							<input
 								type="input"
-								className="border-2 focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
+								className="border focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 								placeholder="Search"
 							/>
 						</div>
 					</div>
 
 					{/* Table and Empty State */}
-					<div className=" overflow-hidden">
-						<div className="overflow-hidden rounded-md border  border-[#E1E3F5] max-sm:border-none">
+					<div className="overflow-hidden">
+						<div className="overflow-hidden rounded-md border border-[#E1E3F5] max-sm:border-none">
 							<div className="overflow-hidden">
 								<div className="overflow-hidden rounded-md border border-[#E1E3F5] max-sm:border-none">
 									<table className="w-full border-collapse max-sm:overflow-hidden">
@@ -188,11 +189,9 @@ const SavedIP = () => {
 												<th className="px-6 max-sm:px-3 py-4 text-left text-sm font-semibold text-gray-600 max-sm:hidden">
 													Name
 												</th>
-
 												<th className="px-6 py-3 text-left text-sm font-semibold text-gray-600 max-sm:hidden">
 													<div className="flex flex-col items-end">IP address</div>
 												</th>
-
 												<th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 max-sm:hidden"></th>
 											</tr>
 										</thead>
@@ -201,7 +200,9 @@ const SavedIP = () => {
 											{users.map((user, index) => (
 												<tr
 													key={index}
-													className="border-t max-sm:border-t-0 max-sm:border-b border-[#E1E3F5] max-sm:mb-4 max-sm:rounded-lg">
+													className="border-t max-sm:border-t-0 max-sm:border-b border-[#E1E3F5] max-sm:mb-4 max-sm:rounded-lg"
+													onClick={() => handleDropdownToggle(index)} // Handle row click to toggle dropdown
+												>
 													{/* Desktop Layout */}
 													<td className="px-6 py-6 text-[#44475B] max-sm:hidden">
 														<div className="flex flex-col items-start">
@@ -260,19 +261,14 @@ const SavedIP = () => {
 															</div>
 															<button
 																className={`flex items-center justify-center transform transition-transform ${
-																	dropdownOpen[index] ? 'rotate-180' : ''
-																} text-gray-500 hover:text-gray-700`}
-																onClick={() => {
-																	const newOpen = [...dropdownOpen];
-																	newOpen[index] = !newOpen[index];
-																	setDropdownOpen(newOpen);
-																}}>
+																	openDropdownIndex === index ? 'rotate-180' : ''
+																} text-gray-500 hover:text-gray-700`}>
 																<DownArrow />
 															</button>
 														</div>
 
 														{/* Dropdown Expanded View */}
-														{dropdownOpen[index] && (
+														{openDropdownIndex === index && (
 															<div className="px-3 py-2 text-sm text-[#44475B] font-light">
 																<div className="flex items-center justify-center mt-6 w-full mx-auto">
 																	<button
