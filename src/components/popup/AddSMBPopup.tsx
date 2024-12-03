@@ -95,7 +95,7 @@ const AddSMBPopup = ({ onClose, placeholderh1 = 'Add member' }: AddMemberPopupPr
 									className={`flex items-center justify-between pt-1 px-2   ${
 										isHighlighted ? 'text-[#298DFF]' : 'text-[#44475B]'
 									}`}>
-									<div className="flex items-center flex-grow truncate">
+									<div className="flex items-center flex-grow truncate mr-4">
 										<span
 											onClick={() => handleFolderClick(folderPath)}
 											className="cursor-pointer flex items-center truncate flex-grow">
