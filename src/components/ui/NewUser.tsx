@@ -102,8 +102,8 @@ const NewUser = () => {
 	return (
 		<SideMenu>
 			<div className="flex items-center justify-center">
-				<div className="bg-white  max-sm:w-full w-[1000px] px-48 text-sans max-sm:px-3">
-					<h1 className="text-3xl font-medium my-6 text-center text-[#272B42] max-sm:text-left">
+				<div className="bg-white  max-sm:w-full w-[1000px] mt-10 px-48 text-sans max-sm:px-3">
+					<h1 className="text-3xl font-medium my-4 text-center text-[#272B42] max-sm:text-left">
 						Add a user
 					</h1>
 
@@ -318,7 +318,7 @@ const NewUser = () => {
 					<div className="flex justify-center space-x-5 max-sm:space-x-0 mt-6">
 						<button
 							onClick={handleBackClick}
-							className="px-3 py-3 max-sm:absolute max-sm:top-10 max-sm:left-0  bg-white rounded-md text-sm text-[#44475B] focus:outline-none ">
+							className="px-3 py-3 max-sm:absolute max-sm:top-16 max-sm:left-0  bg-white rounded-md text-sm text-[#44475B] focus:outline-none ">
 							<span className="hidden max-sm:inline">
 								<BackArrowIcon />
 							</span>
@@ -327,7 +327,7 @@ const NewUser = () => {
 							</span>
 						</button>
 
-						<button className="px-6 py-3 max-sm:w-full max-sm:mb-6 bg-blue-500 rounded-md text-sm text-white focus:outline-none hover:bg-blue-600">
+						<button className="px-6 py-3 max-sm:w-full max-sm:mb-6 bg-[#298DFF] rounded-md text-sm text-white focus:outline-none ">
 							<span className="hidden max-sm:inline">Confirm</span>
 							<span className="inline max-sm:hidden">Add user</span>
 						</button>

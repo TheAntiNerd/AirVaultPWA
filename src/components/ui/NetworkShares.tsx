@@ -107,7 +107,7 @@ const NetworkShares = () => {
 						<div className="flex items-center space-x-6">
 							{users.length > 0 && (
 								<button
-									className={`max-sm:hidden bg-blue-600 text-white px-5  py-2 rounded-md hover:bg-blue-700`}
+									className={`max-sm:hidden bg-[#298DFF] text-white px-5  py-2 rounded-md`}
 									onClick={handleAddUserClick}>
 									+ New SMB
 								</button>
@@ -280,10 +280,10 @@ const NetworkShares = () => {
 							</table>
 						</div>
 						{/* mobile button */}
-						<div className="max-sm:px-3 max-sm:mb-5">
+						<div className="max-sm:px-3 max-sm:mb-10 pb-10">
 							{users.length > 0 && (
 								<button
-									className={`hidden max-sm:block  max-sm:w-full max-sm:mt-10 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 `}
+									className={`hidden max-sm:block  max-sm:w-full max-sm:mt-10 py-2 bg-[#298DFF] text-white rounded-md  `}
 									onClick={handleAddUserClick}>
 									+ New SMB
 								</button>
@@ -298,7 +298,7 @@ const NetworkShares = () => {
 									Click on the <span className="font-bold">“+ New SMB”</span> button to get started.
 								</p>
 								<button
-									className={` px-3 max-sm:block max-sm:w-full max-sm:mt-32 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700`}
+									className={` px-3 max-sm:block max-sm:w-full max-sm:mt-32 py-2 bg-[#298DFF] text-white rounded-md`}
 									onClick={handleAddUserClick}>
 									+ New SMB
 								</button>

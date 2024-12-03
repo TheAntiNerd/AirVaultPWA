@@ -46,7 +46,7 @@ const CreateGroupPopup = ({
 						onClick={onClose}>
 						Cancel
 					</button>
-					<button className="bg-blue-500 flex-grow text-white px-6 py-3 rounded-lg text-nowrap">
+					<button className="bg-[#298DFF] flex-grow text-white px-6 py-3 rounded-lg text-nowrap">
 						{buttonText}
 					</button>
 				</div>

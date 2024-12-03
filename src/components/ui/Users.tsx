@@ -100,7 +100,7 @@ const UsersCreate = () => {
 
 						{users.length > 0 && (
 							<button
-								className={`max-sm:hidden bg-blue-600 text-white px-5  py-2 rounded-md hover:bg-blue-700`}
+								className={`max-sm:hidden bg-[#298DFF] text-white px-5  py-2 rounded-md`}
 								onClick={handleAddUserClick}>
 								Add user
 							</button>
@@ -235,7 +235,7 @@ const UsersCreate = () => {
 														</span>
 
 														<button
-															className={`transform transition-transform ${
+															className={`transform transition-transform duration-300 ease-in-out ${
 																dropdownOpen[index] ? 'rotate-180' : ''
 															} text-gray-500 hover:text-gray-700`}
 															onClick={() => handleRowClick(index)}>
@@ -316,7 +316,7 @@ const UsersCreate = () => {
 						<div className="max-sm:px-3 max-sm:mb-5">
 							{users.length > 0 && (
 								<button
-									className={`hidden max-sm:block max-sm:w-full max-sm:mt-10 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700`}
+									className={`hidden max-sm:block max-sm:w-full max-sm:mt-10 py-2 bg-[#298DFF] text-white rounded-md `}
 									onClick={handleAddUserClick}>
 									Add user
 								</button>
@@ -332,7 +332,7 @@ const UsersCreate = () => {
 									team.
 								</p>
 								<button
-									className={`px-3 max-sm:block max-sm:w-full max-sm:mt-28 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700`}
+									className={`px-3 max-sm:block max-sm:w-full max-sm:mt-28 py-2 bg-[#298DFF] text-white rounded-md `}
 									onClick={handleAddUserClick}>
 									Add user
 								</button>

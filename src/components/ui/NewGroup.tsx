@@ -29,12 +29,13 @@ const NewGroup = () => {
 	];
 	const location = useLocation();
 	const { groupName } = location.state || {};
-
 	const [popupType, setPopupType] = useState<string | null>(null);
-
-	const [dropdownOpen, setDropdownOpen] = useState<boolean[]>(new Array(users.length).fill(false));
-
+	const [openRowIndex, setOpenRowIndex] = useState<number | null>(null);
 	const navigate = useNavigate();
+
+	const toggleDropdown = (index: number) => {
+		setOpenRowIndex(prevIndex => (prevIndex === index ? null : index));
+	};
 
 	const handleBackClick = () => {
 		navigate('/groups');
@@ -51,19 +52,14 @@ const NewGroup = () => {
 	const handleDropdownSelect = (option: string) => {
 		setPopupType(option === 'Remove User' ? 'removeUser' : option === 'Edit User' ? 'editUser' : 'userSettings');
 	};
-	const toggleDropdown = (index: number) => {
-		const newDropdownState = [...dropdownOpen];
-		// Toggle the clicked row's dropdown and close others
-		newDropdownState[index] = !newDropdownState[index];
-		setDropdownOpen(newDropdownState);
-	};
+
 	return (
 		<SideMenu>
 			<div className="flex justify-center items-start min-h-screen">
-				<div className="w-[1200px] max-sm:w-full h-screen pt-6 px-3 max-sm:px-0 bg-white text-sans">
+				<div className="w-[1200px] max-sm:w-full h-screen pt-10 px-3 max-sm:px-0 bg-white text-sans">
 					{/* Header */}
 					<div className="flex justify-between items-center mb-6">
-						<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3">
+						<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3 ">
 							<button
 								onClick={handleBackClick}
 								className=" max-sm:absolute mr-2 max-sm:top-0 max-sm:left-0 bg-white rounded-md text-sm text-[#44475B] focus:outline-none ">
@@ -76,7 +72,7 @@ const NewGroup = () => {
 						{/* this will change dynamically */}
 						{users.length > 0 && (
 							<button
-								className={`max-sm:hidden bg-blue-600 text-white px-5  py-2 rounded-md hover:bg-blue-700`}
+								className={`max-sm:hidden bg-[#298DFF] text-white px-5  py-2 rounded-md`}
 								onClick={handleAddUserClick}>
 								Add Member
 							</button>
@@ -94,7 +90,7 @@ const NewGroup = () => {
 							{/* Search Input */}
 							<input
 								type="input"
-								className="border-2 focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
+								className="border focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 								placeholder="Search"
 							/>
 						</div>
@@ -111,12 +107,10 @@ const NewGroup = () => {
 											<th className="px-6 max-sm:flex max-sm:items-start max-sm:px-3 py-6 text-left text-sm font-semibold text-gray-600">
 												Name
 											</th>
-
 											<th className="hidden max-sm:flex max-sm:justify-end py-6 max-sm:pr-20 text-sm font-semibold text-gray-600">
 												Webrole
 											</th>
 										</div>
-
 										<th className="max-sm:hidden px-6 max-sm:items-start max-sm:px-3 py-6 text-left text-sm font-semibold text-gray-600"></th>
 										<th className="ml-auto items-end max-sm:hidden px-6 py-6 text-sm font-semibold text-gray-600">
 											<div className="flex flex-col items-start">Webrole</div>
@@ -131,8 +125,7 @@ const NewGroup = () => {
 										<tr
 											key={index}
 											className="border-t max-sm:border-[#E1E3F5] max-sm:mb-4 max-sm:rounded-lg cursor-pointer"
-											onClick={() => toggleDropdown(index)} // Handle click to toggle dropdown
-										>
+											onClick={() => toggleDropdown(index)}>
 											{/* Desktop Layout */}
 											<td className="px-6 py-6 text-[#44475B] max-sm:hidden">
 												<div className="flex flex-col items-start">
@@ -175,17 +168,15 @@ const NewGroup = () => {
 
 											{/* Mobile Layout */}
 											<td className="hidden max-sm:block">
-												<div className="py-4 px-3  w-full flex items-center">
+												<div className="py-4 px-3 w-full flex items-center">
 													<span className="text-[#44475B] text-nowrap">{user.name}</span>
-
 													<div className="flex items-center space-x-9 ml-auto">
 														<span className="text-[#44475B] text-sm text-nowrap">
 															{user.role}
 														</span>
-
 														<button
-															className={`transform transition-transform ${
-																dropdownOpen[index] ? 'rotate-180' : ''
+															className={`transform transition-transform duration-300 ease-in-out ${
+																openRowIndex === index ? 'rotate-180' : ''
 															} text-gray-500 hover:text-gray-700`}>
 															<DownArrow />
 														</button>
@@ -193,42 +184,39 @@ const NewGroup = () => {
 												</div>
 
 												{/* Expanded View */}
-												<div>
-													{dropdownOpen[index] && (
-														<div className="px-3 py-2 text-sm text-[#44475B] font-light">
-															{/* Actions */}
-															<div className="flex items-center justify-center space-x-16 mt-6 w-full mb-3">
-																<button
-																	className="flex flex-col items-center gap-3 text-[#44475B]"
-																	onClick={() => handleDropdownSelect('Remove User')}>
-																	<div>
-																		<DeleteIcon />
-																	</div>
-																	<span className="text-xs">Remove user</span>
-																</button>
-
-																<button
-																	className="flex flex-col items-center gap-3 text-[#44475B]"
-																	onClick={() => handleDropdownSelect('Edit User')}>
-																	<div>
-																		<EditIcon />
-																	</div>
-																	<span className="text-xs">Change Role</span>
-																</button>
-															</div>
+												{openRowIndex === index && (
+													<div className="px-3 py-2 text-sm text-[#44475B] font-light">
+														<div className="flex items-center justify-center space-x-16 mt-6 w-full mb-3">
+															<button
+																className="flex flex-col items-center gap-3 text-[#44475B]"
+																onClick={() => handleDropdownSelect('Remove User')}>
+																<div>
+																	<DeleteIcon />
+																</div>
+																<span className="text-xs">Remove user</span>
+															</button>
+															<button
+																className="flex flex-col items-center gap-3 text-[#44475B]"
+																onClick={() => handleDropdownSelect('Edit User')}>
+																<div>
+																	<EditIcon />
+																</div>
+																<span className="text-xs">Change Role</span>
+															</button>
 														</div>
-													)}
-												</div>
+													</div>
+												)}
 											</td>
 										</tr>
 									))}
 								</tbody>
 							</table>
 						</div>
+
 						<div className="max-sm:px-3 max-sm:mb-5">
 							{users.length > 0 && (
 								<button
-									className={`hidden max-sm:block max-sm:w-full max-sm:mt-10 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700`}
+									className={`hidden max-sm:block max-sm:w-full max-sm:mt-10 py-2 bg-[#298DFF] text-white rounded-md`}
 									onClick={handleAddUserClick}>
 									Add Member
 								</button>
@@ -244,7 +232,7 @@ const NewGroup = () => {
 									team.
 								</p>
 								<button
-									className={`px-3 max-sm:block max-sm:w-full max-sm:mt-28 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700`}
+									className={`px-3 max-sm:block max-sm:w-full max-sm:mt-28 py-2 bg-[#298DFF] text-white rounded-md`}
 									onClick={handleAddUserClick}>
 									Add Member
 								</button>
@@ -255,7 +243,7 @@ const NewGroup = () => {
 				{/* back button */}
 				<button
 					onClick={handleBackClick}
-					className=" max-sm:px-3 py-2 max-sm:absolute max-sm:top-0 max-sm:left-0 bg-white rounded-md text-sm text-[#44475B] focus:outline-none ">
+					className=" max-sm:absolute max-sm:top-[68px] max-sm:left-3 bg-white rounded-md text-sm text-[#44475B] focus:outline-none ">
 					<span className="hidden max-sm:inline ">
 						<BackArrowIcon />
 					</span>

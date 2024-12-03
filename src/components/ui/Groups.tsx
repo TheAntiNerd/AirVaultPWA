@@ -70,7 +70,7 @@ const Groups = () => {
 
 						{users.length > 0 && (
 							<button
-								className={`max-sm:hidden bg-blue-600 text-white px-5  py-3 rounded-md hover:bg-blue-700`}
+								className={`max-sm:hidden bg-[#298DFF] text-white px-5  py-3 rounded-md `}
 								onClick={handleAddUserClick}>
 								Add group
 							</button>
@@ -88,7 +88,7 @@ const Groups = () => {
 							{/* Search Input */}
 							<input
 								type="input"
-								className="border focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-3 text-[#9AA1B7] focus:outline-none"
+								className="border focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 								placeholder="Search"
 							/>
 						</div>
@@ -190,7 +190,7 @@ const Groups = () => {
 														</span>
 
 														<button
-															className={`transform transition-transform ${
+															className={`transform transition-transform duration-300 ease-in-out ${
 																activeDropdownIndex === index ? 'rotate-180' : ''
 															} text-gray-500 hover:text-gray-700`}>
 															<DownArrow />
@@ -248,7 +248,7 @@ const Groups = () => {
 						<div className="max-sm:px-3 max-sm:mb-5">
 							{users.length > 0 && (
 								<button
-									className={`hidden max-sm:block max-sm:w-full max-sm:mt-10 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700`}
+									className={`hidden max-sm:block max-sm:w-full max-sm:mt-10 py-3 bg-[#298DFF] text-white rounded-md `}
 									onClick={handleAddUserClick}>
 									Add Groups
 								</button>
@@ -263,7 +263,7 @@ const Groups = () => {
 									Click on the <span className="font-bold">“Add group”</span> button to create one.
 								</p>
 								<button
-									className={` px-3 max-sm:block max-sm:w-full max-sm:mt-32 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700`}
+									className={` px-3 max-sm:block max-sm:w-full max-sm:mt-32 py-3 bg-[#298DFF] text-white rounded-md `}
 									onClick={handleAddUserClick}>
 									Add group
 								</button>
