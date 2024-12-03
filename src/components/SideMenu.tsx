@@ -100,7 +100,8 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 
 						<span className="flex items-end">
 							<Link to="/saved-ip">
-								{location.pathname.startsWith('/dashboard') && (
+								{(location.pathname.startsWith('/dashboard') ||
+									location.pathname.startsWith('/saved-ip')) && (
 									<span className="flex items-center px-3 py-1 rounded-full bg-[#DFF0D7] text-[#445B45]">
 										<IpIcon /> <span className="text-xs font-medium ml-1">connected</span>
 									</span>

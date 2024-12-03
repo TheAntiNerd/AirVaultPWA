@@ -37,7 +37,7 @@ const TurnOnProtection = () => {
 			],
 		},
 		{
-			name: 'archive',
+			name: 'archives',
 			subfolders: [],
 		},
 		{
@@ -112,24 +112,24 @@ const TurnOnProtection = () => {
 		return (
 			<div
 				className={`${
-					isRoot ? 'border rounded-lg border-[#C4C7E3] mb-3 custom-scrollbar' : ''
-				} max-h-[200px] overflow-y-auto py-2`}>
-				<ul className="mt-2 px-2 text-sm">
+					isRoot ? 'border rounded-lg border-[#C4C7E3] mb-3   custom-scrollbar ' : ''
+				} max-h-[200px] overflow-y-auto `}>
+				<ul className=" text-sm ">
 					{folderList.map((folder, index) => {
 						const folderPath = `${currentPath} > ${folder.name}`;
 						const isHighlighted = highlightedFolder === folderPath;
 						const isExpanded = expandedFolders[folderPath];
 
 						return (
-							<li key={index} className="mb-2">
+							<li key={index} className="my-1 ">
 								<div
-									className={`flex items-center justify-between ${
+									className={`flex items-center justify-between pt-1 px-2   ${
 										isHighlighted ? 'text-[#298DFF]' : 'text-[#44475B]'
 									}`}>
-									<div className="flex items-center flex-grow">
+									<div className="flex items-center flex-grow truncate">
 										<span
 											onClick={() => handleFolderClick(folderPath)}
-											className="cursor-pointer flex items-center">
+											className="cursor-pointer flex items-center  flex-grow">
 											<span className="mr-2">
 												<DirectoryIcon />
 											</span>
@@ -139,9 +139,9 @@ const TurnOnProtection = () => {
 
 										{folder.subfolders.length > 0 && (
 											<span
-												className="ml-2 cursor-pointer flex items-center"
+												className="ml-2 cursor-pointer flex items-center "
 												onClick={() => toggleFolder(folderPath)}>
-												<span className={isExpanded ? '' : '-rotate-90'}>
+												<span className={isExpanded ? 'rotate-180' : ''}>
 													<DownArrow />
 												</span>
 											</span>
@@ -151,9 +151,7 @@ const TurnOnProtection = () => {
 
 								{/* Render Subfolders */}
 								{isExpanded && folder.subfolders.length > 0 && (
-									<div className="pl-6 mt-1">
-										{renderFolders(folder.subfolders, folderPath, false)}
-									</div>
+									<div className="pl-6  ">{renderFolders(folder.subfolders, folderPath, false)}</div>
 								)}
 							</li>
 						);
@@ -262,7 +260,7 @@ const TurnOnProtection = () => {
 									className="block text-sm font-medium text-[#44475B] mb-2">
 									Select folder
 								</label>
-								<div className="border py-3 border-[#C4C7E3] focus:outline-none focus:border-blue-500 rounded-md text-[#737790] px-6">
+								<div className="border py-3 border-[#C4C7E3] truncate focus:outline-none focus:border-blue-500 rounded-md text-[#737790] px-6">
 									{selectedPath || 'Select a folder'}
 								</div>
 							</div>
