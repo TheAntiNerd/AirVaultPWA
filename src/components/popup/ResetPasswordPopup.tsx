@@ -169,7 +169,7 @@ const ResetPasswordPopup: React.FC<ResetPasswordPopupProps> = ({
 
 					{canResetPassword() && (
 						<button
-							className={`bg-blue-500 text-white px-4 py-3 rounded-lg focus:outline-none flex-grow ${
+							className={`bg-[#298DFF] text-white px-4 py-3 rounded-lg focus:outline-none flex-grow ${
 								!validateForm() ? 'opacity-50 cursor-not-allowed' : ''
 							}`}
 							disabled={!validateForm()}

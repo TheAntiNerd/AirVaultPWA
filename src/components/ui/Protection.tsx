@@ -114,7 +114,7 @@ const Protection = () => {
 
 						<div className="flex items-center space-x-6">
 							<button
-								className={`max-sm:hidden bg-blue-600 text-white px-5  py-2 rounded-md hover:bg-blue-700`}
+								className={`max-sm:hidden bg-[#298DFF] text-white px-5  py-2 rounded-md `}
 								onClick={() => handleAddFolder()}>
 								+ Add folder
 							</button>
@@ -300,7 +300,7 @@ const Protection = () => {
 						<div className="max-sm:px-3 max-sm:mb-5">
 							{users.length > 0 && (
 								<button
-									className="hidden max-sm:block max-sm:w-full max-sm:mt-10 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+									className="hidden max-sm:block max-sm:w-full max-sm:mt-10 py-2 bg-[#298DFF] text-white rounded-md"
 									onClick={() => handleAddFolder()}>
 									+ Add folder
 								</button>

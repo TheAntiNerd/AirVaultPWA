@@ -60,8 +60,12 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 		setShowLogoutModal(false);
 	};
 
+	const closeSidebarOnClick = () => {
+		if (isSidebarOpen) setIsSidebarOpen(false);
+	};
+
 	return (
-		<div className="flex flex-col lg:flex-row w-full h-screen bg-white text-sans ">
+		<div className="flex flex-col lg:flex-row w-full h-screen bg-white text-sans">
 			{/* Top Bar */}
 			{location.pathname.startsWith('/saved-ip') ? null : (
 				<div className="bg-white shadow p-3 flex justify-between items-center lg:hidden sticky top-0 z-10">
@@ -85,7 +89,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 			<aside
 				className={`${
 					isSidebarOpen ? 'translate-x-0 opacity-100 scale-100' : '-translate-x-full opacity-100 scale-100'
-				} lg:translate-x-0 transition-all duration-500 ease-in-out lg:w-64 fixed lg:static inset-0 bg-white text-gray-800 p-4 border-r flex flex-col justify-between z-40`}>
+				} lg:translate-x-0 transition-transform duration-500 ease-in-out lg:w-64 fixed lg:static inset-0 bg-white text-gray-800 p-4 border-r flex flex-col justify-between z-40`}>
 				<div>
 					<div className="hidden lg:flex items-center justify-between gap-2 mb-8">
 						<Link to="/" className="flex px-3 font-semibold">
@@ -139,6 +143,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 								) : (
 									<Link
 										to={item.path}
+										onClick={closeSidebarOnClick}
 										className={`flex items-center p-2 my-1 rounded transition-colors ${
 											location.pathname === item.path
 												? 'bg-[#DBEAFE] text-gray-800'
@@ -154,6 +159,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 											<Link
 												key={subItem.name}
 												to={subItem.path}
+												onClick={closeSidebarOnClick}
 												className={`block p-2 my-1 rounded ${
 													location.pathname === subItem.path
 														? 'bg-[#DBEAFE] text-gray-800'
@@ -193,7 +199,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 							</button>
 							<button
 								onClick={handleConfirmLogout}
-								className="w-[161px] h-[48px] py-3 text-base bg-[#298DFF] text-white rounded-md hover:bg-blue-600 transition-colors">
+								className="w-[161px] h-[48px] py-3 text-base bg-[#298DFF] text-white rounded-md  transition-colors">
 								Yes
 							</button>
 						</div>

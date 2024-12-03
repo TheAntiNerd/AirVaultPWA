@@ -68,10 +68,22 @@ const TurnOnProtection = () => {
 
 	// Toggle folder visibility
 	const toggleFolder = (path: string) => {
-		setExpandedFolders(prev => ({
-			...prev,
-			[path]: !prev[path],
-		}));
+		setExpandedFolders(prev => {
+			const newExpandedFolders: Record<string, boolean> = {};
+
+			// Close all folders that are not parents or children of the current path
+			Object.keys(prev).forEach(existingPath => {
+				// Check if the existing path is not a parent or child of the current path
+				if (!path.startsWith(existingPath) && !existingPath.startsWith(path)) {
+					newExpandedFolders[existingPath] = false;
+				}
+			});
+
+			// Toggle the current path
+			newExpandedFolders[path] = !prev[path];
+
+			return newExpandedFolders;
+		});
 	};
 	const handleNavigation = () => {
 		navigate('/protection/on');
@@ -101,7 +113,7 @@ const TurnOnProtection = () => {
 			<div
 				className={`${
 					isRoot ? 'border rounded-lg border-[#C4C7E3] mb-3 custom-scrollbar' : ''
-				} max-h-[200px] overflow-y-auto`}>
+				} max-h-[200px] overflow-y-auto py-2`}>
 				<ul className="mt-2 px-2 text-sm">
 					{folderList.map((folder, index) => {
 						const folderPath = `${currentPath} > ${folder.name}`;
@@ -111,40 +123,35 @@ const TurnOnProtection = () => {
 						return (
 							<li key={index} className="mb-2">
 								<div
-									className={`cursor-pointer flex items-center ${
+									className={`flex items-center justify-between ${
 										isHighlighted ? 'text-[#298DFF]' : 'text-[#44475B]'
 									}`}>
-									<span
-										className="mr-2 cursor-pointer flex items-center"
-										onClick={() => toggleFolder(folderPath)}>
-										{folder.subfolders.length > 0 ? (
-											isExpanded ? (
-												<span className="flex items-center">
-													<span className="mr-1">
-														<DownArrow />
-													</span>
-													<DirectoryIcon />
+									<div className="flex items-center flex-grow">
+										<span
+											onClick={() => handleFolderClick(folderPath)}
+											className="cursor-pointer flex items-center">
+											<span className="mr-2">
+												<DirectoryIcon />
+											</span>
+
+											{folder.name}
+										</span>
+
+										{folder.subfolders.length > 0 && (
+											<span
+												className="ml-2 cursor-pointer flex items-center"
+												onClick={() => toggleFolder(folderPath)}>
+												<span className={isExpanded ? '' : '-rotate-90'}>
+													<DownArrow />
 												</span>
-											) : (
-												<span className="flex items-center">
-													<span className="-rotate-90 mr-1">
-														<DownArrow />
-													</span>
-													<DirectoryIcon />
-												</span>
-											)
-										) : (
-											<DirectoryIcon />
+											</span>
 										)}
-									</span>
-									<span onClick={() => handleFolderClick(folderPath)} className="flex-grow">
-										{folder.name}
-									</span>
+									</div>
 								</div>
 
 								{/* Render Subfolders */}
 								{isExpanded && folder.subfolders.length > 0 && (
-									<div className="pl-4 mt-1">
+									<div className="pl-6 mt-1">
 										{renderFolders(folder.subfolders, folderPath, false)}
 									</div>
 								)}
@@ -175,7 +182,7 @@ const TurnOnProtection = () => {
 
 						{/* for mobile */}
 						<div className="px-3 max-sm:px-0 mt-4">
-							<h1 className="text-[#44475B] font-semibold text-3xl hidden text-left max-sm:block mb-4 max-sm:px-3">
+							<h1 className="text-[#44475B] font-semibold text-3xl hidden text-left max-sm:block max-sm:mb-4 max-sm:px-3">
 								Protection
 							</h1>
 							<div className="hidden max-sm:block  max-sm:w-full mb-4 ">
@@ -222,7 +229,7 @@ const TurnOnProtection = () => {
 									Ransomware protection is <span className="font-medium">off</span>
 								</h2>
 								<div className="hidden max-sm:flex ">
-									<div className="w-full rounded-md flex fixed bottom-0 left-0 px-3 pb-4">
+									<div className="w-full rounded-md flex fixed bottom-0 left-0 px-3 pb-10">
 										<button
 											className="bg-[#298DFF] flex-grow text-white font-medium px-6 py-3 rounded-md"
 											onClick={() => setIsProtectionOn(true)}>

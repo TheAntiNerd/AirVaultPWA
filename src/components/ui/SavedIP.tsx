@@ -126,7 +126,7 @@ const SavedIP = () => {
 							</div>
 							<div className="pt-6 flex items-center justify-center">
 								<button
-									className="px-6 bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition-colors "
+									className="px-6 bg-[#298DFF] text-white py-3 rounded-md  transition-colors "
 									onClick={handleDoneClick}>
 									Join network
 								</button>
@@ -153,7 +153,7 @@ const SavedIP = () => {
 
 						{users.length > 0 && (
 							<button
-								className={`max-sm:hidden bg-blue-600 text-white px-5  py-2 rounded-md hover:bg-blue-700`}
+								className={`max-sm:hidden bg-[#298DFF] text-white px-5  py-2 rounded-md`}
 								onClick={handleAddUserClick}>
 								Add new IP
 							</button>
@@ -260,7 +260,7 @@ const SavedIP = () => {
 																{renderConnectionPill(user.connected)}
 															</div>
 															<button
-																className={`flex items-center justify-center transform transition-transform ${
+																className={`flex items-center justify-center transform transition-transform duration-300 ease-in-out ${
 																	openDropdownIndex === index ? 'rotate-180' : ''
 																} text-gray-500 hover:text-gray-700`}>
 																<DownArrow />
@@ -300,7 +300,7 @@ const SavedIP = () => {
 						<div className="max-sm:px-3 max-sm:mb-5">
 							{users.length > 0 && (
 								<button
-									className={`hidden max-sm:block max-sm:w-full max-sm:mt-10 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700`}
+									className={`hidden max-sm:block max-sm:w-full max-sm:mt-10 py-2 bg-[#298DFF] text-white rounded-md`}
 									onClick={handleAddUserClick}>
 									Add new IP
 								</button>

@@ -42,7 +42,7 @@ const RemoveUserPopup = ({ text = 'Remove user', onClose, description = "This ca
 						Cancel
 					</button>
 					<button
-						className="bg-blue-500 flex-grow text-white px-6 py-3 rounded-lg text-nowrap"
+						className="bg-[#298DFF] flex-grow text-white px-6 py-3 rounded-lg text-nowrap"
 						onClick={handleClick}>
 						Yes! do it.
 					</button>

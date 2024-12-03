@@ -47,10 +47,10 @@ const NewVersion = () => {
 
 						<p className="mt-2 text-[#8C8FA3] font-medium text-xs">AV version 0.0.2</p>
 						<h1 className="text-2xl font-semibold text-[#44475B] my-6">You are up to date</h1>
-						<div className="max-sm:flex max-sm:flex-col max-sm:fixed max-sm:bottom-0 max-sm:left-0 max-sm:right-0 max-sm:px-3">
-							<div className="flex justify-center w-full">
+						<div className="max-sm:flex max-sm:flex-col max-sm:absolute bottom-10 max-sm:px-3 max-sm:w-full">
+							<div className="flex justify-center max-sm:w-full">
 								<Link to="/updates">
-									<button className="px-5 py-3 cursor-pointer bg-[#298DFF] rounded-lg text-white font-medium w-full max-w-xs">
+									<button className="py-3 px-6 max-sm:px-20 cursor-pointer bg-[#298DFF] rounded-lg text-white font-medium max-sm:w-full">
 										Check for updates
 									</button>
 								</Link>
@@ -58,7 +58,7 @@ const NewVersion = () => {
 
 							<div className="flex justify-center w-full mt-4">
 								<button
-									className="text-[#298DFF] font-medium w-full max-w-xs mb-2"
+									className="text-[#298DFF] font-medium w-full max-w-xs mb-4"
 									onClick={handleRollbackClick}>
 									Rollback update
 								</button>

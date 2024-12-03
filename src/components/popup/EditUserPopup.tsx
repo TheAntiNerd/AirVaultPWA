@@ -43,7 +43,7 @@ const EditUserPopup = ({ onClose }: { onClose: () => void }) => {
 						onClick={onClose}>
 						Cancel
 					</button>
-					<button className="bg-blue-500 text-white px-4 py-3 rounded-lg flex-grow focus:outline-none">
+					<button className="bg-[#298DFF] text-white px-4 py-3 rounded-lg flex-grow focus:outline-none">
 						Save
 					</button>
 				</div>
