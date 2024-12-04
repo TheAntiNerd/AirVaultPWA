@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SideMenu from '../SideMenu';
 import { BackArrowIcon, DirectoryIcon, DownArrow, SearchIcon } from '../../assets/svg';
 import Dropdown from '../popup/DropDown';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface Folder {
 	name: string;
@@ -17,6 +17,7 @@ const TurnOnProtection = () => {
 	const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
 	const [role, setRole] = useState('--Select--');
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	const folders = [
 		{
@@ -65,6 +66,12 @@ const TurnOnProtection = () => {
 			subfolders: [],
 		},
 	];
+
+	useEffect(() => {
+		if (location.state?.isProtectionOn !== undefined) {
+		  setIsProtectionOn(location.state.isProtectionOn);
+		}
+	  }, [location.state]);
 
 	// Toggle folder visibility
 	const toggleFolder = (path: string) => {
@@ -179,7 +186,7 @@ const TurnOnProtection = () => {
 
 						{/* for mobile */}
 						<div className="px-3 max-sm:px-0 mt-4">
-							<h1 className="text-[#44475B] font-semibold text-3xl hidden text-left max-sm:block max-sm:mb-4 max-sm:px-3">
+							<h1 className="text-[#44475B] font-medium text-3xl hidden text-left max-sm:block max-sm:mb-4 max-sm:px-3">
 								Protection
 							</h1>
 							<div className="hidden max-sm:block  max-sm:w-full mb-4 ">
@@ -296,12 +303,19 @@ const TurnOnProtection = () => {
 							</Dropdown>
 
 							{/* Done Button */}
-							<div className="flex  items-center justify-center mt-6 max-sm:pb-4 ">
+							<div className="flex  items-center justify-center mt-6 max-sm:px-3 max-sm:hidden   ">
 								<button
-									className="px-6 py-3 bg-[#298DFF] text-white font-medium rounded-lg max-sm:w-full "
+									className="px-6 py-3 bg-[#298DFF] text-white font-medium rounded-lg max-sm:w-full  "
 									onClick={handleNavigation}>
 									Done
 								</button>
+							</div>
+							<div className="w-full hidden rounded-md max-sm:flex fixed bottom-0 left-0 px-3 pb-10">
+										<button
+											className="bg-[#298DFF] flex-grow text-white font-medium px-6 py-3 rounded-md"
+											onClick={handleNavigation}>
+											Done
+										</button>
 							</div>
 						</div>
 					</div>

@@ -70,7 +70,7 @@ const Groups = () => {
 
 						{users.length > 0 && (
 							<button
-								className={`max-sm:hidden bg-[#298DFF] text-white px-5  py-3 rounded-md `}
+								className={`max-sm:hidden bg-[#298DFF] text-white px-5 py-3 rounded-md `}
 								onClick={handleAddUserClick}>
 								Add group
 							</button>
@@ -95,8 +95,8 @@ const Groups = () => {
 					</div>
 
 					{/* Table and Empty State */}
-					<div className="overflow-hidden">
-						<div className="overflow-hidden rounded-md max-sm:rounded-none border border-[#E1E3F5] max-sm:border-b">
+					<div className="overflow-visible max-sm:pb-32 pb-10">
+						<div className=" rounded-md max-sm:rounded-none border border-[#E1E3F5] max-sm:border-b">
 							<table className="w-full border-collapse max-sm:overflow-hidden">
 								{/* Table Header */}
 								<thead className="bg-gray-50">
@@ -190,9 +190,8 @@ const Groups = () => {
 														</span>
 
 														<button
-															className={`transform transition-transform duration-300 ease-in-out ${
-																activeDropdownIndex === index ? 'rotate-180' : ''
-															} text-gray-500 hover:text-gray-700`}>
+															className={`transform transition-transform duration-300 ease-in-out ${activeDropdownIndex === index ? 'rotate-180' : ''
+																} text-gray-500 hover:text-gray-700`}>
 															<DownArrow />
 														</button>
 													</div>
@@ -245,10 +244,10 @@ const Groups = () => {
 								</tbody>
 							</table>
 						</div>
-						<div className="max-sm:px-3 max-sm:mb-5">
+						<div className="max-sm:px-3 max-sm:mb-6 max-sm:fixed max-sm:w-full bottom-6">
 							{users.length > 0 && (
 								<button
-									className={`hidden max-sm:block max-sm:w-full max-sm:mt-10 py-3 bg-[#298DFF] text-white rounded-md `}
+									className={`hidden max-sm:block max-sm:w-full py-3 bg-[#298DFF] text-white rounded-md `}
 									onClick={handleAddUserClick}>
 									Add Groups
 								</button>

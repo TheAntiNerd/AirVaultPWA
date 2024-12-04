@@ -172,7 +172,7 @@ const SavedIP = () => {
 
 							{users.length > 0 && (
 								<button
-									className={`max-sm:hidden bg-[#298DFF] text-white px-5 py-2 rounded-md`}
+									className={`max-sm:hidden bg-[#298DFF] text-white px-5 py-3 rounded-md`}
 									onClick={handleAddUserClick}>
 									Add new IP
 								</button>
@@ -194,8 +194,8 @@ const SavedIP = () => {
 						</div>
 
 						{/* Table and Empty State */}
-						<div className="overflow-hidden">
-							<div className="overflow-hidden rounded-md border border-[#E1E3F5] max-sm:border-none">
+						<div className="overflow-visible max-sm:pb-32 pb-10">
+							<div className=" rounded-md border border-[#E1E3F5] max-sm:border-none">
 								<div className="overflow-hidden">
 									<div className="overflow-hidden rounded-md border border-[#E1E3F5] max-sm:border-none">
 										<table className="w-full border-collapse max-sm:overflow-hidden">
@@ -282,9 +282,8 @@ const SavedIP = () => {
 																	{renderConnectionPill(user.connected)}
 																</div>
 																<button
-																	className={`flex items-center justify-center transform transition-transform duration-300 ease-in-out ${
-																		openDropdownIndex === index ? 'rotate-180' : ''
-																	} text-gray-500 hover:text-gray-700`}>
+																	className={`flex items-center justify-center transform transition-transform duration-300 ease-in-out ${openDropdownIndex === index ? 'rotate-180' : ''
+																		} text-gray-500 hover:text-gray-700`}>
 																	<DownArrow />
 																</button>
 															</div>
@@ -321,15 +320,17 @@ const SavedIP = () => {
 									</div>
 								</div>
 							</div>
-							<div className="max-sm:px-3 max-sm:mb-5">
+							<div className="max-sm:px-3 fixed bottom-10 w-full z-10">
 								{users.length > 0 && (
 									<button
-										className={`hidden max-sm:block max-sm:w-full max-sm:mt-10 py-2 bg-[#298DFF] text-white rounded-md`}
-										onClick={handleAddUserClick}>
-										Add new IP
+										className="max-sm:block hidden max-sm:w-full py-3 bg-[#298DFF] text-white rounded-md"
+										onClick={handleAddUserClick}
+									>
+										Add New IP
 									</button>
 								)}
 							</div>
+
 						</div>
 					</>
 				</div>

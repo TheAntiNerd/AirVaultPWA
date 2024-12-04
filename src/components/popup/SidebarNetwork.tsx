@@ -167,8 +167,7 @@ const SidebarNetwork = () => {
 									value={inputValue}
 									onChange={handleChange}
 								/>
-
-								{error && <p className="text-red-500 mt-2">{error}</p>}
+								{error && <p className="text-red-500 mt-1 text-xs">{error}</p>}
 							</div>
 						</div>
 						<div className="mt-3 w-full flex">

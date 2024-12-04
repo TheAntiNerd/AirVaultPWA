@@ -53,7 +53,7 @@ const VersionUpdate = () => {
 				</div>
 
 				{/* Version Details */}
-				<div className="text-center">
+				<div className="text-center max-sm:pb-20">
 					{versionDetails.map(item => (
 						<div key={item.version}>
 							{/* Version Info */}
@@ -85,7 +85,7 @@ const VersionUpdate = () => {
 					))}
 				</div>
 				{/* Button */}
-				<div className="flex items-center justify-center pt-4 max-sm:px-3">
+				<div className="flex items-center max-sm:fixed bottom-10 max-sm:w-full justify-center pt-4 max-sm:px-3">
 					<button
 						className="bg-[#298DFF] max-sm:w-full px-6 py-3 rounded-lg text-white font-medium flex flex-col items-center justify-center w-40 relative"
 						onClick={handleClick}

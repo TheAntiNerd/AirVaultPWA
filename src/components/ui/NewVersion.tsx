@@ -47,7 +47,7 @@ const NewVersion = () => {
 
 						<p className="mt-2 text-[#8C8FA3] font-medium text-xs">AV version 0.0.2</p>
 						<h1 className="text-2xl font-semibold text-[#44475B] my-6">You are up to date</h1>
-						<div className="max-sm:flex max-sm:flex-col max-sm:absolute bottom-10 max-sm:px-3 max-sm:w-full">
+						<div className="max-sm:flex max-sm:flex-col max-sm:absolute bottom-6 max-sm:px-3 max-sm:w-full">
 							<div className="flex justify-center max-sm:w-full">
 								<Link to="/updates">
 									<button className="py-3 px-6 max-sm:px-20 cursor-pointer bg-[#298DFF] rounded-lg text-white font-medium max-sm:w-full">

@@ -9,7 +9,6 @@ import {
 	ToggleDarkIcon,
 	SwitchIcon,
 	SeeMoreIcon,
-	BackArrowIcon,
 } from '../../assets/svg';
 import RemoveUserPopup from '../popup/RemoveUserPopup';
 import AddSMBPopup from '../popup/AddSMBPopup';
@@ -42,6 +41,42 @@ const Protection = () => {
 			path: '24 Oct, 2024 at  11:45',
 			status: 'on',
 		},
+		{
+			name: 'Editors',
+
+			path: '24 Oct, 2024 at  11:45',
+			status: 'on',
+		},
+		{
+			name: 'Editors',
+
+			path: '24 Oct, 2024 at  11:45',
+			status: 'on',
+		},
+		{
+			name: 'Editors',
+
+			path: '24 Oct, 2024 at  11:45',
+			status: 'on',
+		},
+		{
+			name: 'Editors',
+
+			path: '24 Oct, 2024 at  11:45',
+			status: 'on',
+		},
+		{
+			name: 'Editors',
+
+			path: '24 Oct, 2024 at  11:45',
+			status: 'on',
+		},
+		{
+			name: 'Editors',
+
+			path: '24 Oct, 2024 at  11:45',
+			status: 'on',
+		},
 	]);
 
 	const [popupType, setPopupType] = useState<string | null>(null);
@@ -53,7 +88,7 @@ const Protection = () => {
 		navigate('/protection/new', { state: { usersName: users[index]?.name } });
 	};
 	const handleAddFolder = () => {
-		navigate('/protection');
+		navigate('/protection', { state: { isProtectionOn: true } });
 	};
 	const handlePopupClose = () => {
 		setPopupType(null);
@@ -101,11 +136,7 @@ const Protection = () => {
 			<div className="flex justify-center items-start min-h-screen">
 				<div className="w-[1200px] max-sm:w-full h-screen pt-6 max-sm:pt-2 max-sm:px-0 bg-white text-sans">
 					{/* Header */}
-					<span
-						onClick={() => navigate('/protection')}
-						className="hidden max-sm:block absolute left-3 top-20">
-						<BackArrowIcon />
-					</span>
+
 
 					<div className="flex justify-between items-center mb-6">
 						<div className="flex items-center space-x-4 max-sm:flex-col ">
@@ -139,7 +170,7 @@ const Protection = () => {
 					</div>
 
 					{/* Table */}
-					<div className="overflow-visible">
+					<div className="overflow-visible max-sm:pb-32 pb-10">
 						<div className=" rounded-md border border-[#E1E3F5] max-sm:border-b max-sm:rounded-none">
 							<table className="w-full border-collapse max-sm:overflow-hidden">
 								{/* Table Header */}
@@ -297,14 +328,13 @@ const Protection = () => {
 						</div>
 
 						{/* mobile button */}
-						<div className="max-sm:px-3 max-sm:mb-5">
-							{users.length > 0 && (
-								<button
-									className="hidden max-sm:block max-sm:w-full max-sm:mt-10 py-2 bg-[#298DFF] text-white rounded-md"
-									onClick={() => handleAddFolder()}>
-									+ Add folder
-								</button>
-							)}
+
+						<div className="w-full rounded-md hidden max-sm:flex fixed bottom-0 left-0 px-3 pb-10">
+							<button
+								className="bg-[#298DFF] flex-grow text-white font-medium px-6 py-3 rounded-md"
+								onClick={() => handleAddFolder()}>
+								Add folder
+							</button>
 						</div>
 					</div>
 				</div>
@@ -314,7 +344,7 @@ const Protection = () => {
 				{popupType === 'removeUser' && (
 					<RemoveUserPopup
 						text={'Remove this folder?'}
-						description={'you can add it again later'}
+						description={'You can add it again later'}
 						onClose={handlePopupClose}
 					/>
 				)}

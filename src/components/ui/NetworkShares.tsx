@@ -39,6 +39,39 @@ const NetworkShares = () => {
 			path: 'ja/na/kale/apn/kam/kr',
 			status: 'on',
 		},
+		{
+			name: 'Editors',
+			route: '//0.10.10.17maxteam',
+			path: 'ja/na/kale/apn/kam/kr',
+			status: 'on',
+		},
+		{
+			name: 'Editors',
+			route: '//0.10.10.17maxteam',
+			path: 'ja/na/kale/apn/kam/kr',
+			status: 'on',
+		},
+		{
+			name: 'Editors',
+			route: '//0.10.10.17maxteam',
+			path: 'ja/na/kale/apn/kam/kr',
+			status: 'on',
+		},
+		{
+			name: 'Editors',
+			route: '//0.10.10.17maxteam',
+			path: 'ja/na/kale/apn/kam/kr',
+			status: 'on',
+		},
+		{
+			name: 'Editors',
+			route: '//0.10.10.17maxteam',
+			path: 'ja/na/kale/apn/kam/kr',
+			status: 'on',
+		},
+
+
+
 	]);
 
 	const [popupType, setPopupType] = useState<string | null>(null);
@@ -97,9 +130,8 @@ const NetworkShares = () => {
 						<div className="flex items-center space-x-4 max-sm:flex-col ">
 							<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3 max-sm:pt-10">SMB</h1>
 							<div
-								className={` py-1 px-3 rounded-full text-white text-xs max-sm:hidden ${
-									isHistoryOff ? 'bg-green-500' : 'bg-gray-400'
-								}`}>
+								className={` py-1 px-3 rounded-full text-white text-xs max-sm:hidden ${isHistoryOff ? 'bg-green-500' : 'bg-gray-400'
+									}`}>
 								{isHistoryOff ? 'Active' : 'Disabled'}
 							</div>
 						</div>
@@ -158,7 +190,7 @@ const NetworkShares = () => {
 					</div>
 
 					{/* Table and Empty State */}
-					<div className=" overflow-visible">
+					<div className=" overflow-visible max-sm:pb-32 pb-10">
 						<div className=" rounded-md border border-[#E1E3F5] max-sm:border-b max-sm:rounded-none">
 							<table className="w-full border-collapse max-sm:overflow-hidden">
 								{/* Table Header */}
@@ -280,15 +312,17 @@ const NetworkShares = () => {
 							</table>
 						</div>
 						{/* mobile button */}
-						<div className="max-sm:px-3 max-sm:mb-10 pb-10">
+						<div className="max-sm:px-3 hidden max-sm:block fixed bottom-10 w-full">
 							{users.length > 0 && (
 								<button
-									className={`hidden max-sm:block  max-sm:w-full max-sm:mt-10 py-2 bg-[#298DFF] text-white rounded-md  `}
-									onClick={handleAddUserClick}>
+									className="max-sm:w-full py-3 bg-[#298DFF] text-white rounded-md"
+									onClick={handleAddUserClick}
+								>
 									+ New SMB
 								</button>
 							)}
 						</div>
+
 
 						{/* Empty State */}
 						{users.length === 0 && (

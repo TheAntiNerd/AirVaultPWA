@@ -72,7 +72,7 @@ const NewGroup = () => {
 						{/* this will change dynamically */}
 						{users.length > 0 && (
 							<button
-								className={`max-sm:hidden bg-[#298DFF] text-white px-5  py-2 rounded-md`}
+								className={`max-sm:hidden bg-[#298DFF] text-white px-5  py-3 rounded-md`}
 								onClick={handleAddUserClick}>
 								Add Member
 							</button>
@@ -175,9 +175,8 @@ const NewGroup = () => {
 															{user.role}
 														</span>
 														<button
-															className={`transform transition-transform duration-300 ease-in-out ${
-																openRowIndex === index ? 'rotate-180' : ''
-															} text-gray-500 hover:text-gray-700`}>
+															className={`transform transition-transform duration-300 ease-in-out ${openRowIndex === index ? 'rotate-180' : ''
+																} text-gray-500 hover:text-gray-700`}>
 															<DownArrow />
 														</button>
 													</div>
@@ -213,15 +212,17 @@ const NewGroup = () => {
 							</table>
 						</div>
 
-						<div className="max-sm:px-3 max-sm:mb-5">
+						<div className="max-sm:px-3 fixed bottom-10 w-full z-10">
 							{users.length > 0 && (
 								<button
-									className={`hidden max-sm:block max-sm:w-full max-sm:mt-10 py-2 bg-[#298DFF] text-white rounded-md`}
-									onClick={handleAddUserClick}>
+									className="max-sm:block hidden max-sm:w-full py-3 bg-[#298DFF] text-white rounded-md"
+									onClick={handleAddUserClick}
+								>
 									Add Member
 								</button>
 							)}
 						</div>
+
 
 						{/* Empty State */}
 						{users.length === 0 && (
@@ -232,7 +233,7 @@ const NewGroup = () => {
 									team.
 								</p>
 								<button
-									className={`px-3 max-sm:block max-sm:w-full max-sm:mt-28 py-2 bg-[#298DFF] text-white rounded-md`}
+									className={`px-3 max-sm:block max-sm:w-full max-sm:mt-28 py-3 bg-[#298DFF] text-white rounded-md`}
 									onClick={handleAddUserClick}>
 									Add Member
 								</button>

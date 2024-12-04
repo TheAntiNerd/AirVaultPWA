@@ -36,3 +36,4 @@ export { default as RemovePoolsIcons } from './removefrompools.svg';
 export { default as HoverTick } from './hovertick.svg';
 export { default as SwitchIcon } from './switchicon.svg';
 export { default as IpIcon } from './ipicon.svg';
+export {default as CreateDirectoryIcon} from './createdirectory.svg'

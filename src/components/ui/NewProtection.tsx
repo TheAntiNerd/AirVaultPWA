@@ -63,14 +63,14 @@ const NewProtection = () => {
 	return (
 		<SideMenu>
 			<div className="flex justify-center items-start min-h-screen">
-				<div className="w-[1200px] max-sm:w-full h-screen pt-6 max-sm:pt-2 max-sm:px-0 bg-white text-sans">
+				<div className="w-[1200px] max-sm:w-full h-screen pt-10 max-sm:pt-16 max-sm:px-0 bg-white text-sans">
 					{/* Header */}
 					<div className="flex justify-between items-center mb-6 max-sm:mb-2">
 						<div className="flex items-center space-x-4 max-sm:flex-col ">
+							<button onClick={handleBackClick} className="max-sm:absolute top-20 ">
+								<BackArrowIcon />
+							</button>
 							<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3">
-								<button onClick={handleBackClick} className="max-sm:absolute left-3 top-4 ">
-									<BackArrowIcon />
-								</button>
 								<span className="max-sm:hidden ml-2">{usersName}</span>
 							</h1>
 						</div>
@@ -113,8 +113,8 @@ const NewProtection = () => {
 					</div>
 
 					{/* Table and Empty State */}
-					<div className=" overflow-hidden">
-						<div className="overflow-hidden rounded-md border border-[#E1E3F5] max-sm:border-b">
+					<div className=" overflow-visible  pb-10">
+						<div className=" rounded-md max-sm:rounded-none border border-[#E1E3F5] max-sm:border-b">
 							<table className="w-full border-collapse max-sm:overflow-hidden">
 								{/* Table Header */}
 								<thead className="bg-gray-50">

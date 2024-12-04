@@ -139,15 +139,7 @@ const NewUser = () => {
 								${errorEmail ? 'border-red-500 focus:border-red-500' : 'border-[#C4C7E3] focus:border-blue-500'} 
 								bg-white text-[#44475B] focus:outline-none`}
 						/>
-						<span
-							className="absolute right-0 bottom-0 mb-3 mr-2 text-xs text-gray-400"
-							style={{
-								transform: 'translateY(120%)',
-								padding: '0 4px',
-								backgroundColor: 'white',
-							}}>
-							{email.length}/{maxLength}
-						</span>
+						
 						{errorEmail && <p className="text-red-500 text-xs mt-1">{errorEmail}</p>}
 					</div>
 

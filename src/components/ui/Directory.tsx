@@ -10,6 +10,7 @@ import {
 	DirectoryIcon,
 	BackArrowIcon,
 	MenuCloseIcon,
+	CreateDirectoryIcon,
 } from '../../assets/svg';
 import RemoveUserPopup from '../popup/RemoveUserPopup';
 
@@ -82,9 +83,8 @@ const Directory = () => {
 			<div className=" lg:flex-row w-full min-h-screen bg-white text-sans">
 				<div className="flex justify-center items-start min-h-screen">
 					<div
-						className={`${
-							showSidebar ? 'w-[920px]' : 'w-[1200px]'
-						} max-sm:w-full h-screen pt-10 max-sm:px-0 bg-white text-sans transition-width duration-30`}>
+						className={`${showSidebar ? 'w-[920px]' : 'w-[1200px]'
+							} max-sm:w-full h-screen pt-10 max-sm:px-0 bg-white text-sans transition-width duration-30`}>
 						{/* Header */}
 						<div className="flex justify-between items-center mb-6">
 							<h1 className="text-3xl font-medium text-gray-800 max-sm:px-3 flex items-center">
@@ -93,11 +93,11 @@ const Directory = () => {
 
 							{users.length > 0 && (
 								<button
-									className={` px-3 ml-3 mr-3 max-sm:hidden bottom-0 left-0 right-0 max-sm:mb-4  py-2 border border-[#E1E3F5] text-white bg-[#298DFF] font-medium rounded-md`}
+									className={` px-3 ml-3 mr-3 max-sm:hidden bottom-0 left-0 right-0 max-sm:mb-4  py-3 border border-[#E1E3F5] text-white bg-[#298DFF] font-medium rounded-md`}
 									onClick={handleAddUserClick}>
 									<span className="inline-block align-middle">
 										<span className="inline-block align-middle mr-2 -mt-1">
-											<DirectoryIcon />
+											<CreateDirectoryIcon />
 										</span>
 										New directory
 									</span>
@@ -123,7 +123,7 @@ const Directory = () => {
 						</div>
 
 						{/* Table and Empty State */}
-						<ul className="w-full list-none max-sm:overflow-visible max-sm:px-2 z-10">
+						<ul className="w-full list-none max-sm:overflow-visible max-sm:px-2 z-10 max-sm:pb-32">
 							{users.map((user, index) => (
 								<div className="hover:bg-[#E5F1FF] hover:rounded-md px-2">
 									<li key={index} className="py-2 cursor-pointer   ">
@@ -204,13 +204,12 @@ const Directory = () => {
 						<div className="max-sm:px-3 max-sm:mb-5 z-1">
 							{users.length > 0 && (
 								<button
-									className={` hidden max-sm:inline-block px-3 ml-3 mr-3 max-sm:fixed bottom-10 left-0 right-0 max-sm:mb-4 py-2 border border-[#E1E3F5] bg-[#298DFF] text-white font-medium rounded-md ${
-										showSidebar ? 'max-sm:hidden' : ''
-									} `}
+									className={` hidden max-sm:inline-block px-3 ml-3 mr-3 max-sm:fixed bottom-6 left-0 right-0 max-sm:mb-4 py-3 border border-[#E1E3F5] bg-[#298DFF] text-white font-medium rounded-md ${showSidebar ? 'max-sm:hidden' : ''
+										} `}
 									onClick={handleAddUserClick}>
 									<span className="inline-block align-middle">
 										<span className="inline-block align-middle mr-2 -mt-1">
-											<DirectoryIcon />
+											<CreateDirectoryIcon />
 										</span>
 										New directory
 									</span>
@@ -227,11 +226,11 @@ const Directory = () => {
 									one.
 								</p>
 								<button
-									className={` px-3 ml-3 mr-3 max-sm:fixed bottom-0 left-0 right-0 max-sm:mb-4  py-2 border border-[#E1E3F5] bg-[#298DFF] text-white font-medium rounded-md`}
+									className={` px-3 ml-3 mr-3 max-sm:fixed bottom-0 left-0 right-0 max-sm:mb-4  py-3 border border-[#E1E3F5] bg-[#298DFF] text-white  rounded-md`}
 									onClick={handleAddUserClick}>
 									<span className="inline-block align-middle">
 										<span className="inline-block align-middle mr-2 -mt-1">
-											<DirectoryIcon />
+											<CreateDirectoryIcon />
 										</span>
 										New directory
 									</span>
@@ -244,9 +243,8 @@ const Directory = () => {
 
 					{showSidebar && (
 						<aside
-							className={`${
-								showSidebar ? 'translate-x-0' : '-translate-x-full'
-							} lg:translate-x-0  transition-transform w-[360px] max-sm:absolute h-screen max-sm:max-w-full fixed lg:static inset-0 bg-white text-gray-800  flex flex-col justify-between z-50`}>
+							className={`${showSidebar ? 'translate-x-0' : '-translate-x-full'
+								} lg:translate-x-0  transition-transform w-[360px] max-sm:absolute h-screen max-sm:max-w-full fixed lg:static inset-0 bg-white text-gray-800  flex flex-col justify-between z-50`}>
 							<div className="p-4 md:border-l">
 								{/* Button for mobile */}
 								<button onClick={handleSidebarClose} className="hidden max-sm:block">
