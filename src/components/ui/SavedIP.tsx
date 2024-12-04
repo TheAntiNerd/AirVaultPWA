@@ -153,11 +153,11 @@ const SavedIP = () => {
 				<div className="w-[1200px] max-sm:w-full h-screen pt-6 px-3 max-sm:px-0 bg-white text-sans">
 					{/* Loader for mobile */}
 					{loading && (
-						<div className="hidden items-center justify-center w-full h-screen max-sm:flex">
+						<div className="fixed inset-0 z-50 flex items-center justify-center bg-white max-sm:flex hidden">
 							<div className="loader mb-9" />
 						</div>
 					)}
-					{/* Render the content after loading */}
+
 					<>
 						{/* Header */}
 						<div className="flex justify-between items-center mb-5">
