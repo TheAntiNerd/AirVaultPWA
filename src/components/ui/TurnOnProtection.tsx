@@ -69,9 +69,9 @@ const TurnOnProtection = () => {
 
 	useEffect(() => {
 		if (location.state?.isProtectionOn !== undefined) {
-		  setIsProtectionOn(location.state.isProtectionOn);
+			setIsProtectionOn(location.state.isProtectionOn);
 		}
-	  }, [location.state]);
+	}, [location.state]);
 
 	// Toggle folder visibility
 	const toggleFolder = (path: string) => {
@@ -118,9 +118,8 @@ const TurnOnProtection = () => {
 	const renderFolders = (folderList: Folder[], currentPath: string, isRoot = true) => {
 		return (
 			<div
-				className={`${
-					isRoot ? 'border rounded-lg border-[#C4C7E3] mb-3   custom-scrollbar ' : ''
-				} max-h-[200px] overflow-y-auto `}>
+				className={`${isRoot ? 'border rounded-lg border-[#C4C7E3] mb-3   custom-scrollbar ' : ''
+					} max-h-[200px] overflow-y-auto `}>
 				<ul className=" text-sm ">
 					{folderList.map((folder, index) => {
 						const folderPath = `${currentPath} > ${folder.name}`;
@@ -130,9 +129,8 @@ const TurnOnProtection = () => {
 						return (
 							<li key={index} className="my-1 ">
 								<div
-									className={`flex items-center justify-between pt-1 px-2   ${
-										isHighlighted ? 'text-[#298DFF]' : 'text-[#44475B]'
-									}`}>
+									className={`flex items-center justify-between pt-1 px-2   ${isHighlighted ? 'text-[#298DFF]' : 'text-[#44475B]'
+										}`}>
 									<div className="flex items-center flex-grow truncate mr-4">
 										<span
 											onClick={() => handleFolderClick(folderPath)}
@@ -235,7 +233,7 @@ const TurnOnProtection = () => {
 								<div className="hidden max-sm:flex ">
 									<div className="w-full rounded-md flex fixed bottom-0 left-0 px-3 pb-10">
 										<button
-											className="bg-[#298DFF] flex-grow text-white font-medium px-6 py-3 rounded-md"
+											className="bg-[#298DFF] shadow-custom flex-grow text-white font-medium px-6 py-3 rounded-md"
 											onClick={() => setIsProtectionOn(true)}>
 											Turn it on
 										</button>
@@ -305,17 +303,17 @@ const TurnOnProtection = () => {
 							{/* Done Button */}
 							<div className="flex  items-center justify-center mt-6 max-sm:px-3 max-sm:hidden   ">
 								<button
-									className="px-6 py-3 bg-[#298DFF] text-white font-medium rounded-lg max-sm:w-full  "
+									className="px-6 py-3 shadow-custom bg-[#298DFF] text-white font-medium rounded-lg max-sm:w-full  "
 									onClick={handleNavigation}>
 									Done
 								</button>
 							</div>
 							<div className="w-full hidden rounded-md max-sm:flex fixed bottom-0 left-0 px-3 pb-10">
-										<button
-											className="bg-[#298DFF] flex-grow text-white font-medium px-6 py-3 rounded-md"
-											onClick={handleNavigation}>
-											Done
-										</button>
+								<button
+									className="bg-[#298DFF] shadow-custom flex-grow text-white font-medium px-6 py-3 rounded-md"
+									onClick={handleNavigation}>
+									Done
+								</button>
 							</div>
 						</div>
 					</div>

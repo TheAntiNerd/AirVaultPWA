@@ -291,7 +291,7 @@ const SavedIP = () => {
 															{/* Dropdown Expanded View */}
 															{openDropdownIndex === index && (
 																<div className="px-3 py-2 text-sm text-[#44475B] font-light">
-																	<div className="flex items-center justify-center mt-6 w-full mx-auto">
+																	<div className="flex items-center justify-center mt-6 w-full mx-auto space-x-10">
 																		<button
 																			className="flex flex-col items-center justify-center text-[#44475B] gap-2 mx-4"
 																			onClick={() =>
@@ -323,13 +323,14 @@ const SavedIP = () => {
 							<div className="max-sm:px-3 fixed bottom-10 w-full z-10">
 								{users.length > 0 && (
 									<button
-										className="max-sm:block hidden max-sm:w-full py-3 bg-[#298DFF] text-white rounded-md shadow-lg"
+										className="max-sm:block hidden max-sm:w-full py-3 bg-[#298DFF] text-white rounded-md shadow-custom"
 										onClick={handleAddUserClick}
 									>
-										Add New I
+										Add New IP
 									</button>
 								)}
 							</div>
+
 
 						</div>
 					</>
