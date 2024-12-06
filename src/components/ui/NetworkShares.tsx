@@ -139,7 +139,7 @@ const NetworkShares = () => {
 						<div className="flex items-center space-x-6">
 							{users.length > 0 && (
 								<button
-									className={`max-sm:hidden bg-[#298DFF] text-white px-5  py-2 rounded-md shadow-custom`}
+									className={`max-sm:hidden bg-[#298DFF] text-white px-5  py-2 rounded-md shadow-xl`}
 									onClick={handleAddUserClick}>
 									+ New SMB
 								</button>
@@ -315,7 +315,7 @@ const NetworkShares = () => {
 						<div className="max-sm:px-3 hidden max-sm:block fixed bottom-10 w-full">
 							{users.length > 0 && (
 								<button
-									className="max-sm:w-full py-3 bg-[#298DFF] text-white rounded-md shadow-custom"
+									className="max-sm:w-full py-3 bg-[#298DFF] text-white rounded-md shadow-xl"
 									onClick={handleAddUserClick}
 								>
 									+ New SMB
@@ -332,7 +332,7 @@ const NetworkShares = () => {
 									Click on the <span className="font-bold">“+ New SMB”</span> button to get started.
 								</p>
 								<button
-									className={` px-3 max-sm:block max-sm:w-full max-sm:mt-32 py-2 bg-[#298DFF] text-white rounded-md shadow-custom`}
+									className={` px-3 max-sm:block max-sm:w-full max-sm:mt-32 py-2 bg-[#298DFF] text-white rounded-md shadow-xl`}
 									onClick={handleAddUserClick}>
 									+ New SMB
 								</button>

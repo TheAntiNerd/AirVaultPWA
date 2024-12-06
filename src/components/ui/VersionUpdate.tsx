@@ -87,7 +87,7 @@ const VersionUpdate = () => {
 				{/* Button */}
 				<div className="flex items-center max-sm:fixed bottom-10 max-sm:w-full justify-center pt-4 max-sm:px-3">
 					<button
-						className="bg-[#298DFF] shadow-custom max-sm:w-full px-6 py-3 rounded-lg text-white font-medium flex flex-col items-center justify-center w-40 relative"
+						className="bg-[#298DFF] shadow-xl max-sm:w-full px-6 py-3 rounded-lg text-white font-medium flex flex-col items-center justify-center w-40 relative"
 						onClick={handleClick}
 						disabled={isLoading}>
 						<div className="flex flex-col items-center">

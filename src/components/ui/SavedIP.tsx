@@ -323,7 +323,7 @@ const SavedIP = () => {
 							<div className="max-sm:px-3 fixed bottom-10 w-full z-10">
 								{users.length > 0 && (
 									<button
-										className="max-sm:block hidden max-sm:w-full py-3 bg-[#298DFF] text-white rounded-md shadow-custom"
+										className="max-sm:block hidden max-sm:w-full py-3 bg-[#298DFF] text-white rounded-md shadow-xl"
 										onClick={handleAddUserClick}
 									>
 										Add New IP

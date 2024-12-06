@@ -233,7 +233,7 @@ const TurnOnProtection = () => {
 								<div className="hidden max-sm:flex ">
 									<div className="w-full rounded-md flex fixed bottom-0 left-0 px-3 pb-10">
 										<button
-											className="bg-[#298DFF] shadow-custom flex-grow text-white font-medium px-6 py-3 rounded-md"
+											className="bg-[#298DFF] shadow-xl flex-grow text-white font-medium px-6 py-3 rounded-md"
 											onClick={() => setIsProtectionOn(true)}>
 											Turn it on
 										</button>
@@ -303,14 +303,14 @@ const TurnOnProtection = () => {
 							{/* Done Button */}
 							<div className="flex  items-center justify-center mt-6 max-sm:px-3 max-sm:hidden   ">
 								<button
-									className="px-6 py-3 shadow-custom bg-[#298DFF] text-white font-medium rounded-lg max-sm:w-full  "
+									className="px-6 py-3 shadow-xl bg-[#298DFF] text-white font-medium rounded-lg max-sm:w-full  "
 									onClick={handleNavigation}>
 									Done
 								</button>
 							</div>
 							<div className="w-full hidden rounded-md max-sm:flex fixed bottom-0 left-0 px-3 pb-10">
 								<button
-									className="bg-[#298DFF] shadow-custom flex-grow text-white font-medium px-6 py-3 rounded-md"
+									className="bg-[#298DFF] shadow-xl flex-grow text-white font-medium px-6 py-3 rounded-md"
 									onClick={handleNavigation}>
 									Done
 								</button>
