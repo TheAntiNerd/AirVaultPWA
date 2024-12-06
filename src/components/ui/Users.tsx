@@ -100,7 +100,7 @@ const UsersCreate = () => {
 
 						{users.length > 0 && (
 							<button
-								className={`max-sm:hidden shadow shadow-gray-500/30 bg-[#298DFF] text-white px-5  py-3 rounded-md`}
+								className={`max-sm:hidden shadow shadow-gray-500/30 bg-[#298DFF] text-white px-5 py-3 rounded-md`}
 								onClick={handleAddUserClick}>
 								Add user
 							</button>
