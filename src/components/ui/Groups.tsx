@@ -70,7 +70,7 @@ const Groups = () => {
 
 						{users.length > 0 && (
 							<button
-								className={`max-sm:hidden shadow-xl bg-[#298DFF] text-white px-5 py-3 rounded-md `}
+								className={`max-sm:hidden shadow shadow-gray-500/30 bg-[#298DFF] text-white px-5 py-3 rounded-md `}
 								onClick={handleAddUserClick}>
 								Add group
 							</button>
@@ -247,7 +247,7 @@ const Groups = () => {
 						<div className="max-sm:px-3 max-sm:mb-6 max-sm:fixed max-sm:w-full bottom-6">
 							{users.length > 0 && (
 								<button
-									className={`hidden max-sm:block shadow-xl max-sm:w-full py-3 bg-[#298DFF] text-white rounded-md `}
+									className={`hidden max-sm:block shadow shadow-gray-500/30 max-sm:w-full py-3 bg-[#298DFF] text-white rounded-md `}
 									onClick={handleAddUserClick}>
 									Add Groups
 								</button>
@@ -262,7 +262,7 @@ const Groups = () => {
 									Click on the <span className="font-bold">“Add group”</span> button to create one.
 								</p>
 								<button
-									className={` px-3 shadow-xl max-sm:block max-sm:w-full max-sm:mt-32 py-3 bg-[#298DFF] text-white rounded-md `}
+									className={` px-3 shadow shadow-gray-500/30 max-sm:block max-sm:w-full max-sm:mt-32 py-3 bg-[#298DFF] text-white rounded-md `}
 									onClick={handleAddUserClick}>
 									Add group
 								</button>

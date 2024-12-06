@@ -139,7 +139,7 @@ const NewUser = () => {
 								${errorEmail ? 'border-red-500 focus:border-red-500' : 'border-[#C4C7E3] focus:border-blue-500'} 
 								bg-white text-[#44475B] focus:outline-none`}
 						/>
-						
+
 						{errorEmail && <p className="text-red-500 text-xs mt-1">{errorEmail}</p>}
 					</div>
 
@@ -177,11 +177,10 @@ const NewUser = () => {
 									type={showPassword ? 'text' : 'password'}
 									value={password}
 									onChange={handlePasswordChange}
-									className={`w-full px-2 py-3 border rounded-md text-sm text-[#44475B] focus:outline-none ${
-										errorPassword
-											? 'border-red-500 focus:border-red-500'
-											: 'border-[#C4C7E3] focus:border-blue-500'
-									}`}
+									className={`w-full px-2 py-3 border rounded-md text-sm text-[#44475B] focus:outline-none ${errorPassword
+										? 'border-red-500 focus:border-red-500'
+										: 'border-[#C4C7E3] focus:border-blue-500'
+										}`}
 									required
 								/>
 								<div
@@ -198,11 +197,10 @@ const NewUser = () => {
 									type={showConfirmPassword ? 'text' : 'password'}
 									value={confirmPassword}
 									onChange={handleConfirmPasswordChange}
-									className={`w-full px-2 py-3 border rounded-md text-sm text-[#44475B] focus:outline-none ${
-										errorPassword
-											? 'border-red-500 focus:border-red-500'
-											: 'border-[#C4C7E3] focus:border-blue-500'
-									}`}
+									className={`w-full px-2 py-3 border rounded-md text-sm text-[#44475B] focus:outline-none ${errorPassword
+										? 'border-red-500 focus:border-red-500'
+										: 'border-[#C4C7E3] focus:border-blue-500'
+										}`}
 									required
 								/>
 								<div
@@ -294,9 +292,8 @@ const NewUser = () => {
 										<li
 											key={group}
 											onClick={() => handleAddGroup(group)}
-											className={`px-4 py-2 hover:bg-[#F1F4FF] cursor-pointer text-[#44475B] ${
-												selectedGroups.includes(group) ? 'text-gray-400 cursor-not-allowed' : ''
-											}`}>
+											className={`px-4 py-2 hover:bg-[#F1F4FF] cursor-pointer text-[#44475B] ${selectedGroups.includes(group) ? 'text-gray-400 cursor-not-allowed' : ''
+												}`}>
 											{group}
 										</li>
 									))}
@@ -319,7 +316,7 @@ const NewUser = () => {
 							</span>
 						</button>
 
-						<button className="px-6 py-3 max-sm:w-full max-sm:mb-6 bg-[#298DFF] rounded-md text-sm text-white focus:outline-none ">
+						<button className="px-6 py-3 shadow shadow-gray-500/30 max-sm:w-full max-sm:mb-6 bg-[#298DFF] rounded-md text-sm text-white focus:outline-none ">
 							<span className="hidden max-sm:inline">Confirm</span>
 							<span className="inline max-sm:hidden">Add user</span>
 						</button>

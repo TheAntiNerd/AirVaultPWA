@@ -145,7 +145,7 @@ const Protection = () => {
 
 						<div className="flex items-center space-x-6">
 							<button
-								className={`max-sm:hidden shadow-xl bg-[#298DFF] text-white px-5  py-2 rounded-md `}
+								className={`max-sm:hidden shadow shadow-gray-500/30 bg-[#298DFF] text-white px-5  py-2 rounded-md `}
 								onClick={() => handleAddFolder()}>
 								+ Add folder
 							</button>
@@ -331,7 +331,7 @@ const Protection = () => {
 
 						<div className="w-full rounded-md hidden max-sm:flex fixed bottom-0 left-0 px-3 pb-10">
 							<button
-								className="bg-[#298DFF] shadow-xl flex-grow text-white font-medium px-6 py-3 rounded-md"
+								className="bg-[#298DFF] shadow shadow-gray-500/30 flex-grow text-white font-medium px-6 py-3 rounded-md"
 								onClick={() => handleAddFolder()}>
 								Add folder
 							</button>

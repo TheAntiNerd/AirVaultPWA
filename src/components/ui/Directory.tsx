@@ -93,7 +93,7 @@ const Directory = () => {
 
 							{users.length > 0 && (
 								<button
-									className={` px-3 ml-3 mr-3 shadow-xl max-sm:hidden bottom-0 left-0 right-0 max-sm:mb-4  py-3 border border-[#E1E3F5] text-white bg-[#298DFF] font-medium rounded-md`}
+									className={` px-3 ml-3 mr-3 shadow shadow-gray-500/30 max-sm:hidden bottom-0 left-0 right-0 max-sm:mb-4  py-3 border border-[#E1E3F5] text-white bg-[#298DFF] font-medium rounded-md`}
 									onClick={handleAddUserClick}>
 									<span className="inline-block align-middle">
 										<span className="inline-block align-middle mr-2 -mt-1">
@@ -204,7 +204,7 @@ const Directory = () => {
 						<div className="max-sm:px-3 max-sm:mb-5 z-1">
 							{users.length > 0 && (
 								<button
-									className={` hidden max-sm:inline-block shadow-xl px-3 ml-3 mr-3 max-sm:fixed bottom-6 left-0 right-0 max-sm:mb-4 py-3 border border-[#E1E3F5] bg-[#298DFF] text-white font-medium rounded-md ${showSidebar ? 'max-sm:hidden' : ''
+									className={` hidden max-sm:inline-block shadow shadow-gray-500/30 px-3 ml-3 mr-3 max-sm:fixed bottom-6 left-0 right-0 max-sm:mb-4 py-3 border border-[#E1E3F5] bg-[#298DFF] text-white font-medium rounded-md ${showSidebar ? 'max-sm:hidden' : ''
 										} `}
 									onClick={handleAddUserClick}>
 									<span className="inline-block align-middle">
@@ -226,7 +226,7 @@ const Directory = () => {
 									one.
 								</p>
 								<button
-									className={` px-3 ml-3 mr-3 max-sm:fixed shadow-xl bottom-0 left-0 right-0 max-sm:mb-4  py-3 border border-[#E1E3F5] bg-[#298DFF] text-white  rounded-md`}
+									className={` px-3 ml-3 mr-3 max-sm:fixed shadow shadow-gray-500/30 bottom-0 left-0 right-0 max-sm:mb-4  py-3 border border-[#E1E3F5] bg-[#298DFF] text-white  rounded-md`}
 									onClick={handleAddUserClick}>
 									<span className="inline-block align-middle">
 										<span className="inline-block align-middle mr-2 -mt-1">

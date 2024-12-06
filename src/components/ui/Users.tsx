@@ -100,7 +100,7 @@ const UsersCreate = () => {
 
 						{users.length > 0 && (
 							<button
-								className={`max-sm:hidden shadow-xl bg-[#298DFF] text-white px-5  py-3 rounded-md`}
+								className={`max-sm:hidden shadow shadow-gray-500/30 bg-[#298DFF] text-white px-5  py-3 rounded-md`}
 								onClick={handleAddUserClick}>
 								Add user
 							</button>
@@ -315,7 +315,7 @@ const UsersCreate = () => {
 						<div className="max-sm:px-3 fixed bottom-10 w-full z-10">
 							{users.length > 0 && (
 								<button
-									className="max-sm:block shadow-xl hidden max-sm:w-full py-3 bg-[#298DFF] text-white rounded-md"
+									className="max-sm:block shadow shadow-gray-500/30 hidden max-sm:w-full py-3 bg-[#298DFF] text-white rounded-md"
 									onClick={handleAddUserClick}
 								>
 									Add User
@@ -333,7 +333,7 @@ const UsersCreate = () => {
 									team.
 								</p>
 								<button
-									className={`px-3 max-sm:block shadow-xl max-sm:w-full max-sm:mt-28 py-3 bg-[#298DFF] text-white rounded-md `}
+									className={`px-3 max-sm:block shadow shadow-gray-500/30 max-sm:w-full max-sm:mt-28 py-3 bg-[#298DFF] text-white rounded-md `}
 									onClick={handleAddUserClick}>
 									Add user
 								</button>

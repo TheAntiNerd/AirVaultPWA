@@ -139,7 +139,7 @@ const NetworkShares = () => {
 						<div className="flex items-center space-x-6">
 							{users.length > 0 && (
 								<button
-									className={`max-sm:hidden bg-[#298DFF] text-white px-5  py-2 rounded-md shadow-xl`}
+									className={`max-sm:hidden bg-[#298DFF] text-white px-5  py-2 rounded-md shadow shadow-gray-500/30`}
 									onClick={handleAddUserClick}>
 									+ New SMB
 								</button>
@@ -147,7 +147,7 @@ const NetworkShares = () => {
 							<Dropdown
 								button={<button className="text-gray-500 hover:text-gray-700 max-sm:hidden">⋮</button>}
 								onToggle={isOpen => isOpen}>
-								<ul className="py-2 text-sm text-left text-[#44475B] absolute right-0 top-3 bg-white shadow-xl rounded-lg w-44 h-12">
+								<ul className="py-2 text-sm text-left text-[#44475B] absolute right-0 top-3 bg-white shadow shadow-gray-500/30 rounded-lg w-44 h-12">
 									{isHistoryOff ? (
 										<button
 											className="flex items-center px-4 py-2 hover:bg-[#DBEAFE] cursor-pointer rounded-sm text-nowrap"
@@ -315,7 +315,7 @@ const NetworkShares = () => {
 						<div className="max-sm:px-3 hidden max-sm:block fixed bottom-10 w-full">
 							{users.length > 0 && (
 								<button
-									className="max-sm:w-full py-3 bg-[#298DFF] text-white rounded-md shadow-xl"
+									className="max-sm:w-full py-3 bg-[#298DFF] text-white rounded-md shadow shadow-gray-500/30"
 									onClick={handleAddUserClick}
 								>
 									+ New SMB
@@ -332,7 +332,7 @@ const NetworkShares = () => {
 									Click on the <span className="font-bold">“+ New SMB”</span> button to get started.
 								</p>
 								<button
-									className={` px-3 max-sm:block max-sm:w-full max-sm:mt-32 py-2 bg-[#298DFF] text-white rounded-md shadow-xl`}
+									className={` px-3 max-sm:block max-sm:w-full max-sm:mt-32 py-2 bg-[#298DFF] text-white rounded-md shadow shadow-gray-500/30`}
 									onClick={handleAddUserClick}>
 									+ New SMB
 								</button>
