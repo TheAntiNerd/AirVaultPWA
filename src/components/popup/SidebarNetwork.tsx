@@ -39,9 +39,9 @@ const SidebarNetwork = () => {
 	const [isToggled, setIsToggled] = useState(false);
 	const [inputValue, setInputValue] = useState<string>('');
 	const [error, setError] = useState<string>('');
-
 	const [showButton, setShowButton] = useState(false);
 	const [showAllUsers, setShowAllUsers] = useState(false);
+	const [showAllGroups, setShowAllGroups] = useState(false);
 	const [openGroupDropdownIndex, setOpenGroupDropdownIndex] = useState<number | null>(null);
 	const [openUserDropdownIndex, setOpenUserDropdownIndex] = useState<number | null>(null);
 	const [popupType, setPopupTypes] = useState<string | null>(null);
@@ -104,14 +104,12 @@ const SidebarNetwork = () => {
 	};
 	const toggleDropdown = (index: number, type: 'group' | 'user') => {
 		if (type === 'group') {
-			// Close group dropdown if open, otherwise open it
+
 			setOpenGroupDropdownIndex(openGroupDropdownIndex === index ? null : index);
-			// Always close user dropdown when opening group dropdown
 			setOpenUserDropdownIndex(null);
 		} else if (type === 'user') {
-			// Close user dropdown if open, otherwise open it
+
 			setOpenUserDropdownIndex(openUserDropdownIndex === index ? null : index);
-			// Always close group dropdown when opening user dropdown
 			setOpenGroupDropdownIndex(null);
 		}
 	};
@@ -160,9 +158,8 @@ const SidebarNetwork = () => {
 								<input
 									type="text"
 									tabIndex={-1}
-									className={`border rounded-md w-full pl-2 py-2 text-[#9AA1B7] focus:outline-none ${
-										error ? 'border-red-500' : 'border-[#C4C7E3] focus:border-blue-500'
-									}`}
+									className={`border rounded-md w-full pl-2 py-2 text-[#9AA1B7] focus:outline-none ${error ? 'border-red-500' : 'border-[#C4C7E3] focus:border-blue-500'
+										}`}
 									placeholder="Enter username"
 									value={inputValue}
 									onChange={handleChange}
@@ -273,7 +270,7 @@ const SidebarNetwork = () => {
 						<p>Shared Groups</p>
 					</div>
 
-					{[...firstThreeGroups, ...(showAllUsers ? remainingGroups : [])].map((group, index) => (
+					{[...firstThreeGroups, ...(showAllGroups ? remainingGroups : [])].map((group, index) => (
 						<div key={group.id} className="mt-3">
 							<div className="flex items-center justify-between z-10 ">
 								<div className="flex flex-col">
@@ -329,12 +326,12 @@ const SidebarNetwork = () => {
 					))}
 
 					{groups.length > 3 && (
-						<div className={`flex items-center justify-center mt-4 ${showAllUsers ? 'order-last' : ''}`}>
+						<div className={`flex items-center justify-center mt-4 ${showAllGroups ? 'order-last' : ''}`}>
 							<button
 								tabIndex={-1}
-								onClick={() => setShowAllUsers(!showAllUsers)}
+								onClick={() => setShowAllGroups(!showAllGroups)}
 								className="py-2 px-4 bg-white text-[#44475B] rounded font-medium text-sm transition w-full sm:w-auto">
-								{showAllUsers ? 'Show Less' : `Show ${groups.length - 3} More`}
+								{showAllGroups ? 'Show Less' : `Show ${groups.length - 3} More`}
 							</button>
 						</div>
 					)}
