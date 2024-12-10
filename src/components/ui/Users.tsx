@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import SideMenu from '../SideMenu';
 import { RemoveIcon, EditIcon, UserSettingIcon, SearchIcon, DownArrow, ResetPWIcon } from '../../assets/svg';
 import ResetPasswordPopup from '../popup/ResetPasswordPopup';
@@ -8,7 +8,15 @@ import UserSettingsPopup from '../popup/UserSettingsPopup';
 import { useNavigate } from 'react-router-dom';
 import Dropdown from '../popup/DropDown';
 
-const UsersCreate = () => {
+type User = {
+	name: string;
+	username: string;
+	password: string;
+	status: string;
+	role: string;
+};
+
+const UsersCreate: React.FC = () => {
 	const users = [
 		{ name: 'Rituraj', username: 'ritu0024', password: '************', status: 'Pending', role: 'Admin' },
 		{
@@ -42,27 +50,38 @@ const UsersCreate = () => {
 	];
 
 	const loggedInUser = { username: 'Rituraj', role: 'Admin' }; //dummy
-
 	const [popupType, setPopupType] = useState<string | null>(null);
 	const [selectedUserIndex, setSelectedUserIndex] = useState<number | null>(null);
 	const [dropdownOpen, setDropdownOpen] = useState<boolean[]>([]);
+	const [query, setQuery] = useState("");
+	const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
 
 	const navigate = useNavigate();
 
 	const handleRowClick = (index: number) => {
 		const newDropdownOpen = [...dropdownOpen];
-
-		// Toggle the current row's state: if it's open, close it; otherwise, open it and close all others
 		newDropdownOpen[index] = !newDropdownOpen[index];
-
-		// Ensure other rows are closed
 		for (let i = 0; i < newDropdownOpen.length; i++) {
 			if (i !== index) newDropdownOpen[i] = false;
 		}
-
 		setDropdownOpen(newDropdownOpen);
 	};
 
+	// Handle search input change
+	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value.toLowerCase();
+		setQuery(value);
+
+		// Filter users based on the query
+		const results = users.filter(
+			(user) =>
+				user.name.toLowerCase().includes(value) ||
+				user.username.toLowerCase().includes(value)
+
+		);
+
+		setFilteredUsers(results);
+	};
 	const getStatusClasses = (status: string) => {
 		switch (status) {
 			case 'Pending':
@@ -108,7 +127,7 @@ const UsersCreate = () => {
 					</div>
 
 					{/* Search bar in mobile */}
-					<div className="hidden max-sm:block  max-sm:w-full mb-4 max-sm:px-3">
+					<div className="hidden max-sm:block max-sm:w-full mb-4 max-sm:px-3">
 						<div className="relative flex items-center">
 							{/* Search Icon */}
 							<span className="absolute left-2 text-[#9AA1B7]">
@@ -120,8 +139,28 @@ const UsersCreate = () => {
 								type="input"
 								className="border focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 								placeholder="Search"
+								value={query}
+								onChange={handleSearch}
 							/>
 						</div>
+
+						{/* Search Results */}
+						{query && filteredUsers.length > 0 && (
+							<ul className="mt-4 bg-white shadow-md rounded-md">
+								{filteredUsers.map((user, index) => (
+									<li key={index} className="p-2 border-b last:border-none">
+										<p className="font-semibold">{user.name}</p>
+										<p className="text-sm text-gray-500">{user.username}</p>
+
+									</li>
+								))}
+							</ul>
+						)}
+
+						{/* Show a message if no users match the query */}
+						{query && filteredUsers.length === 0 && (
+							<p className="mt-4 text-gray-500">No users found.</p>
+						)}
 					</div>
 
 					{/* Table and Empty State */}
