@@ -90,7 +90,7 @@ const Protection = () => {
 	const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(null);
 	const navigate = useNavigate();
 	const [query, setQuery] = useState<string>('');
-	const [filteredUsers, setFilteredUsers] = useState<SMB[]>([]);
+	const [filteredUsers, setFilteredUsers] = useState<Protection[]>([]);
 
 
 	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
