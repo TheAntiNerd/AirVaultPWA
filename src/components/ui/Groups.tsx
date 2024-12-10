@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import SideMenu from '../SideMenu';
 import { EditIcon, SearchIcon, DownArrow, DeleteIcon, SeeMoreIcon } from '../../assets/svg';
 import RemoveUserPopup from '../popup/RemoveUserPopup';
@@ -6,7 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import Dropdown from '../popup/DropDown';
 import CreateGroupPopup from '../popup/CreateGroupPopup';
 
-const Groups = () => {
+type User = {
+	name: string;
+	members: string;
+	date: string;
+};
+
+const Groups: React.FC = () => {
 	const users = [
 		{
 			name: 'Admin',
@@ -33,13 +39,26 @@ const Groups = () => {
 
 	const [popupType, setPopupType] = useState<string | null>(null);
 	const [activeDropdownIndex, setActiveDropdownIndex] = useState<number | null>(null);
-
+	const [query, setQuery] = useState<string>("");
+	const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
 	const navigate = useNavigate();
 
 	const handlePopupClose = () => {
 		setPopupType(null);
 	};
 
+	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value.toLowerCase();
+		setQuery(value);
+
+		// Filter users based on the query
+		const results = users.filter(
+			(user) =>
+				user.name.toLowerCase().includes(value)
+		);
+
+		setFilteredUsers(results);
+	};
 	const toggleDropdown = (index: number) => {
 		// If the clicked index is the same as the active one, close it, otherwise open the clicked one
 		if (activeDropdownIndex === index) {
@@ -78,7 +97,7 @@ const Groups = () => {
 					</div>
 
 					{/* Search bar in mobile */}
-					<div className="hidden max-sm:block  max-sm:w-full mb-4 max-sm:px-3">
+					<div className="hidden max-sm:block max-sm:w-full mb-4 max-sm:px-3">
 						<div className="relative flex items-center">
 							{/* Search Icon */}
 							<span className="absolute left-2 text-[#9AA1B7]">
@@ -90,8 +109,26 @@ const Groups = () => {
 								type="input"
 								className="border focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 								placeholder="Search"
+								value={query}
+								onChange={handleSearch}
 							/>
 						</div>
+
+						{/* Search Results */}
+						{query && filteredUsers.length > 0 && (
+							<ul className="mt-4 bg-white shadow-md rounded-md">
+								{filteredUsers.map((user, index) => (
+									<li key={index} className="p-2 border-b last:border-none">
+										<p className="font-semibold">{user.name}</p>
+									</li>
+								))}
+							</ul>
+						)}
+
+						{/* Show a message if no users match the query */}
+						{query && filteredUsers.length === 0 && (
+							<p className="mt-4 text-gray-500">No users found.</p>
+						)}
 					</div>
 
 					{/* Table and Empty State */}

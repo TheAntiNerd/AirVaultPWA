@@ -15,6 +15,12 @@ import AddSMBPopup from '../popup/AddSMBPopup';
 import FrequencyPopup from '../popup/FrequencyPopup';
 import { useNavigate } from 'react-router-dom';
 
+type Protection = {
+	name: string;
+	path: string;
+	status: string;
+}
+
 const Protection = () => {
 	const [users, setUsers] = useState([
 		{
@@ -83,6 +89,23 @@ const Protection = () => {
 	const [isHistoryOff, setIsHistoryOff] = useState(true);
 	const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(null);
 	const navigate = useNavigate();
+	const [query, setQuery] = useState<string>('');
+	const [filteredUsers, setFilteredUsers] = useState<SMB[]>([]);
+
+
+	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value.toLowerCase();
+		setQuery(value);
+
+		// Filter users based on the query
+		const results = users.filter(
+			(user) =>
+				user.name.toLowerCase().includes(value)
+		);
+
+		setFilteredUsers(results);
+	};
+
 
 	const handleNavigate = (index: number) => {
 		navigate('/protection/new', { state: { usersName: users[index]?.name } });
@@ -153,7 +176,7 @@ const Protection = () => {
 					</div>
 
 					{/* Search bar in mobile */}
-					<div className="hidden max-sm:block  max-sm:w-full mb-4 max-sm:px-3">
+					<div className="hidden max-sm:block max-sm:w-full mb-4 max-sm:px-3">
 						<div className="relative flex items-center">
 							{/* Search Icon */}
 							<span className="absolute left-2 text-[#9AA1B7]">
@@ -165,8 +188,26 @@ const Protection = () => {
 								type="input"
 								className="border focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 								placeholder="Search"
+								value={query}
+								onChange={handleSearch}
 							/>
 						</div>
+
+						{/* Search Results */}
+						{query && filteredUsers.length > 0 && (
+							<ul className="mt-4 bg-white shadow-md rounded-md">
+								{filteredUsers.map((user, index) => (
+									<li key={index} className="p-2 border-b last:border-none">
+										<p className="font-semibold">{user.name}</p>
+									</li>
+								))}
+							</ul>
+						)}
+
+						{/* Show a message if no users match the query */}
+						{query && filteredUsers.length === 0 && (
+							<p className="mt-4 text-gray-500">No users found.</p>
+						)}
 					</div>
 
 					{/* Table */}

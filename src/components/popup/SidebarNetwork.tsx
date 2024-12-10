@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
 	DownArrow,
 	NetworkIcon,
@@ -8,6 +8,19 @@ import {
 	ToggleGreenIcon,
 } from '../../assets/svg';
 import DirectoryGroupPopup from './DirectoryGroupPopup';
+
+type User = {
+	id: number;
+	name: string;
+	email: string;
+	role: string;
+}
+
+type Group = {
+	id: number;
+	name: string;
+	role: string;
+}
 
 const SidebarNetwork = () => {
 	const users = [
@@ -30,11 +43,6 @@ const SidebarNetwork = () => {
 		{ id: 7, name: 'Product Team', role: 'Viewer' },
 	];
 
-	// 3 users and groups at start
-	const firstThreeUsers = users.slice(0, 3);
-	const remainingUsers = users.slice(3);
-	const firstThreeGroups = groups.slice(0, 3);
-	const remainingGroups = groups.slice(3);
 
 	const [isToggled, setIsToggled] = useState(false);
 	const [inputValue, setInputValue] = useState<string>('');
@@ -50,9 +58,37 @@ const SidebarNetwork = () => {
 		email?: string;
 		role: string;
 	} | null>(null);
-
+	const [query, setQuery] = useState<string>("");
+	const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+	const [filteredGroups, setFilteredGroups] = useState<Group[]>([]);
 	const userDropdownRef = useRef<(HTMLDivElement | null)[]>([]);
 	const groupDropdownRef = useRef<(HTMLDivElement | null)[]>([]);
+
+	// 3 users and groups at start
+	const firstThreeUsers = users.slice(0, 3);
+	const remainingUsers = users.slice(3);
+	const firstThreeGroups = groups.slice(0, 3);
+	const remainingGroups = groups.slice(3);
+
+	/* Search */
+	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value.toLowerCase();
+		setQuery(value);
+
+		// Filter users based on the query
+		// Filter users and groups based on the query
+		const filteredUsers = users.filter(user =>
+			user.name.toLowerCase().includes(value)
+		);
+
+		const filteredGroups = groups.filter(group =>
+			group.name.toLowerCase().includes(value)
+		);
+
+		// Update states
+		setFilteredUsers(filteredUsers);
+		setFilteredGroups(filteredGroups);
+	};
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
@@ -178,19 +214,62 @@ const SidebarNetwork = () => {
 				)}
 
 				{/* Global search bar */}
-				<div className="max-sm:block w-full mb-4 mt-6">
+				<>
+					{/* Search Bar */}
 					<div className="relative flex items-center">
 						<span className="absolute left-2 text-[#9AA1B7]">
 							<SearchIcon />
 						</span>
 						<input
 							type="input"
-							tabIndex={-1}
-							className="border focus:border-blue-500  border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
-							placeholder="Search"
+							className="border focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
+							placeholder="Search users or groups"
+							value={query}
+							onChange={handleSearch}
 						/>
 					</div>
-				</div>
+
+					{/* Search Results */}
+					{query && (filteredUsers.length > 0 || filteredGroups.length > 0) && (
+						<div className="mt-4 bg-white shadow-md rounded-md">
+							{/* Users Section */}
+							{filteredUsers.length > 0 && (
+								<div>
+									<h3 className="font-bold text-gray-700 px-4 py-2">Users</h3>
+									<ul>
+										{filteredUsers.map((user, index) => (
+											<li key={index} className="p-2 border-b last:border-none">
+												<p className="font-medium">{user.name}</p>
+											</li>
+										))}
+									</ul>
+								</div>
+							)}
+
+							{/* Groups Section */}
+							{filteredGroups.length > 0 && (
+								<div>
+									<h3 className="font-bold text-gray-700 px-4 py-2">Groups</h3>
+									<ul>
+										{filteredGroups.map((group, index) => (
+											<li key={index} className="p-2 border-b last:border-none">
+												<p className="font-medium ">{group.name}</p>
+											</li>
+										))}
+									</ul>
+								</div>
+							)}
+						</div>
+					)}
+
+					{/* No Results */}
+					{query && filteredUsers.length === 0 && filteredGroups.length === 0 && (
+						<p className="mt-4 text-gray-500">No users or groups found.</p>
+					)}
+
+					{/* Remaining UI */}
+					{/* Shared Members and Groups Sections */}
+				</>
 
 				{/* Shared Members Section */}
 				<div className="mt-6">

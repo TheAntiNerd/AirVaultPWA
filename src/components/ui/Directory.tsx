@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import SideMenu from '../SideMenu';
 import {
 	EditIcon,
@@ -13,12 +13,17 @@ import {
 	CreateDirectoryIcon,
 } from '../../assets/svg';
 import RemoveUserPopup from '../popup/RemoveUserPopup';
-
 import Dropdown from '../popup/DropDown';
 import CreateGroupPopup from '../popup/CreateGroupPopup';
 import AddMemberPopup from '../popup/AddMemberPopup';
 import GroupsPopup from '../popup/GroupsPopup';
 import SidebarNetwork from '../popup/SidebarNetwork';
+
+type User = {
+	name: string;
+	members: string;
+	date: string;
+}
 
 const Directory = () => {
 	const users = [
@@ -53,6 +58,19 @@ const Directory = () => {
 	const [popupType, setPopupType] = useState<string | null>(null);
 	const [showSidebar, setShowSidebar] = useState(false);
 	const [selectedUser, setSelectedUser] = useState<number | null>(null);
+	const [query, setQuery] = useState<string>("");
+	const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+
+	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = e.target.value.toLowerCase();
+		setQuery(value);
+
+		const results = users.filter(
+			(user) =>
+				user.name.toLocaleLowerCase().includes(value)
+		);
+		setFilteredUsers(results);
+	}
 
 	const handlePopupClose = () => {
 		setPopupType(null);
@@ -106,7 +124,7 @@ const Directory = () => {
 						</div>
 
 						{/* Search bar in mobile */}
-						<div className="hidden max-sm:block  max-sm:w-full mb-4 max-sm:px-3">
+						<div className="hidden max-sm:block max-sm:w-full mb-4 max-sm:px-3">
 							<div className="relative flex items-center">
 								{/* Search Icon */}
 								<span className="absolute left-2 text-[#9AA1B7]">
@@ -116,10 +134,28 @@ const Directory = () => {
 								{/* Search Input */}
 								<input
 									type="input"
-									className="border  focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
+									className="border focus:border-blue-500 border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none"
 									placeholder="Search"
+									value={query}
+									onChange={handleSearch}
 								/>
 							</div>
+
+							{/* Search Results */}
+							{query && filteredUsers.length > 0 && (
+								<ul className="mt-4 bg-white shadow-md rounded-md">
+									{filteredUsers.map((user, index) => (
+										<li key={index} className="p-2 border-b last:border-none">
+											<p className="font-semibold">{user.name}</p>
+										</li>
+									))}
+								</ul>
+							)}
+
+							{/* Show a message if no users match the query */}
+							{query && filteredUsers.length === 0 && (
+								<p className="mt-4 text-gray-500">No users found.</p>
+							)}
 						</div>
 
 						{/* Table and Empty State */}
