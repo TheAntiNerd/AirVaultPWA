@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import LoaderFull from './components/wait/LoaderFull';
 import Logo from './assets/logo.svg';
+import { Route, BrowserRouter as Router, Routes } from 'react-router';
+import { Navigate } from 'react-router';
+import Home from './components/ui/home';
 
 // function to check if PWA is already installed
 const isPWAInstalled = () => {
@@ -71,62 +74,72 @@ function App() {
 		<LoaderFull />
 	) : (
 		<div className="App w-full min-h-screen flex justify-center items-center">
-			{isAlreadyInstalled ? (
-				<>Already installed PWA. Showing the app.. last time!</>
-			) : (
-				<>
-					{isInstallable ? (
+			<Router>
+				<Routes>
+
+
+					{isAlreadyInstalled ? (
 						<>
-							<div className="flex-grow width-full max-w-md">
-								<div className="w-full flex justify-center items-center mb-8">
-									<Logo />
-								</div>
-								<div>
-									<h1 className="text-center text-4xl text-gray-500 mb-4">
-										Install AirVault Dashboard
-									</h1>
-									<p className="text-gray-500 text-center mb-4">
-										You are ready to use your AirVault. Install your AirVault Dashboard by clicking
-										on the button bellow.
-									</p>
-									<div className="w-full flex justify-center">
-										<button
-											className="p-4 rounded-lg border-none outline-none bg-blue-500 text-white"
-											onClick={handleInstallClick}>
-											Install AirVault Dashboard
-										</button>
-									</div>
-								</div>
-							</div>
+							<Route path='/' element={<Navigate to='/dashboard' replace />} />
+							<Route path='/dashboard' element={<Home />} />
 						</>
 					) : (
 						<>
-							<div className="flex-grow width-full max-w-md">
-								<div className="w-full flex justify-center items-center mb-8">
-									<Logo />
-								</div>
-								<div>
-									<h1 className="text-center text-4xl text-gray-500 mb-4">
-										App installation not available
-									</h1>
-									<p className="text-gray-500">
-										This can be due to one of the following reasons:
-										<ul>
-											<li>Your browser does not support PWA</li>
-											<li>PWA is already installed</li>
-										</ul>
-										Please contact support at{' '}
-										<a href="mailto:backoffice@airvault.com" className="text-blue-500">
-											backoffice@airvault.com
-										</a>
-										.
-									</p>
-								</div>
-							</div>
+							<Route
+								path="*"
+								element={
+									isInstallable ? (
+										<div className="flex-grow width-full max-w-md">
+											<div className="w-full flex justify-center items-center mb-8">
+												<Logo />
+											</div>
+											<div className="max-sm:px-3 ">
+												<h1 className="text-center  text-3xl text-[#44475B] mb-4">
+													Install AirVault Dashboard
+												</h1>
+												<p className="text-[#44475B] text-sm text-center max-sm:text-left mb-10">
+													You are ready to use your AirVault. Install your AirVault Dashboard
+													by clicking on the button below.
+												</p>
+												<div className="w-full flex justify-center">
+													<button
+														className="p-4 rounded-lg border-none outline-none bg-blue-500 text-white"
+														onClick={handleInstallClick}>
+														Install AirVault Dashboard
+													</button>
+												</div>
+											</div>
+										</div>
+									) : (
+										<div className="flex-grow width-full max-w-md max-sm:px-3">
+											<div className="w-full flex justify-center items-center mb-8">
+												<Logo />
+											</div>
+											<div>
+												<h1 className="text-center text-3xl max-sm:text-left text-[#44475B] mb-4">
+													App installation not available
+												</h1>
+												<p className="text-[#44475B]">
+													This can be due to one of the following reasons:
+													<ul>
+														<li>Your browser does not support PWA</li>
+														<li>PWA is already installed</li>
+													</ul>
+													Please contact support at{' '}
+													<a href="mailto:backoffice@airvault.com" className="text-blue-500">
+														backoffice@airvault.com
+													</a>
+													.
+												</p>
+											</div>
+										</div>
+									)
+								}
+							/>
 						</>
 					)}
-				</>
-			)}
+				</Routes>
+			</Router>
 		</div>
 	);
 }
