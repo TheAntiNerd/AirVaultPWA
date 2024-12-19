@@ -1,19 +1,22 @@
 import { useRef, useState } from "react";
 import { GridIcon } from "../../../assets"
 import SideMenu from "../../SideMenu"
+import Navbar from "../navbar";
 
 const Home = () => {
     const [files, setFiles] = useState([
         { name: 'File 1', size: '2MB', type: 'PDF', modified: '2024-12-17' },
         { name: 'File 2', size: '5MB', type: 'Image', modified: '2024-12-16' },
-        { name: 'File 3', size: '1MB', type: 'Text', modified: '2024-12-15' },
-        { name: 'File 4', size: '1MB', type: 'Text', modified: '2024-12-15' },
+        { name: 'File 3', size: '1MB', type: 'Excel', modified: '2024-12-15' },
+        { name: 'File 4', size: '1MB', type: 'Excel', modified: '2024-12-15' },
+        { name: 'File 5', size: '1MB', type: 'Excel', modified: '2024-12-15' },
     ]);
     const [newFolderName, setNewFolderName] = useState<string>('');
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [selectedRow, setSelectedRows] = useState<number[]>([]);
     const [isCheckboxVisible, setIsCheckboxVisible] = useState<boolean>(false);
     const [isFolderInputVisible, setIsFolderInputVisible] = useState<boolean>(false);
+    const [gridView, setGridView] = useState<boolean>(false);
 
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,14 +65,21 @@ const Home = () => {
             setIsFolderInputVisible(false);
         }
     };
-
+    const formatDate = (dateString: string): string => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+        });
+    };
 
     return (
         <SideMenu>
             {/* NavBar searchbar and account icon*/}
-
+            <Navbar files={files} gridView={gridView} />
             {/* header*/}
-            <div className="px-9 pt-6 text-sm">
+            <div className="px-9 pt-6 text-sm ">
                 <div className="pb-4 flex justify-between items-center">
                     {/* Title */}
                     <h1 className="text-[22px] font-semibold">All files</h1>
@@ -137,19 +147,27 @@ const Home = () => {
                         <button className="rotate-90">• • •</button>
                     </div>
                     <div className="flex gap-3 items-center justify-center">
-                        <h2 className="font-medium text-center">{selectedRow.length} selected</h2>
-                        <button className="">
-                            <GridIcon />
-                        </button>
-                        <button className="">
-                            <GridIcon />
-                        </button>
+
+                        {selectedRow.length > 0 && <h2 className="font-medium text-center">{selectedRow.length} selected</h2>}
+                        <div onClick={() => setGridView(false)} className="flex items-center justify-center flex-col">
+                            <button className="mb-px">
+                                <GridIcon /> {/* Grid view */}
+                            </button>
+                            <div className={`pt-[2px] ${!gridView ? 'border-t-2 w-6 border-black ' : ""}`} />
+                        </div>
+                        <div onClick={() => setGridView(true)} className="flex items-center justify-center flex-col" >
+                            <button className="mb-px">
+                                <GridIcon /> {/* Grid view */}
+                            </button>
+                            <div className={`pt-[2px] ${gridView ? 'border-t-2 w-6 border-black ' : ""}`} />
+                        </div>
+
                     </div>
                 </div>
 
                 {/* table */}
                 <div className=" mt-6">
-                    <table className="w-full border-collapse">
+                    {!gridView ? (<table className="w-full border-collapse">
                         <thead>
                             <tr>
                                 <th className="py-4 text-left w-1/5">
@@ -165,8 +183,6 @@ const Home = () => {
                                                     className="-ml-[20px] h-[14px] w-5 peer checked:border-blue-500 checked:to-blue-700 transition-colors"
                                                 />
                                             )}
-
-
                                             <span className="pl-4">
                                                 Name
                                             </span>
@@ -221,7 +237,7 @@ const Home = () => {
                                         <div className="flex flex-col items-start">{file.type}</div>
                                     </td>
                                     <td className="py-4 w-1/6">
-                                        <div className="flex flex-col items-start">{file.modified}</div>
+                                        <div className="flex flex-col items-start">{formatDate(file.modified)}</div>
                                     </td>
                                     <td className="py-4 w-1/4">
                                         <div className="flex flex-col items-center">
@@ -241,12 +257,79 @@ const Home = () => {
                                 </tr>
                             ))}
                         </tbody>
+                    </table>) : (<div className='pb-10'>
+                        <div className="px-4 m-2">
+                            <input
+                                onClick={() => {
+                                    setIsCheckboxVisible(false);
+                                    setSelectedRows([]);
+                                }}
+                                type="checkbox"
+                                className="-ml-[20px] h-[14px] w-5 peer checked:border-blue-500 checked:to-blue-700 transition-colors"
+                                style={{ visibility: selectedRow.length > 0 ? 'visible' : 'hidden' }}
+                            />
+                        </div>
 
-                    </table>
+
+                        <div className=' grid grid-cols-3 gap-x-3 gap-y-6 max-sm:grid-cols-1 max-md:grid-cols-2 max-lg:grid-cols-2 xl:grid-cols-4'>
+                            {files.map((file, index) => (
+                                <div
+                                    key={index}
+                                    className={`h-[212px] w-[250px] rounded-lg bg-zinc-500  ${selectedRow.includes(index) ? '' : 'group'}`}
+                                    onClick={() => handleRowClick(index)}
+                                >
+                                    <div className='bg-white relative rounded-md m-2.5 h-[140px] flex '>
+                                        <img src="logo.svg" alt={file.name} className='object-contain h-full w-full' />
+                                        {/* Checkboxes */}
+                                        <div className="absolute top-0 left-5">
+                                            <span className="absolute top-1">
+                                                {isCheckboxVisible && (
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedRow.includes(index)}
+                                                        onChange={() => handleRowClick(index)}
+                                                        className="-ml-5 h-[14px] w-5 peer checked:border-blue-500 checked:to-blue-700 transition-colors"
+                                                    />
+                                                )}
+                                            </span>
+                                        </div>
+                                        <div className={`absolute top-1 right-0 flex flex-row gap-x-1 opacity-0 group-hover:opacity-100 transition-opacity`}>
+                                            <div><button className="bg-gray-500 rounded-lg px-4 py-1">Share</button></div>
+                                            <div><GridIcon /></div>
+                                            <div className="rotate-90 cursor-pointer">•••</div>
+                                        </div>
+
+                                    </div>
+                                    {/* Details Container */}
+                                    <div className='px-4 pt-px'>
+                                        <div className='flex items-center justify-between space-x-2'>
+                                            {/* File Info */}
+                                            <div className='flex items-center justify-center space-x-2'>
+                                                <GridIcon />
+                                                <div>
+                                                    <h3 className="font-semibold">{file.name}</h3>
+                                                    <div className='text-xs flex flex-row pt-px space-x-2'>
+                                                        <p>{file.type}</p>
+                                                        <p>● {file.size}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {/* Action Icon */}
+                                            <div className='flex items-end justify-center cursor-pointer'>
+                                                <GridIcon />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>)}
+
 
                 </div>
             </div>
-        </SideMenu>
+
+        </SideMenu >
 
     )
 }

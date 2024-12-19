@@ -4,6 +4,11 @@ import Logo from './assets/logo.svg';
 import { Route, BrowserRouter as Router, Routes } from 'react-router';
 import { Navigate } from 'react-router';
 import Home from './components/ui/home';
+import SearchResult from './components/ui/search-results';
+import MyFiles from './components/ui/my-files';
+import SharedWithMe from './components/ui/shared-with-me';
+import DeletedFiles from './components/ui/Deleted-files';
+import Starred from './components/ui/starred';
 
 // function to check if PWA is already installed
 const isPWAInstalled = () => {
@@ -82,6 +87,11 @@ function App() {
 						<>
 							<Route path='/' element={<Navigate to='/dashboard' replace />} />
 							<Route path='/dashboard' element={<Home />} />
+							<Route path='/search' element={<SearchResult />} />
+							<Route path='/myfiles' element={<MyFiles />} />
+							<Route path='/shared' element={<SharedWithMe />} />
+							<Route path='/deleted' element={<DeletedFiles />} />
+							<Route path='/starred' element={<Starred />} />
 						</>
 					) : (
 						<>

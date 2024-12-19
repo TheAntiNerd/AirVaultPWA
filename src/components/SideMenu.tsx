@@ -4,16 +4,16 @@ import { GridIcon, LogoIcon, MenuCloseIcon, MenuOpenIcon } from '../assets';
 
 const menuItems = [
     { name: 'Home', path: '/dashboard', icon: <GridIcon /> },
-    { name: 'My files', path: '/dashboard', icon: <GridIcon /> },
-    { name: 'Shared with me', path: '/dashboard', icon: <GridIcon /> },
-    { name: 'Deleted files', path: '/dashboard', icon: <GridIcon /> },
+    { name: 'My files', path: '/myfiles', icon: <GridIcon /> },
+    { name: 'Shared with me', path: '/shared', icon: <GridIcon /> },
+    { name: 'Deleted files', path: '/deleted', icon: <GridIcon /> },
 ];
 
 export default function SideMenu({ children }: { children: React.ReactNode }) {
     const location = useLocation();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [quickAccess, setQuickAccess] = useState([
-        { name: 'Starred', path: 'quick-access/starred', icon: <GridIcon /> },
+        { name: 'Starred', path: '/starred', icon: <GridIcon /> },
     ]);
     const [isAddingField, setIsAddingField] = useState(false);
     const [newFieldName, setNewFieldName] = useState('');
@@ -32,7 +32,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
                 ...quickAccess,
                 {
                     name: newFieldName,
-                    path: `quick-access/${newFieldName.toLowerCase().replace(/\s+/g, '-')}`,
+                    path: `/${newFieldName.toLowerCase().replace(/\s+/g, '-')}`,
                     icon: <GridIcon />,
                 },
             ]);
@@ -185,7 +185,13 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 bg-zinc-400">{children}</main>
+            <main className="flex-1 bg-zinc-300">
+                <div className="w-full max-w-[1200px] mx-auto px-4">
+                    {children}
+                </div>
+            </main>
+
+
         </div>
     );
 }
