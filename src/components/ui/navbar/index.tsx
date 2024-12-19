@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DownArrowIcon, MenuCloseIcon, SearchIcon } from '../../../assets';
+import { DownArrow, MenuCloseIcon, SearchIcon } from '../../../assets';
 import { useNavigate } from 'react-router';
 
 interface File {
@@ -148,7 +148,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                         ))}
                                     </select>
                                     <div className="absolute top-1 right-2 flex items-center pointer-events-none">
-                                        <DownArrowIcon />
+                                        <DownArrow />
                                     </div>
                                     {(selectedType) && <button className="absolute right-2 text-[#9AA1B7]" onClick={() => {
                                         setSelectedType("");
@@ -172,7 +172,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                         ))}
                                     </select>
                                     <div className="absolute top-1 right-2 flex items-center pointer-events-none">
-                                        <DownArrowIcon />
+                                        <DownArrow />
                                     </div>
                                     {(selectedModified) && <button className="absolute right-0 text-[#9AA1B7]" onClick={() => {
                                         setSelectedModified("");

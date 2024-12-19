@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { DownArrowIcon, GridIcon, MenuCloseIcon } from '../../../assets';
+import { DownArrow, GridIcon, MenuCloseIcon } from '../../../assets';
 import SideMenu from '../../SideMenu'
 import Navbar from '../navbar'
 import { useLocation } from 'react-router';
@@ -118,7 +118,7 @@ const SearchResult = () => {
                                         ))}
                                     </select>
                                     <div className="absolute top-1 right-2 flex items-center pointer-events-none">
-                                        <DownArrowIcon />
+                                        <DownArrow />
                                     </div>
                                     {(selectType) && <button className="absolute right-2 text-[#9AA1B7]" onClick={() => {
                                         setSelectedType("");
@@ -143,7 +143,7 @@ const SearchResult = () => {
                                         ))}
                                     </select>
                                     <div className="absolute top-1 right-2 flex items-center pointer-events-none">
-                                        <DownArrowIcon />
+                                        <DownArrow />
                                     </div>
                                     {(selectModified) && <button className="absolute right-0 text-[#9AA1B7]" onClick={() => {
                                         setSelectedModified("");

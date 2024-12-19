@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router';
-import { GridIcon, LogoIcon, MenuCloseIcon, MenuOpenIcon } from '../assets';
+import { CustomIcon, DeleteIcon, FileIcon, HomeIcon, LogoIcon, MenuCloseIcon, MenuOpenIcon, PlusArrow, SharedIcon, StarredIcon } from '../assets';
 
 const menuItems = [
-    { name: 'Home', path: '/dashboard', icon: <GridIcon /> },
-    { name: 'My files', path: '/myfiles', icon: <GridIcon /> },
-    { name: 'Shared with me', path: '/shared', icon: <GridIcon /> },
-    { name: 'Deleted files', path: '/deleted', icon: <GridIcon /> },
+    { name: 'Home', path: '/dashboard', icon: <HomeIcon /> },
+    { name: 'My files', path: '/myfiles', icon: <FileIcon /> },
+    { name: 'Shared with me', path: '/shared', icon: <SharedIcon /> },
+    { name: 'Deleted files', path: '/deleted', icon: <DeleteIcon /> },
 ];
 
 export default function SideMenu({ children }: { children: React.ReactNode }) {
     const location = useLocation();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [quickAccess, setQuickAccess] = useState([
-        { name: 'Starred', path: '/starred', icon: <GridIcon /> },
+        { name: 'Starred', path: '/starred', icon: <StarredIcon /> },
     ]);
     const [isAddingField, setIsAddingField] = useState(false);
     const [newFieldName, setNewFieldName] = useState('');
@@ -33,7 +33,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
                 {
                     name: newFieldName,
                     path: `/${newFieldName.toLowerCase().replace(/\s+/g, '-')}`,
-                    icon: <GridIcon />,
+                    icon: <CustomIcon />,
                 },
             ]);
             setNewFieldName('');
@@ -67,7 +67,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 
 
     return (
-        <div className="flex flex-col lg:flex-row w-full h-screen bg-white text-sans text-sm">
+        <div className="flex flex-col lg:flex-row w-full min-h-screen bg-white text-sans text-sm ">
             {/* Top Bar */}
             {location.pathname.startsWith('/saved-ip') ? null : (
                 <div className="bg-white shadow p-3 flex justify-between items-center lg:hidden sticky top-0 z-10">
@@ -82,14 +82,13 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
             {/* Sidebar */}
             <aside
                 className={`${isSidebarOpen ? 'translate-x-0 opacity-100 scale-100' : '-translate-x-full opacity-100 scale-100'
-                    } lg:translate-x-0 transition-transform duration-500 ease-in-out lg:w-64 fixed lg:static inset-0 bg-white text-gray-800 p-4 border-r flex flex-col justify-between z-40`}>
+                    } lg:translate-x-0 transition-transform duration-500 ease-in-out lg:w-64 fixed lg:static inset-0 bg-[#F7F9FC] text-gray-800 p-4  flex flex-col justify-between z-40 `}>
                 <div>
                     {/* Logo */}
-                    <div className="max-sm:hidden gap-2">
+                    <div className="flex gap-2 mb-6">
                         <Link to="/" className="px-3 font-semibold">
-                            <span className="flex items-center justify-center">
+                            <span className="flex max-lg:hidden  items-start justify-center">
                                 <LogoIcon />
-                                <span className='ml-3 text-base'>Airvault</span>
                             </span>
                         </Link>
                     </div>
@@ -114,22 +113,30 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
                                 <Link
                                     to={item.path}
                                     onClick={closeSidebarOnClick}
-                                    className={`flex items-center p-2 my-1 rounded transition-colors ${location.pathname === item.path
-                                        ? 'bg-[#DBEAFE] text-gray-800'
-                                        : 'hover:bg-gray-200'
+                                    className={`flex items-center p-1.5 my-1 rounded transition-colors ${location.pathname === item.path
+                                        ? 'bg-[#DBEAFE] text-primary-heading rounded-lg'
+                                        : 'hover:bg-[#EBF2FA] rounded-lg'
                                         }`}>
-                                    {item.icon}
-                                    <span className="ml-3">{item.name}</span>
+                                    <span className='pl-2 flex items-center justify-between'>
+                                        {item.icon}
+                                        <span className="ml-3 text-primary-para">{item.name}</span>
+                                    </span>
                                 </Link>
                             </div>
                         ))}
 
                         {/* Quick Access Section */}
-                        <div className="mt-8">
+                        <div className="mt-4">
                             <button
-                                className="text-gray-600 font-semibold mb-2 cursor-pointer"
+                                className=" mb-2 cursor-pointer"
                                 onClick={() => setIsAddingField(!isAddingField)}>
-                                <h4 className=''>Quick Access +</h4>
+                                <span className='flex items-center justify-between'>
+                                    <h4 className='px-4 font-medium text-primary-heading'>Quick access </h4>
+                                    <span className='ml-2  '>
+                                        <PlusArrow />
+                                    </span>
+                                </span>
+
                             </button>
 
                             {/* Input Field */}
@@ -159,25 +166,32 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
                                     <Link
                                         to={item.path}
                                         onClick={closeSidebarOnClick}
-                                        className="flex items-center p-2 my-1 rounded hover:bg-gray-200 transition-colors">
-                                        {item.icon}
-                                        <span className="ml-3">{item.name}</span>
+                                        className={`flex items-center p-1.5 my-1 rounded transition-colors ${location.pathname === item.path
+                                            ? 'bg-[#DBEAFE] text-primary-heading rounded-lg'
+                                            : 'hover:bg-[#EBF2FA] rounded-lg'
+                                            }`}>
+                                        <span className='pl-3 flex items-center justify-between'>
+                                            {item.icon}
+                                            <span className="ml-3 text-primary-para">{item.name}</span>
+                                        </span>
                                     </Link>
                                 </div>
                             ))}
                         </div>
 
                         {/* storage bar */}
-                        <div className="mt-8">
-                            <h4 className="text-gray-600 font-semibold mb-2">Storage Usage</h4>
-                            <div className="w-full bg-gray-200 rounded h-2">
+                        <div className="mt-4 px-[18px]">
+                            <h4 className="text-primary-heading font-medium mb-3">Storage</h4>
+                            <div className="w-full bg-[#D3DBE0] rounded h-[7px]">
                                 <div
-                                    className="bg-blue-500 h-2 rounded"
+                                    className="bg-gradient-to-r from-[#46BFFB] to-[#298DFF] h-[7px] rounded"
                                     style={{ width: `${progress}%`, transition: 'width 0.5s ease-in-out' }}
                                 />
                             </div>
-                            <p className="text-gray-600 mt-2 text-sm">
-                                {storageUsed} GB used of {storageTotal} GB
+
+
+                            <p className="text-primary-para mt-2 text-sm">
+                                {storageTotal - storageUsed} GB left
                             </p>
                         </div>
                     </nav>
@@ -185,8 +199,8 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 bg-zinc-300">
-                <div className="w-full max-w-[1200px] mx-auto px-4">
+            <main className="flex-1">
+                <div className="w-full max-w-[1240px] mx-auto px-4 mb-8">
                     {children}
                 </div>
             </main>
