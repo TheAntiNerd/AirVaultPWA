@@ -1,5 +1,28 @@
 import { useRef, useState } from "react";
-import { CheckboxIcon, CopyIcon, DeleteIcon, DownloadIcon, GridIcon, ListIcon, MoveIcon, NewFolderIcon, StarredIcon, UploadIcon } from "../../../assets"
+import {
+    AudioIcon,
+    CheckboxIcon,
+    CopyIcon,
+    CustomIcon,
+    DeleteIcon,
+    DocumentIcon,
+    DownloadIcon,
+    ExcelIcon,
+    FormIcon,
+    GridIcon,
+    ImageIcon,
+    ListIcon,
+    MoveIcon,
+    NewFolderIcon,
+    OtherTypeIcon,
+    PdfIcon,
+    PptIcon,
+    StarredIcon,
+    UpIcon,
+    UploadIcon,
+    VideoIcon,
+    ZipIcon
+} from "../../../assets"
 import SideMenu from "../../SideMenu"
 import Navbar from "../navbar";
 
@@ -10,11 +33,11 @@ interface CustomCheckboxProps {
 }
 const Home = () => {
     const [files, setFiles] = useState([
-        { name: 'File 1', size: '2MB', type: 'PDF', modified: '2024-12-17' },
-        { name: 'File 2', size: '5MB', type: 'Image', modified: '2024-12-16' },
-        { name: 'File 3', size: '1MB', type: 'Excel', modified: '2024-12-15' },
-        { name: 'File 4', size: '1MB', type: 'Excel', modified: '2024-12-15' },
-        { name: 'File 5', size: '1MB', type: 'Excel', modified: '2024-12-15' },
+        { name: 'File 1', size: '2 MB', type: 'PDF', modified: '2024-12-20' },
+        { name: 'File 2', size: '5 MB', type: 'Image', modified: '2024-12-16' },
+        { name: 'File 3', size: '1 MB', type: 'Audio', modified: '2024-12-15' },
+        { name: 'File 4', size: '1 MB', type: 'Video', modified: '2024-12-15' },
+        { name: 'File 5', size: '1 MB', type: 'Document', modified: '2024-12-15' },
     ]);
     const [newFolderName, setNewFolderName] = useState<string>('');
     const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -22,6 +45,32 @@ const Home = () => {
     const [isCheckboxVisible, setIsCheckboxVisible] = useState<boolean>(false);
     const [isFolderInputVisible, setIsFolderInputVisible] = useState<boolean>(false);
     const [gridView, setGridView] = useState<boolean>(false);
+
+    const fileTypeImages: {
+        Document: JSX.Element;
+        Folder: JSX.Element;
+        Spreadsheet: JSX.Element;
+        Presentation: JSX.Element;
+        Form: JSX.Element;
+        PDF: JSX.Element;
+        Video: JSX.Element;
+        Image: JSX.Element;
+        Audio: JSX.Element;
+        Archive: JSX.Element;
+        Other: JSX.Element;
+    } = {
+        Document: <DocumentIcon />,
+        Folder: <CustomIcon />,
+        Spreadsheet: <ExcelIcon />,
+        Presentation: <PptIcon />,
+        Form: <FormIcon />,
+        PDF: <PdfIcon />,
+        Video: <VideoIcon />,
+        Image: <ImageIcon />,
+        Audio: <AudioIcon />,
+        Archive: <ZipIcon />,
+        Other: <OtherTypeIcon />
+    }
 
     const CustomCheckbox: React.FC<CustomCheckboxProps> = ({ checked, onChange, index }) => {
         return (
@@ -51,7 +100,6 @@ const Home = () => {
                 peer-checked:border-buttonPrimary
               `}
                 >
-
                     {checked && (
                         <svg
                             className="h-4 w-4 text-white mx-auto"
@@ -67,7 +115,6 @@ const Home = () => {
                             />
                         </svg>
                     )}
-
                 </div>
             </div>
         );
@@ -195,7 +242,7 @@ const Home = () => {
                 </div>
                 {/* files empty */}
                 {files.length === 0 ? (<>
-                    <div className="flex items-center justify-center flex-col gap-y-3 pt-60">
+                    <div className="flex items-center justify-center flex-col gap-y-3 min-h-screen pb-80">
                         <h2 className="text-primary-heading text-[22px] font-medium">Welcome to AirVault</h2>
                         <p className="text-primary-para">
                             Drag your files and folder here or use the "<span className="font-semibold">upload</span>" button
@@ -265,7 +312,7 @@ const Home = () => {
 
                     {/* table */}
                     <div className=" mt-6">
-                        {!gridView ? (<table className="w-full border-collapse ">
+                        {!gridView ? (<table className="w-full border-collapse cursor-default">
                             <thead className=" text-primary-heading">
                                 <tr>
                                     <th className="py-4 text-left w-1/5">
@@ -283,8 +330,11 @@ const Home = () => {
                                                     )}
                                                 </span>
 
-                                                <span className="pl-3 font-medium">
+                                                <span className="pl-3 font-medium flex flex-row items-center space-x-1">
+
                                                     Name
+                                                    {selectedRow.length > 0 && <UpIcon />}
+
                                                 </span>
                                             </span>
                                         </div>
@@ -324,7 +374,12 @@ const Home = () => {
                                                             />
                                                         )}
                                                     </span>
-                                                    <span className="pl-5">{file.name}</span>
+                                                    <span className="pl-3 flex flex-row items-center gap-x-2">
+                                                        <span>
+                                                            {fileTypeImages[file.type as keyof typeof fileTypeImages] || <OtherTypeIcon />}
+                                                        </span>
+
+                                                        {file.name}</span>
                                                 </span>
                                             </div>
                                         </td>
@@ -357,68 +412,80 @@ const Home = () => {
                             </tbody>
                         </table>) : (
                             /* Grid */
-                            <div className='pb-10'>
+                            <div className='pb-10 cursor-default'>
                                 <div className="px-4 m-2">
-                                    <input
+                                    <button
                                         onClick={() => {
                                             setIsCheckboxVisible(false);
                                             setSelectedRows([]);
                                         }}
-                                        type="checkbox"
-                                        className="-ml-[20px] h-[14px] w-5 peer checked:border-blue-500 checked:to-blue-700 transition-colors"
-                                        style={{ visibility: selectedRow.length > 0 ? 'visible' : 'hidden' }}
-                                    />
+                                        className="-ml-6 flex items-center justify-center"
+                                        style={{
+                                            opacity: selectedRow.length > 0 ? 1 : 0,
+                                            pointerEvents: selectedRow.length > 0 ? 'auto' : 'none',
+                                        }}
+                                    >
+                                        <span className="flex flex-row items-center space-x-1">
+                                            <CheckboxIcon />
+                                            <span className="flex flex-row items-center space-x-1">
+                                                Name <UpIcon />
+                                            </span>
+                                        </span>
+
+                                    </button>
                                 </div>
+
 
 
                                 <div className=' grid grid-cols-3 gap-x-3 gap-y-6 max-sm:grid-cols-1 max-md:grid-cols-2 max-lg:grid-cols-2 xl:grid-cols-4'>
                                     {files.map((file, index) => (
                                         <div
                                             key={index}
-                                            className={`h-[212px] w-[250px] rounded-lg bg-zinc-500  ${selectedRow.includes(index) ? '' : 'group'}`}
+                                            className={`h-[212px] w-[250px] rounded-lg bg-hover  ${selectedRow.includes(index) ? 'bg-selected' : 'group'}`}
                                             onClick={() => handleRowClick(index)}
                                         >
                                             <div className='bg-white relative rounded-md m-2.5 h-[140px] flex '>
                                                 <img src="logo.svg" alt={file.name} className='object-contain h-full w-full' />
                                                 {/* Checkboxes */}
                                                 <div className="absolute top-0 left-5">
-                                                    <span className="absolute top-1">
+                                                    <span className="absolute top-1 left-2">
                                                         {isCheckboxVisible && (
-                                                            <input
-                                                                type="checkbox"
+                                                            <CustomCheckbox
                                                                 checked={selectedRow.includes(index)}
                                                                 onChange={() => handleRowClick(index)}
-                                                                className="-ml-5 h-[14px] w-5 peer checked:border-blue-500 checked:to-blue-700 transition-colors"
+                                                                index={index}
                                                             />
                                                         )}
                                                     </span>
                                                 </div>
-                                                <div className={`absolute top-1 right-0 flex flex-row gap-x-1 opacity-0 group-hover:opacity-100 transition-opacity`}>
-                                                    <div><button className="bg-gray-500 rounded-lg px-4 py-1">Share</button></div>
-                                                    <div><GridIcon /></div>
+                                                <div className={`absolute top-1 right-0 flex flex-row items-center gap-x-2 opacity-0 group-hover:opacity-100 transition-opacity`}>
+                                                    <div><button className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</button></div>
+                                                    <div><CopyIcon /></div>
                                                     <div className="rotate-90 cursor-pointer">•••</div>
                                                 </div>
 
                                             </div>
                                             {/* Details Container */}
                                             <div className='px-4 pt-px'>
-                                                <div className='flex items-center justify-between space-x-2'>
-                                                    {/* File Info */}
-                                                    <div className='flex items-center justify-center space-x-2'>
-                                                        <GridIcon />
-                                                        <div>
-                                                            <h3 className="font-semibold">{file.name}</h3>
-                                                            <div className='text-xs flex flex-row pt-px space-x-2'>
-                                                                <p>{file.type}</p>
-                                                                <p>● {file.size}</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    {/* Action Icon */}
-                                                    <div className='flex items-end justify-center cursor-pointer'>
-                                                        <GridIcon />
-                                                    </div>
+
+                                                {/* File Info */}
+                                                <div className='flex flex-row items-center space-x-1'>
+                                                    {fileTypeImages[file.type as keyof typeof fileTypeImages] || <OtherTypeIcon />}
+                                                    <h3 className="text-primary-para">
+                                                        {file.name}</h3>
                                                 </div>
+
+                                                <div className='text-xs flex flex-row pt-px space-x-2 pl-5'>
+                                                    <p className="text-primary-searchFilter">{file.type}</p>
+                                                    <p className="text-primary-searchFilter">● {file.size}</p>
+                                                </div>
+                                                <div className='flex items-center justify-end -mt-6 cursor-pointer'>
+                                                    <StarredIcon />
+                                                </div>
+
+
+
+
                                             </div>
                                         </div>
                                     ))}

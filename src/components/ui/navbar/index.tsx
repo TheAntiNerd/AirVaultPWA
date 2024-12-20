@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { DownArrow, MenuCloseIcon, SearchIcon } from '../../../assets';
+import React, { useEffect, useRef, useState } from 'react';
+import { AudioIcon, BlueTickIcon, CustomIcon, DocumentIcon, DownArrow, ExcelIcon, FormIcon, ImageIcon, MenuCloseIcon, OtherTypeIcon, PdfIcon, PptIcon, SearchIcon, VideoIcon, ZipIcon } from '../../../assets';
 import { useNavigate } from 'react-router';
 
 interface File {
@@ -21,27 +21,47 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
     const [selectedModified, setSelectedModified] = useState<string>('');
     const [showAll, setShowAll] = useState<boolean>(false);
     const [showFilter, setShowFilter] = useState<boolean>(false)
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpenModified, setOpenModified] = useState<boolean>(false);
     const navigate = useNavigate()
 
-    const fileTypes = ['PDF', 'Excel', 'Image', 'Folder '];
-    const modifiedOptions = ['1 Day', '1 Week', '3 Months'];
+    const typeDropdownRef = useRef<HTMLDivElement>(null);
+    const modifiedDropdownRef = useRef<HTMLDivElement>(null);
 
+    const fileTypes = ['Folder', 'Document', 'Spreadsheet', 'Presentation', 'Form', 'PDF', 'Video', 'Image', 'Audio', 'Archive', 'Other',];
+    const modifiedOptions = ['Today', 'Last Week', 'Last month', '3 months', '6 months', 'Last year', 'Before last year'];
+
+
+    const fileTypeImages: Record<string, JSX.Element> = {
+        Document: <DocumentIcon />,
+        Folder: <CustomIcon />,
+        Spreadsheet: <ExcelIcon />,
+        Form: <FormIcon />,
+        PDF: <PdfIcon />,
+        Video: <VideoIcon />,
+        Image: <ImageIcon />,
+        Audio: <AudioIcon />,
+        Archive: <ZipIcon />,
+        Presentation: <PptIcon />,
+        Other: <OtherTypeIcon />
+    }
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.toLowerCase();
         setQuery(value);
         filterFiles(value, selectedType, selectedModified);
     };
 
-    const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const type = e.target.value;
+    const handleTypeChange = (type: string) => {
         setSelectedType(type);
+        setIsOpen(false);
         filterFiles(query, type, selectedModified);
     };
 
-    const handleModifiedChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const modified = e.target.value;
-        setSelectedModified(modified);
-        filterFiles(query, selectedType, modified);
+
+    const handleModifiedChange = (option: string) => {
+        setSelectedModified(option);
+        setOpenModified(false)
+        filterFiles(query, selectedType, option);
     };
 
     const filterFiles = (query: string, type: string, modified: string) => {
@@ -64,18 +84,32 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
             results = results.filter((file) => {
                 const fileDate = new Date(file.modified);
                 switch (modified) {
-                    case '1 Day':
+                    case 'Today':
+
                         return now.getTime() - fileDate.getTime() <= 1 * 24 * 60 * 60 * 1000;
-                    case '1 Week':
+                    case 'Last Week':
+
                         return now.getTime() - fileDate.getTime() <= 7 * 24 * 60 * 60 * 1000;
+                    case 'Last Month':
+
+                        return now.getTime() - fileDate.getTime() <= 30 * 24 * 60 * 60 * 1000;
                     case '3 Months':
+
                         return now.getTime() - fileDate.getTime() <= 90 * 24 * 60 * 60 * 1000;
+                    case '6 Months':
+
+                        return now.getTime() - fileDate.getTime() <= 180 * 24 * 60 * 60 * 1000;
+                    case 'Last Year':
+
+                        return now.getTime() - fileDate.getTime() <= 365 * 24 * 60 * 60 * 1000;
+                    case 'Before Last Year':
+
+                        return now.getTime() - fileDate.getTime() > 365 * 24 * 60 * 60 * 1000;
                     default:
                         return true;
                 }
             });
         }
-
         setFilteredFiles(results);
     };
 
@@ -86,7 +120,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
 
         return parts.map((part, index) =>
             regex.test(part) ? (
-                <span key={index} className="font-bold text-blue-600">
+                <span key={index} className="font-semibold text-primary-heading">
                     {part}
                 </span>
             ) : (
@@ -97,15 +131,33 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
 
     const handleShowMore = () => {
         setShowAll(false);
-        navigate('/search-result', {
+        navigate('/search', {
             state: { selectedType, selectedModified, gridView }
         })
-
+        console.log(selectedModified, selectedModified, gridView)
     }
 
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            // Handle Types dropdown
+            if (typeDropdownRef.current && !typeDropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+            // Handle Modified dropdown
+            if (modifiedDropdownRef.current && !modifiedDropdownRef.current.contains(event.target as Node)) {
+                setOpenModified(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isOpen, isOpenModified])
+
     return (
-        <div className=" flex items-center justify-between px-9 pt-3">
+        <div className=" flex items-center justify-between px-9 pt-3 text-primary-para">
             <div className="">
                 <div className="w-[440px]">
                     <div className="relative flex items-center">
@@ -115,7 +167,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                         <div className='w-[440px]' onClick={() => setShowFilter(true)}>
                             <input
                                 type="text"
-                                className={`border border-[#C4C7E3] rounded-md w-full pl-10 py-2 text-[#9AA1B7] focus:outline-none 
+                                className={`border border-border rounded-md w-full pl-10 py-2 focus:outline-none 
                                 ${(query || showFilter) ? 'rounded-b-none border-b-0' : ''} `}
                                 placeholder="Search files"
                                 value={query}
@@ -132,81 +184,123 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
 
                     </div>
                     {(query || showFilter) && (
-                        <div className='absolute w-[440px] bg-white shadow-md border border-t-0 border-[#C4C7E3] rounded-b-md z-10'>
+                        <div className='absolute w-[440px] bg-white shadow-md border border-t-0 border-border rounded-b-md z-10'>
                             <div className='flex flex-row px-3 space-x-4'>
-                                <div className="mt-2 relative">
-                                    <select
-                                        className="appearance-none border border-[#C4C7E3] rounded-md px-2 py-1 pr-10 w-full text-[#4A4A4A] bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        value={selectedType}
-                                        onChange={handleTypeChange}
+                                <div className="mt-2 relative " ref={typeDropdownRef}>
+                                    {/* Custom Trigger */}
+                                    <div
+                                        className={`appearance-none border border-border rounded-md px-2 mx-1 py-1 bg-white flex items-center justify-between cursor-pointer
+                                            ${selectedType ? 'bg-[#D6ECFF] border-none' : ''}`}
+                                        onClick={() => {
+                                            setIsOpen(!isOpen)
+                                            setOpenModified(false)
+                                        }}
                                     >
-                                        <option value="">Types</option>
-                                        {fileTypes.map((type) => (
-                                            <option key={type} value={type}>
-                                                {type}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <div className="absolute top-1 right-2 flex items-center pointer-events-none">
-                                        <DownArrow />
+                                        <div className={`flex items-center gap-2 text-primary-searchFilter`}>
+                                            {selectedType ? fileTypeImages[selectedType] : null}
+                                            <span>{selectedType || 'Types'}</span>
+                                        </div>
+                                        <div className="flex items-center pointer-events-none mx-1.5">
+                                            <DownArrow />
+                                        </div>
+                                        {selectedType && (
+                                            <button
+                                                className=""
+                                                onClick={() => setSelectedType('')}
+                                            >
+                                                <MenuCloseIcon />
+                                            </button>
+                                        )}
                                     </div>
-                                    {(selectedType) && <button className="absolute right-2 text-[#9AA1B7]" onClick={() => {
-                                        setSelectedType("");
-                                    }}
-                                    >
-                                        <MenuCloseIcon />
-                                    </button>}
+
+                                    {/* Dropdown Menu */}
+                                    {isOpen && (
+                                        <div
+                                            className="absolute ml-1 w-[160px] bg-white border rounded-md shadow-md z-10">
+                                            <div>
+                                                {fileTypes.map((type) => (
+                                                    <div
+                                                        key={type}
+                                                        className="px-3 py-1.5 flex items-center gap-2 cursor-pointer hover:bg-hover hover:rounded-md"
+                                                        onClick={() => handleTypeChange(type)}
+                                                    >
+                                                        {fileTypeImages[type]}
+                                                        <span className='pl-1'>{type}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
 
-                                <div className="relative mt-2">
-                                    <select
-                                        className="appearance-none border border-[#C4C7E3] rounded-md px-2 py-1 pr-10 w-full text-[#4A4A4A] focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        value={selectedModified}
-                                        onChange={handleModifiedChange}
+                                <div className="relative mt-2" ref={modifiedDropdownRef}>
+                                    {/* Custom Dropdown Trigger */}
+                                    <div
+                                        className={`appearance-none border border-border rounded-lg px-2 py-1 cursor-pointer focus:outline-none flex items-center justify-between
+                                             ${selectedModified ? 'bg-[#D6ECFF] border-none' : ''}`}
+                                        onClick={() => {
+                                            setOpenModified(!isOpenModified)
+                                            setIsOpen(false)
+                                        }}
                                     >
-                                        <option value="">Modified</option>
-                                        {modifiedOptions.map((option) => (
-                                            <option key={option} value={option}>
-                                                {option}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    <div className="absolute top-1 right-2 flex items-center pointer-events-none">
-                                        <DownArrow />
+                                        <span className='pr-2 text-primary-searchFilter'>{selectedModified || 'Modified'}</span>
+                                        <div className="flex items-center space-x-1">
+                                            <DownArrow />
+                                            {selectedModified && (
+                                                <button
+                                                    className=""
+                                                    onClick={() => setSelectedModified('')}
+                                                >
+                                                    <MenuCloseIcon />
+                                                </button>
+                                            )}
+                                        </div>
                                     </div>
-                                    {(selectedModified) && <button className="absolute right-0 text-[#9AA1B7]" onClick={() => {
-                                        setSelectedModified("");
-                                    }}
-                                    >
-                                        <MenuCloseIcon />
-                                    </button>}
+
+                                    {/* Custom Dropdown Options */}
+                                    {isOpenModified && (
+                                        <div className="absolute  w-[160px] bg-white border rounded-lg shadow-md z-10 ">
+                                            {modifiedOptions.map((option) => (
+                                                <div
+                                                    key={option}
+                                                    className="px-2 py-1.5 flex items-center gap-2 cursor-pointer group hover:bg-hover hover:rounded-md"
+                                                    onClick={() => handleModifiedChange(option)}
+                                                >
+                                                    <span className='flex flex-row items-center'>
+                                                        <span className='opacity-0 group-hover:opacity-100'><BlueTickIcon /></span>
+                                                        <span className='pl-2'>
+                                                            {option}
+                                                        </span>
+                                                    </span>
+
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-
-
-
                             <div className="flex flex-col mt-4">
                                 {query || selectedType || selectedModified ? (
-                                    <ul className="bg-white shadow-md rounded-md">
+                                    <ul className="bg-white shadow-md rounded-md px-2">
                                         {(showAll ? filteredFiles : filteredFiles.slice(0, 3)).map((file, index) => (
                                             <li
                                                 key={index}
-                                                className="p-2 last:border-none"
+                                                className="px-2 pb-2 last:border-none"
                                             >
-                                                <p className="px-2 font-semibold">
-                                                    {highlightMatch(file.name, query)}
-                                                </p>
-
+                                                <span className='flex flex-row items-center px-1'>{fileTypeImages[file.type]}
+                                                    <p className="px-2 cursor-pointer">
+                                                        {highlightMatch(file.name, query)}
+                                                    </p>
+                                                </span>
                                             </li>
                                         ))}
-
                                         {filteredFiles.length === 0 &&
-                                            <p className='px-3 mb-5'>No items match your search.</p>}
+                                            <p className='px-4 mb-6'>No items match your search.</p>}
 
                                         {!showAll && filteredFiles.length > 3 && (
                                             <button
                                                 onClick={() => handleShowMore()}
-                                                className="text-black font-medium mt-2 px-3 w-full hover:underline mb-5 text-left"
+                                                className="text-primary-heading font-medium mt-2 px-3 w-full hover:underline mb-5 text-left"
                                             >
                                                 Show all results
                                             </button>
@@ -220,7 +314,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                 </div>
             </div>
             <div>
-                <button className="bg-red-400 px-1.5 py-1 rounded-[10px] flex items-center justify-center">
+                <button className="bg-[#FAD24B] px-1.5 py-1 rounded-[10px] flex items-center justify-center">
                     <span className="text-center">RP</span>
                 </button>
             </div>

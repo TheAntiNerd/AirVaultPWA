@@ -12,9 +12,21 @@ export { default as GridIcon } from './grid.svg';
 export { default as LogoIcon } from './logoside.svg';
 export { default as MenuCloseIcon } from './close.svg';
 export { default as MenuOpenIcon } from './close.svg'; //update this svg
-export { default as DownArrow } from './close.svg'; //update this svg
+export { default as DownArrow } from './downarrow.svg';
 export { default as PlusArrow } from './plus.svg';
 export { default as CopyIcon } from './copy.svg';
 export { default as DownloadIcon } from './download.svg';
 export { default as MoveIcon } from './move.svg';
 export { default as CheckboxIcon } from './checkbox.svg';
+export { default as DocumentIcon } from './document.svg';
+export { default as ExcelIcon } from './excel.svg';
+export { default as PptIcon } from './ppt.svg';
+export { default as FormIcon } from './form.svg';
+export { default as PdfIcon } from './pdf.svg';
+export { default as VideoIcon } from './video.svg';
+export { default as ImageIcon } from './image.svg';
+export { default as AudioIcon } from './audio.svg';
+export { default as ZipIcon } from './zip.svg';
+export { default as OtherTypeIcon } from './othertype.svg';
+export { default as UpIcon } from './uparrow.svg';
+export { default as BlueTickIcon } from './bluetick.svg';
