@@ -189,8 +189,8 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                 <div className="mt-2 relative " ref={typeDropdownRef}>
                                     {/* Custom Trigger */}
                                     <div
-                                        className={`appearance-none border border-border rounded-md px-2 mx-1 py-1 bg-white flex items-center justify-between cursor-pointer
-                                            ${selectedType ? 'bg-[#D6ECFF] border-none' : ''}`}
+                                        className={` border border-border rounded-md px-2 mx-1 py-1 bg-white flex items-center justify-between cursor-pointer
+                                            ${selectedType ? 'bg-[#D6ECFB] border-none' : ''}`}
                                         onClick={() => {
                                             setIsOpen(!isOpen)
                                             setOpenModified(false)
@@ -314,7 +314,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                 </div>
             </div>
             <div>
-                <button className="bg-[#FAD24B] px-1.5 py-1 rounded-[10px] flex items-center justify-center">
+                <button className="bg-[#FAD24B] px-1.5 py-1 rounded-full flex items-center justify-center">
                     <span className="text-center">RP</span>
                 </button>
             </div>

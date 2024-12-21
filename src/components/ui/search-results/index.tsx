@@ -229,7 +229,7 @@ const SearchResult = () => {
                                             {/* Custom Trigger */}
                                             <div
                                                 className={`appearance-none border border-border rounded-md px-2 mx-1 py-1 bg-white flex items-center justify-between cursor-pointer
-                                                                        ${selectType ? 'bg-[#D6ECFF] border-none' : ''}`}
+                                                                        ${selectType ? 'bg-[#D6ECFb] border-none' : ''}`}
                                                 onClick={() => {
                                                     setIsOpen(!isOpen)
                                                     setOpenModified(false)
@@ -450,7 +450,7 @@ const SearchResult = () => {
                                                 <tr
                                                     key={index}
                                                     onClick={() => handleRowClick(index)}
-                                                    className={`border-t ${selectedRow.includes(index) ? 'bg-selected' : 'group hover:bg-hover'}`}
+                                                    className={`border-b border-border/40 ${selectedRow.includes(index) ? 'bg-selected' : 'group hover:bg-hover'}`}
                                                 >
                                                     <td className="py-2 w-1/5">
                                                         <div className="flex flex-col items-start">
@@ -525,7 +525,7 @@ const SearchResult = () => {
                                         >
                                             <span className="flex flex-row items-center space-x-1">
                                                 <CheckboxIcon />
-                                                <span className="flex flex-row items-center space-x-1">
+                                                <span className="flex flex-row items-center space-x-1 text-primary-heading font-medium">
                                                     Name <UpIcon />
                                                 </span>
                                             </span>

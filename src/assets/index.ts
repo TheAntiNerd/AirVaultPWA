@@ -30,3 +30,5 @@ export { default as ZipIcon } from './zip.svg';
 export { default as OtherTypeIcon } from './othertype.svg';
 export { default as UpIcon } from './uparrow.svg';
 export { default as BlueTickIcon } from './bluetick.svg';
+export { default as RestoreIcon } from './restore.svg';
+export { default as FilledStarIcon } from './fillstar.svg';

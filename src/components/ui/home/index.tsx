@@ -360,7 +360,7 @@ const Home = () => {
                                     <tr
                                         key={index}
                                         onClick={() => handleRowClick(index)}
-                                        className={`border-t ${selectedRow.includes(index) ? 'bg-selected' : 'group hover:bg-hover'}`}
+                                        className={`border-b border-border/40 ${selectedRow.includes(index) ? 'bg-selected' : 'group hover:bg-hover'}`}
                                     >
                                         <td className="py-2 w-1/5">
                                             <div className="flex flex-col items-start">
@@ -427,7 +427,7 @@ const Home = () => {
                                     >
                                         <span className="flex flex-row items-center space-x-1">
                                             <CheckboxIcon />
-                                            <span className="flex flex-row items-center space-x-1">
+                                            <span className="flex flex-row items-center space-x-1 text-primary-heading font-medium">
                                                 Name <UpIcon />
                                             </span>
                                         </span>
@@ -482,10 +482,6 @@ const Home = () => {
                                                 <div className='flex items-center justify-end -mt-6 cursor-pointer'>
                                                     <StarredIcon />
                                                 </div>
-
-
-
-
                                             </div>
                                         </div>
                                     ))}
