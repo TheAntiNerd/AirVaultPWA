@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AudioIcon, BlueTickIcon, CustomIcon, DocumentIcon, DownArrow, ExcelIcon, FormIcon, ImageIcon, MenuCloseIcon, OtherTypeIcon, PdfIcon, PptIcon, SearchIcon, VideoIcon, ZipIcon } from '../../../assets';
+import { AccountIcon, AudioIcon, BlueTickIcon, CustomIcon, DocumentIcon, DownArrow, ExcelIcon, FormIcon, ImageIcon, LogoutIcon, MenuCloseIcon, OtherTypeIcon, PdfIcon, PptIcon, SearchIcon, SettingIcon, VideoIcon, ZipIcon } from '../../../assets';
 import { useNavigate } from 'react-router';
 
 interface File {
@@ -23,10 +23,14 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
     const [showFilter, setShowFilter] = useState<boolean>(false)
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isOpenModified, setOpenModified] = useState<boolean>(false);
+    const [showLogDropdown, setLogDropdown] = useState<boolean>(false);
+    const [showLogPopup, setLogPopup] = useState<boolean>(false);
     const navigate = useNavigate()
 
     const typeDropdownRef = useRef<HTMLDivElement>(null);
     const modifiedDropdownRef = useRef<HTMLDivElement>(null);
+    const LogDropdownRef = useRef<HTMLDivElement>(null);
+    const LogPopupRef = useRef<HTMLDivElement>(null);
 
     const fileTypes = ['Folder', 'Document', 'Spreadsheet', 'Presentation', 'Form', 'PDF', 'Video', 'Image', 'Audio', 'Archive', 'Other',];
     const modifiedOptions = ['Today', 'Last Week', 'Last month', '3 months', '6 months', 'Last year', 'Before last year'];
@@ -148,13 +152,19 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
             if (modifiedDropdownRef.current && !modifiedDropdownRef.current.contains(event.target as Node)) {
                 setOpenModified(false);
             }
+            if (LogDropdownRef.current && !LogDropdownRef.current.contains(event.target as Node)) {
+                setLogDropdown(false);
+            }
+            if (LogPopupRef.current && !LogPopupRef.current.contains(event.target as Node)) {
+                setLogPopup(false);
+            }
         };
 
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [isOpen, isOpenModified])
+    }, [isOpen, isOpenModified, showLogDropdown])
 
     return (
         <div className=" flex items-center justify-between px-9 pt-3 text-primary-para">
@@ -305,7 +315,6 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                                 Show all results
                                             </button>
                                         )}
-
                                     </ul>
                                 ) : null}
                             </div>
@@ -313,13 +322,64 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                     )}
                 </div>
             </div>
-            <div>
-                <button className="bg-[#FAD24B] px-1.5 py-1 rounded-full flex items-center justify-center">
+            <div className='relative'>
+                <button onClick={() => setLogDropdown(!showLogDropdown)} className="bg-[#FAD24B] px-1.5 py-1 rounded-full flex items-center justify-center">
                     <span className="text-center">RP</span>
                 </button>
-            </div>
+                {showLogDropdown && (
+                    <div ref={LogDropdownRef} className="absolute mt-2 -left-44 bg-white shadow-lg rounded-lg w-52 text-primary-para ">
+                        <div className='flex flex-col'>
+                            <div className='flex flex-row items-center mx-2 cursor-pointer py-2'>
+                                <div className=' bg-[#FAD24B] px-1.5 py-1 rounded-full flex items-center justify-center'>
+                                    RP
+                                </div>
+                                <span className='text-sm ml-3 leading-3'>
+                                    <p className='font-medium text-primary-heading pb-px max-w-36 truncate'>Repo Oper</p>
+                                    <p className='text-primary-searchFilter pt-px text-xs max-w-36 truncate'>reporepo@repo.com</p>
+                                </span>
+                            </div>
+                            <div className='w-full  border-t' />
+                            <button
+                                className="px-4 py-2  w-full text-left rounded-b-lg hover:bg-hover flex items-center flex-row gap-2"
+                            ><AccountIcon />
+                                Accounts
+                            </button>
+                            <button
+                                className="px-4 py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2"
+                            ><SettingIcon />
+                                Settings
+                            </button>
+                            <button onClick={() => { setLogPopup(!showLogPopup) }}
+                                className="px-4 py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2"
+                            ><LogoutIcon />
+                                Log out
+                            </button>
+                        </div>
 
-        </div>
+                    </div>
+                )}
+            </div>
+            {showLogPopup &&
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div ref={LogPopupRef} className="bg-white p-5 rounded-lg shadow-lg w-80 relative">
+                        <div className="px-1 text-primary-heading font-medium text-[22px]">
+                            <h2>Logout?</h2>
+                        </div>
+                        <div className="flex flex-row items-center space-x-3 mt-6 ">
+                            <button onClick={() => { setLogPopup(!showLogPopup) }} className="flex flex-grow items-center justify-center text-primary-para">
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => { }}
+                                className=" flex flex-grow px-1 py-1.5 bg-blue-500 text-white rounded-lg justify-center"
+                            >
+                                Yes
+                            </button>
+                        </div>
+                    </div>
+                </div>}
+
+        </div >
 
     );
 };
