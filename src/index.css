@@ -39,9 +39,7 @@
 	}
 }
 .custom-scrollbar {
-	overflow-y: auto;
-	border-top: 2px solid #d8daeb;
-	border-bottom: 2px solid #d8daeb;
+	margin-top: 1px;
 }
 
 .custom-scrollbar::-webkit-scrollbar {

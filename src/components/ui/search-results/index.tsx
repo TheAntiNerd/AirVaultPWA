@@ -4,6 +4,10 @@ import { AudioIcon, BlueTickIcon, CheckboxIcon, CopyIcon, CustomIcon, DeleteIcon
 import SideMenu from '../../SideMenu'
 import Navbar from '../navbar'
 import { useLocation } from 'react-router';
+import Dropdown from '../dropdown/Dropdown';
+import Delete from '../popup/Delete';
+import Share from '../popup/Share';
+import Dropdown2 from '../dropdown/Dropdown2';
 
 interface File {
     name: string;
@@ -33,11 +37,19 @@ const SearchResult = () => {
     const [gridViews, setGridView] = useState<boolean>(gridView || false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isOpenModified, setOpenModified] = useState<boolean>(false);
+    const [showDeletePopup, setDeletePopup] = useState(false)
+    const [showDropdownPopup, setDropdownPopup] = useState<number | null>(null)
+    const [showDropdownPopup2, setDropdownPopup2] = useState<boolean>(false)
+    const [showSharePopup, setSharePopup] = useState<boolean>(false)
 
 
 
     const typeDropdownRef = useRef<HTMLDivElement>(null);
     const modifiedDropdownRef = useRef<HTMLDivElement>(null);
+    const deletePopupRef = useRef<HTMLDivElement | null>(null);
+    const dropdownPopupRef = useRef<HTMLDivElement | null>(null);
+    const dropdownPopup2Ref = useRef<HTMLInputElement>(null);
+    const sharePopupRef = useRef<HTMLInputElement>(null);
 
     const fileTypes = ['Folder', 'Document', 'Spreadsheet', 'Presentation', 'Form', 'PDF', 'Video', 'Image', 'Audio', 'Archive', 'Other',];
     const modifiedOptions = ['Today', 'Last Week', 'Last month', '3 months', '6 months', 'Last year', 'Before last year'];
@@ -123,7 +135,9 @@ const SearchResult = () => {
         setOpenModified(false)
         filterFiles(selectType, option);
     };
-
+    const handleDropdownToggle = (index: number) => {
+        setDropdownPopup(showDropdownPopup === index ? null : index);
+    };
     const filterFiles = (type: string, modified: string) => {
         let results = files;
         if (type) {
@@ -255,7 +269,7 @@ const SearchResult = () => {
                                             {/* Dropdown Menu */}
                                             {isOpen && (
                                                 <div
-                                                    className="absolute ml-1 w-[160px] bg-white border rounded-md shadow-md z-10">
+                                                    className="absolute ml-1 w-[160px] bg-white border rounded-md shadow-md z-10 text-primary-searchFilter">
                                                     <div>
                                                         {fileTypes.map((type) => (
                                                             <div
@@ -299,7 +313,7 @@ const SearchResult = () => {
 
                                             {/* Custom Dropdown Options */}
                                             {isOpenModified && (
-                                                <div className="absolute  w-[160px] bg-white border rounded-lg shadow-md z-10 ">
+                                                <div className="absolute  w-[160px] bg-white border rounded-lg shadow-md z-10 text-primary-searchFilter ">
                                                     {modifiedOptions.map((option) => (
                                                         <div
                                                             key={option}
@@ -330,8 +344,8 @@ const SearchResult = () => {
                                 </div>
                                 ) : (
                                     <div className="text-center text-sm flex justify-between items-center text-primary-para">
-                                        <div className={`flex gap-3 items-center justify-between  ${selectedRow.length > 0 ? 'opacity-100' : 'opacity-0'} `}>
-                                            <button className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</button>
+                                        <div className={` relative flex gap-3 items-center justify-between  ${selectedRow.length > 0 ? 'opacity-100' : 'opacity-0'} `}>
+                                            <button onClick={() => setSharePopup(!showSharePopup)} className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</button>
                                             <button className="bg-hover rounded-lg px-4 py-2">
                                                 <span className="flex items-center justify-between">
                                                     <CopyIcon />
@@ -359,7 +373,7 @@ const SearchResult = () => {
 
                                                 </span>
                                             </button>
-                                            <button className="bg-hover rounded-lg px-4 py-2">
+                                            <button onClick={() => setDeletePopup(!showDeletePopup)} className="bg-hover rounded-lg px-4 py-2">
                                                 <span className="flex items-center justify-between">
                                                     <DeleteIcon />
                                                     <span className="pl-1.5">
@@ -368,7 +382,10 @@ const SearchResult = () => {
 
                                                 </span>
                                             </button>
-                                            <button className="rotate-90">•••</button>
+                                            <button onClick={() => setDropdownPopup2(!showDropdownPopup2)} className="rotate-90">•••</button>
+                                            {(showDropdownPopup2) && (
+                                                <Dropdown2 ref={dropdownPopup2Ref} showDropdownPopup2={showDropdownPopup2} setDropdownPopup2={setDropdownPopup2} />
+                                            )}
                                         </div>
                                     </div>
                                 )}
@@ -450,7 +467,7 @@ const SearchResult = () => {
                                                 <tr
                                                     key={index}
                                                     onClick={() => handleRowClick(index)}
-                                                    className={`border-b border-border/40 ${selectedRow.includes(index) ? 'bg-selected' : 'group hover:bg-hover'}`}
+                                                    className={`border-b border-border/40 relative ${selectedRow.includes(index) ? 'bg-selected' : 'group hover:bg-hover'}`}
                                                 >
                                                     <td className="py-2 w-1/5">
                                                         <div className="flex flex-col items-start">
@@ -485,7 +502,7 @@ const SearchResult = () => {
                                                     <td className="py-2 w-1/4">
                                                         <div className="flex flex-col items-center">
                                                             <div className="flex flex-row items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                                <button className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</button>
+                                                                <button onClick={() => setSharePopup(!showSharePopup)} className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</button>
                                                                 <CopyIcon />
                                                                 <DownloadIcon />
                                                                 < StarredIcon />
@@ -493,9 +510,12 @@ const SearchResult = () => {
                                                         </div>
                                                     </td>
                                                     <td className="py-2 w-1/2">
-                                                        <div className="flex flex-col items-start cursor-pointer">
+                                                        <div onClick={() => handleDropdownToggle(index)} className="flex flex-col items-start cursor-pointer">
                                                             <span className="rotate-90">•••</span>
                                                         </div>
+                                                        {(showDropdownPopup === index) && (
+                                                            <Dropdown ref={dropdownPopupRef} showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} />
+                                                        )}
                                                     </td>
                                                 </tr>
                                             ))}
@@ -557,9 +577,13 @@ const SearchResult = () => {
                                                         </span>
                                                     </div>
                                                     <div className={`absolute top-1 right-0 flex flex-row items-center gap-x-2 opacity-0 group-hover:opacity-100 transition-opacity`}>
-                                                        <div><button className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</button></div>
+                                                        <div><button onClick={() => setSharePopup(!showSharePopup)} className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</button></div>
                                                         <div><CopyIcon /></div>
                                                         <div className="rotate-90 cursor-pointer">•••</div>
+                                                    </div>
+                                                    <div onClick={() => handleDropdownToggle(index)} className="absolute left-64 ml-3 mt-8">{(showDropdownPopup === index) && (
+                                                        <Dropdown ref={dropdownPopupRef} showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} />
+                                                    )}
                                                     </div>
 
                                                 </div>
@@ -590,6 +614,12 @@ const SearchResult = () => {
                     </>
                 }
             </div >
+            {showDeletePopup &&
+                <Delete showDeletePopup={showDeletePopup} setDeletePopup={setDeletePopup} ref={deletePopupRef} />
+            }
+
+            {/* share popup */}
+            {showSharePopup && <Share ref={sharePopupRef} setSharePopup={setSharePopup} showSharePopup={showSharePopup} />}
 
         </SideMenu >
 
