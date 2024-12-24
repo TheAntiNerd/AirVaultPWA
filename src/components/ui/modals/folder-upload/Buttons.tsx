@@ -1,5 +1,5 @@
 import React, { RefObject, SetStateAction, useEffect, useRef, useState } from 'react';
-import { FileUpload, FolderUpload, NewFolderIcon, UploadIcon } from '../../../assets';
+import { FileUpload, FolderUpload, NewFolderIcon, UploadIcon } from '../../../../assets';
 
 interface ButtonProps {
     setFiles: React.Dispatch<SetStateAction<{ name: string; size: string; type: string; modified: string }[]>>;

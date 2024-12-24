@@ -2,10 +2,10 @@ import React, { useRef, useState } from "react";
 import { AudioIcon, CheckboxIcon, CopyIcon, CustomIcon, DeleteIcon, DocumentIcon, DownloadIcon, ExcelIcon, FormIcon, GridIcon, ImageIcon, ListIcon, MoveIcon, OtherTypeIcon, PdfIcon, PptIcon, StarredIcon, UpIcon, VideoIcon, ZipIcon } from "../../../assets";
 import SideMenu from "../../SideMenu";
 import Navbar from "../navbar";
-import Delete from "../popup/Delete";
-import Share from "../popup/Share";
-import Dropdown2 from "../dropdown/Dropdown2";
-import Dropdown from "../dropdown/Dropdown";
+import Delete from "../modals/popup/Delete";
+import Share from "../modals/popup/Share";
+import Dropdown2 from "../modals/dropdown/Dropdown2";
+import Dropdown from "../modals/dropdown/Dropdown";
 
 interface FileItem {
     name: string;

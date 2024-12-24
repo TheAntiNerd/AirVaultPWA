@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { BlueTickIcon, DownArrow, RemoveIcon } from '../../../assets'
+import { BlueTickIcon, DownArrow, RemoveIcon } from '../../../../assets'
 
 const roles = ['Viewer', 'Editor', 'Commenter'];
 interface UsersProps {
@@ -100,7 +100,7 @@ const ShareAccess = () => {
     }, [showConfirmModal, selectedUserIndex]);
     return (
         <>
-            <div className="h-36 overflow-auto custom-scrollbar relative">
+            <div className={`h-[168px] overflow-auto relative ${users.length > 3 ? 'custom-scrollbar' : ''} `}>
                 {users.map((user, index) => (
                     <div key={index}>
                         <div className="flex justify-between items-center cursor-pointer py-2 hover:bg-hover hover:rounded-sm">
@@ -123,7 +123,7 @@ const ShareAccess = () => {
                                     {user.role}
                                     <DownArrow />
                                 </button>
-                                <div className=''>
+                                <div className='relative'>
                                     {selectedUserIndex === index && (
                                         <div className="absolute top-0 mb-1 right-3 bg-white shadow-lg w-36 rounded-lg text-primary-para z-30 overflow-visible">
                                             {roles.map((roleOption, roleIndex) => (

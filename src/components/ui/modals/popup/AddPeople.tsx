@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
+interface AddPeopleProps {
+    setHasInput: (state: boolean) => void;
+}
 const Users = [
     { name: "legion1", email: "legion1@gmail.com" },
     { name: "legion2", email: "legion2@gmail.com" },
@@ -10,7 +13,8 @@ const Users = [
     { name: "legion7", email: "legion7@gmail.com" },
 ];
 
-const AddPeople = () => {
+
+const AddPeople = ({ setHasInput }: AddPeopleProps) => {
     const [showSuggestion, setSuggestions] = useState(false);
     const [inputValue, setInputValue] = useState("");
     const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
@@ -39,6 +43,7 @@ const AddPeople = () => {
         }
         setInputValue("");
         setSuggestions(false);
+        setHasInput(true)
     };
 
     // Remove a user from the selected list

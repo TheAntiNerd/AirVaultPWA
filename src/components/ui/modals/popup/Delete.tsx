@@ -7,6 +7,7 @@ interface DeleteProps {
 }
 
 const Delete = ({ showDeletePopup, setDeletePopup }: DeleteProps) => {
+
     const deletePopupRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {

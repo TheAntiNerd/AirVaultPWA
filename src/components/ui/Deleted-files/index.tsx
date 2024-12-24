@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AudioIcon, CheckboxIcon, CopyIcon, CustomIcon, DeleteIcon, DocumentIcon, DownloadIcon, ExcelIcon, FormIcon, GridIcon, ImageIcon, ListIcon, OtherTypeIcon, PdfIcon, PptIcon, RestoreIcon, StarredIcon, UpIcon, VideoIcon, ZipIcon } from "../../../assets";
 import SideMenu from "../../SideMenu";
 import Navbar from "../navbar";
@@ -38,6 +38,13 @@ const DeletedFiles = () => {
     const [selectedRow, setSelectedRows] = useState<number[]>([]);
     const [isCheckboxVisible, setIsCheckboxVisible] = useState<boolean>(false);
     const [gridView, setGridView] = useState<boolean>(false);
+    const [showDeletePopup, setDeletePopup] = useState<boolean>(false);
+    const [showRestorePopup, setRestorePopup] = useState<boolean>(false);
+    const [showDropdownPopup, setDropdownPopup] = useState<number | null>();
+
+    const deletePopupRef = useRef<HTMLDivElement>(null)
+    const restorePopupRef = useRef<HTMLDivElement>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     const fileTypeImages: Record<string, JSX.Element> = {
         Document: <DocumentIcon />,
@@ -52,6 +59,26 @@ const DeletedFiles = () => {
         Archive: <ZipIcon />,
         Other: <OtherTypeIcon />
     }
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (deletePopupRef.current && !deletePopupRef.current.contains(event.target as Node)) {
+                setDeletePopup(false);
+            }
+            if (restorePopupRef.current && !restorePopupRef.current.contains(event.target as Node)) {
+                setRestorePopup(false);
+            }
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setDropdownPopup(null);
+            }
+        }
+        if (showDeletePopup || showRestorePopup || showDropdownPopup) {
+            document.addEventListener('mousedown', handleClickOutside)
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside)
+        } return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [showDeletePopup, showRestorePopup, showDropdownPopup])
 
     // Function to group files by time period
     const groupFilesByDate = (files: FileItem[]): FileGroups => {
@@ -209,7 +236,7 @@ const DeletedFiles = () => {
                                 <tr
                                     key={globalIndex}
                                     onClick={() => handleRowClick(globalIndex)}
-                                    className={`border-b border-border/40 ${selectedRow.includes(globalIndex) ? 'bg-selected' : 'group hover:bg-gray-100'}`}
+                                    className={`border-b border-border/40 relative ${selectedRow.includes(globalIndex) ? 'bg-selected' : 'group hover:bg-gray-100'}`}
                                 >
                                     <td className="py-2 w-1/5">
                                         <div className="flex flex-col items-start">
@@ -247,7 +274,7 @@ const DeletedFiles = () => {
                                     <td className="py-2 w-1/4">
                                         <div className="flex flex-col items-center">
                                             <div className="flex flex-row items-center justify-center gap-4 opacity-0 group-hover:opacity-0 transition-opacity">
-                                                <button className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</button>
+                                                <div className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</div>
                                                 <CopyIcon />
                                                 <DownloadIcon />
                                                 < StarredIcon />
@@ -255,9 +282,24 @@ const DeletedFiles = () => {
                                         </div>
                                     </td>
                                     <td className="py-2 w-1/2">
-                                        <div className="flex flex-col items-start cursor-pointer">
+                                        <div onClick={() => {
+                                            setDropdownPopup(globalIndex)
+                                        }} className="flex flex-col items-start cursor-pointer">
                                             <span className="rotate-90">•••</span>
                                         </div>
+                                        {(showDropdownPopup === globalIndex) &&
+                                            <div ref={dropdownRef} className="absolute right-10 mt-2 bg-white shadow-lg rounded-lg w-56 text-primary-para z-20 ">
+                                                <button onClick={() => setRestorePopup(!showRestorePopup)}
+                                                    className="px-4 my-px py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2">
+                                                    <RestoreIcon />
+                                                    Restore
+                                                </button>
+                                                <button onClick={() => setDeletePopup(!showDeletePopup)}
+                                                    className="px-4 py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2">
+                                                    <DeleteIcon />
+                                                    Delete forever
+                                                </button>
+                                            </div>}
                                     </td>
                                 </tr>
                             )
@@ -345,7 +387,7 @@ const DeletedFiles = () => {
                         <div className="text-center text-sm flex justify-between items-center text-primary-para">
                             <div className={`flex gap-3 items-center justify-between  ${selectedRow.length > 0 ? 'opacity-100' : 'opacity-0'} `}>
 
-                                <button className="bg-hover rounded-lg px-4 py-2">
+                                <button onClick={() => setRestorePopup(!showRestorePopup)} className="bg-hover rounded-lg px-4 py-2">
                                     <span className="flex items-center justify-between">
                                         <RestoreIcon />
                                         <span className="pl-1.5">
@@ -354,7 +396,7 @@ const DeletedFiles = () => {
 
                                     </span>
                                 </button>
-                                <button className="bg-hover rounded-lg px-4 py-2">
+                                <button onClick={() => setDeletePopup(!showDeletePopup)} className="bg-hover rounded-lg px-4 py-2">
                                     <span className="flex items-center justify-between">
                                         <DeleteIcon />
                                         <span className="pl-1.5">
@@ -540,6 +582,51 @@ const DeletedFiles = () => {
                     </>
                 )}
             </div>
+            {/* Delete popup */}
+            {showDeletePopup &&
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div ref={deletePopupRef} className="bg-white p-5 rounded-lg shadow-lg w-80 relative">
+                        <div className="px-1 text-primary-heading font-medium text-[22px]">
+                            <h2>Delete forever?</h2>
+                            <p className="text-primary-para text-sm pt-3.5">Items in the bin will be deleted forever.</p>
+                        </div>
+                        <div className="flex flex-row items-center space-x-3 mt-6 ">
+                            <button onClick={() => setDeletePopup(!showDeletePopup)} className="flex flex-grow items-center justify-center text-primary-para">
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => { }}
+                                className=" flex flex-grow px-1 py-1.5 bg-blue-500 text-white rounded-lg justify-center"
+                            >
+                                Yes, delete it
+                            </button>
+                        </div>
+                    </div>
+                </div>}
+
+            {/* Restore popup */}
+            {showRestorePopup &&
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div ref={restorePopupRef} className="bg-white p-5 rounded-lg shadow-lg w-80 relative">
+                        <div className="px-1 text-primary-heading font-medium text-[22px]">
+                            <h2>Restore?</h2>
+                            <p className="text-primary-para text-sm pt-3.5">Items will be restored in their original folder.</p>
+                        </div>
+                        <div className="flex flex-row items-center space-x-3 mt-6 ">
+                            <button onClick={() => setRestorePopup(!showRestorePopup)} className="flex flex-grow items-center justify-center text-primary-para">
+                                Cancel
+                            </button>
+                            <button
+                                onClick={() => { }}
+                                className=" flex flex-grow px-1 py-1.5 bg-blue-500 text-white rounded-lg justify-center"
+                            >
+                                Yes, restore it
+                            </button>
+                        </div>
+                    </div>
+                </div>}
+            {/* dropdown  */}
+
         </SideMenu>
     );
 };

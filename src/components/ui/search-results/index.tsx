@@ -4,10 +4,10 @@ import { AudioIcon, BlueTickIcon, CheckboxIcon, CopyIcon, CustomIcon, DeleteIcon
 import SideMenu from '../../SideMenu'
 import Navbar from '../navbar'
 import { useLocation } from 'react-router';
-import Dropdown from '../dropdown/Dropdown';
-import Delete from '../popup/Delete';
-import Share from '../popup/Share';
-import Dropdown2 from '../dropdown/Dropdown2';
+import Dropdown from '../modals/dropdown/Dropdown';
+import Delete from '../modals/popup/Delete';
+import Share from '../modals/popup/Share';
+import Dropdown2 from '../modals/dropdown/Dropdown2';
 
 interface File {
     name: string;

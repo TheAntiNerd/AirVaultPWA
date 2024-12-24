@@ -45,3 +45,5 @@ export { default as ShareFileIcon } from './sharefile.svg';
 export { default as GlobeIcon } from './globe.svg';
 export { default as RemoveIcon } from './removeicon.svg';
 export { default as LockIcon } from './lock.svg';
+export { default as BackbuttonIcon } from './backbutton.svg';
+export { default as DownIcon } from './down.svg';

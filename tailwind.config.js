@@ -26,5 +26,10 @@ export default {
 			},
 		},
 	},
+	variants: {
+		extend: {
+			backgroundColor: ['active'], // Enable active variant for background colors
+		},
+	},
 	plugins: [],
 };

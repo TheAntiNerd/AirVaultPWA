@@ -22,12 +22,13 @@ import {
     ZipIcon
 } from "../../../assets";
 import SideMenu from "../../SideMenu";
-import Dropdown from "../dropdown/Dropdown";
-import Dropdown2 from "../dropdown/Dropdown2";
-import Buttons from "../folder-upload/Buttons";
+import Dropdown from "../modals/dropdown/Dropdown";
+import Dropdown2 from "../modals/dropdown/Dropdown2";
 import Navbar from "../navbar";
-import Delete from "../popup/Delete";
-import Share from "../popup/Share";
+import Buttons from "../modals/folder-upload/Buttons";
+import Delete from "../modals/popup/Delete";
+import Share from "../modals/popup/Share";
+
 
 
 interface CustomCheckboxProps {
