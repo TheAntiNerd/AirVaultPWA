@@ -60,7 +60,7 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div ref={sharePopupRef} className={`bg-white p-6 rounded-xl shadow-lg w-[428px] relative ${hasInput ? '' : ''}`}>
                 {/* Header */}
-                <div className="text-primary-heading font-medium text-[22px] flex flex-row items-center gap-x-2 mb-4">
+                <div className="text-primary-heading font-semibold text-[22px] flex flex-row items-center gap-x-2 mb-4">
                     {hasInput ?
                         <>
                             <button onClick={() => setHasInput(false)}>
@@ -85,8 +85,8 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
                     <>
                         <div className="flex justify-between items-center mb-5">
                             <div className=" flex items-center justify-between space-x-2">
-                                <span className="text-primary-heading font-medium text-center cursor-pointer">People added <span
-                                    className='text-buttonPrimary ml-px font-medium'>
+                                <span className="text-primary-heading font-semibold text-center cursor-pointer">People added <span
+                                    className='text-buttonPrimary ml-px font-semibold'>
                                     {addUsers}  </span></span>
                                 <button onClick={() => setAddUser(!showAdd)}>
 
@@ -131,11 +131,11 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
 
                         {/* General access  */}
                         <>
-                            <h3 className="mb-3 font-medium text-primary-heading">General access</h3>
+                            <h3 className="mb-3 font-semibold text-primary-heading">General access</h3>
                             <div className="flex justify-between items-center mb-5">
                                 <div className="relative flex items-center justify-between space-x-3">
                                     {linkType === 'Limited access' ? <LockIcon /> : <GlobeIcon />}
-                                    <span className="text-primary-heading font-medium text-center cursor-pointer">{linkType}</span>
+                                    <span className="text-primary-heading font-semibold text-center cursor-pointer">{linkType}</span>
                                     <button onClick={() => setLinkType(!showLink)}>
                                         <DownArrow />
                                     </button>
@@ -170,7 +170,7 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
 
                 <button
                     onClick={handlePress}
-                    className={`w-28 flex flex-row items-center gap-x-2 text-primary-para px-2 py-1 border rounded-lg font-medium border-border bg-white transition duration-300 ${isPressed ? 'bg-[#D6ECF5] text-primary-heading border-none' : 'hover:bg-hover transition-all'
+                    className={`w-28 flex flex-row items-center gap-x-2 text-primary-para px-2 py-1 border rounded-lg font-semibold border-border bg-white transition duration-300 ${isPressed ? 'bg-[#D6ECF5] text-primary-heading border-none' : 'hover:bg-hover transition-all'
                         }`}
                 >
                     <CopyIcon />

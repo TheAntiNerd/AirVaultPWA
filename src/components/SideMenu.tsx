@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router';
-import { CustomIcon, DeleteIcon, FileIcon, HomeIcon, LogoIcon, MenuCloseIcon, MenuOpenIcon, PlusArrow, SharedIcon, StarredIcon } from '../assets';
+import { CustomIcon, DeleteIcon, FileIcon, HomeIcon, LogoIcon, PlusArrow, SelectedFileIcon, SelectedHomeIcon, SelectedSharedIcon, SelectedStarredIcon, SharedIcon, StarredIcon } from '../assets';
 
 const menuItems = [
     { name: 'Home', path: '/dashboard', icon: <HomeIcon /> },
@@ -8,10 +8,15 @@ const menuItems = [
     { name: 'Shared with me', path: '/shared', icon: <SharedIcon /> },
     { name: 'Deleted files', path: '/deleted', icon: <DeleteIcon /> },
 ];
+const mobileMenuItems = [
+    { name: 'Home', path: '/dashboard', icon: <HomeIcon />, selectedicon: <SelectedHomeIcon /> },
+    { name: 'My files', path: '/myfiles', icon: <FileIcon />, selectedicon: <SelectedFileIcon /> },
+    { name: 'Shared', path: '/shared', icon: <SharedIcon />, selectedicon: <SelectedSharedIcon /> },
+    { name: 'Starred', path: '/starred', icon: <StarredIcon />, selectedicon: <SelectedStarredIcon /> },
+];
 
 export default function SideMenu({ children }: { children: React.ReactNode }) {
     const location = useLocation();
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [quickAccess, setQuickAccess] = useState([
         { name: 'Starred', path: '/starred', icon: <StarredIcon /> },
     ]);
@@ -20,11 +25,6 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
     const [storageUsed, setStorageUsed] = useState(0);
     const [storageTotal, setStorageTotal] = useState(100);
     const [progress, setProgress] = useState(0);
-
-
-    const closeSidebarOnClick = () => {
-        if (isSidebarOpen) setIsSidebarOpen(false);
-    };
 
     const handleAddQuickAccessItem = () => {
         if (newFieldName.trim()) {
@@ -67,22 +67,10 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 
 
     return (
-        <div className="flex flex-col lg:flex-row w-full min-h-screen bg-white text-sans text-sm ">
-            {/* Top Bar */}
-            {location.pathname.startsWith('/saved-ip') ? null : (
-                <div className="bg-white shadow p-3 flex justify-between items-center lg:hidden sticky top-0 z-10">
-                    <button
-                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                        className="text-gray-800 focus:outline-none">
-                        <MenuOpenIcon />
-                    </button>
-                </div>
-            )}
-
+        <div className="flex flex-col lg:flex-row w-full min-h-screen bg-white text-sans text-sm relative ">
             {/* Sidebar */}
             <aside
-                className={`${isSidebarOpen ? 'translate-x-0 opacity-100 scale-100' : '-translate-x-full opacity-100 scale-100'
-                    } lg:translate-x-0 transition-transform duration-500 ease-in-out lg:w-64 fixed lg:static inset-0 bg-[#F7F9FC] text-gray-800 p-4  flex flex-col justify-between z-40 `}>
+                className={`w-64 inset-0  bg-[#F7F9FC] p-4 max-sm:hidden flex flex-col justify-between z-40 `}>
                 <div>
                     {/* Logo */}
                     <div className="flex gap-2 mb-6">
@@ -92,19 +80,6 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
                             </span>
                         </Link>
                     </div>
-
-                    {/* Close Button Mobile*/}
-                    <div className="mb-8 lg:hidden flex items-start justify-between">
-                        <span className="flex items-start order-0 justify-center px-2">
-                            <LogoIcon />
-                        </span>
-                        <button
-                            onClick={() => setIsSidebarOpen(false)}
-                            className="text-gray-800 focus:outline-none flex">
-                            <MenuCloseIcon />
-                        </button>
-                    </div>
-
                     {/* Navigation Menu */}
                     <nav>
                         {/* Default Menu */}
@@ -112,7 +87,6 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
                             <div key={item.name}>
                                 <Link
                                     to={item.path}
-                                    onClick={closeSidebarOnClick}
                                     className={`flex items-center p-1.5 my-1 rounded transition-colors ${location.pathname === item.path
                                         ? 'bg-[#DBEAFE] text-primary-heading rounded-lg'
                                         : 'hover:bg-[#EBF2FA] rounded-lg'
@@ -131,7 +105,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
                                 className=" mb-2 cursor-pointer"
                                 onClick={() => setIsAddingField(!isAddingField)}>
                                 <span className='flex items-center justify-between'>
-                                    <h4 className='px-4 font-medium text-primary-heading'>Quick access </h4>
+                                    <h4 className='px-4 font-semibold text-primary-heading'>Quick access </h4>
                                     <span className='ml-2  '>
                                         <PlusArrow />
                                     </span>
@@ -165,7 +139,6 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
                                 <div key={index}>
                                     <Link
                                         to={item.path}
-                                        onClick={closeSidebarOnClick}
                                         className={`flex items-center p-1.5 my-1 rounded transition-colors ${location.pathname === item.path
                                             ? 'bg-[#DBEAFE] text-primary-heading rounded-lg'
                                             : 'hover:bg-[#EBF2FA] rounded-lg'
@@ -181,7 +154,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 
                         {/* storage bar */}
                         <div className="mt-4 px-[18px]">
-                            <h4 className="text-primary-heading font-medium mb-3">Storage</h4>
+                            <h4 className="text-primary-heading font-semibold mb-3">Storage</h4>
                             <div className="w-full bg-[#D3DBE0] rounded h-[7px]">
                                 <div
                                     className="bg-gradient-to-r from-[#46BFFB] to-[#298DFF] h-[7px] rounded"
@@ -197,6 +170,25 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
                     </nav>
                 </div>
             </aside>
+
+            {/* mobile navbar */}
+            <div className='hidden fixed inset-x-0 bottom-0 max-sm:flex items-center justify-center z-30'>
+                <div className="bg-[#F7F9FC] w-full h-24 px-8 flex flex-row items-center justify-between text-primary-heading/70">
+                    {mobileMenuItems.map(item => (
+                        <div key={item.name}>
+                            <Link
+                                to={item.path}>
+                                <span className=' flex flex-col items-center justify-between'>
+                                    {location.pathname == item.path ? <>
+                                        {item.selectedicon}</> : <> {item.icon}</>}
+                                    <span className="my-1"> {location.pathname == item.path ? <>
+                                        <span className='font-semibold text-primary-heading'>{item.name}</span></> : <> {item.name}</>}</span>
+                                </span>
+                            </Link>
+                        </div>
+                    ))}
+                </div>
+            </div>
 
             {/* Main Content */}
             <main className="flex-1">

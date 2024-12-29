@@ -227,7 +227,7 @@ const MyFiles = () => {
     const TableSection: React.FC<SectionProps> = ({ files, label, startIndex }) => (
         files.length > 0 && (
             <div className="mb-8">
-                <h2 className=" text-primary-heading font-medium text-sm mb-4">{label}</h2>
+                <h2 className=" text-primary-heading font-semibold text-sm mb-4">{label}</h2>
                 <table className="w-full border-collapse cursor-default">
                     <tbody className="text-primary-para">
                         {files.map((file, index) => {
@@ -299,7 +299,7 @@ const MyFiles = () => {
     const GridSection: React.FC<SectionProps> = ({ files, label, startIndex }) => (
         files.length > 0 && (
             <div className="mb-8">
-                <h2 className=" text-primary-para text-sm font-medium mb-4">{label}</h2>
+                <h2 className=" text-primary-para text-sm font-semibold mb-4">{label}</h2>
                 <div className="grid grid-cols-3 gap-x-3 gap-y-6 max-sm:grid-cols-1 max-md:grid-cols-2 max-lg:grid-cols-2 xl:grid-cols-4">
                     {files.map((file, index) => {
                         const globalIndex = startIndex + index;
@@ -363,13 +363,13 @@ const MyFiles = () => {
             <div className="px-9 pt-6 text-sm">
                 {/* Header section remains the same */}
                 <div className="pb-4 flex justify-between items-center">
-                    <h1 className="text-[22px] font-medium text-primary-heading">My files</h1>
+                    <h1 className="text-[22px] font-semibold text-primary-heading">My files</h1>
                     <Buttons setFiles={setFiles} />
                 </div>
 
                 {files.length === 0 ? (
                     <div className="flex items-center justify-center flex-col space-y-3 pt-64">
-                        <p className="text-[22px] font-medium text-primary-heading">A place for all of your files</p>
+                        <p className="text-[22px] font-semibold text-primary-heading">A place for all of your files</p>
                         <p className="text-primary-para">Drag your files and folders here or use the "Upload" button</p>
                     </div>
                 ) : (
@@ -421,7 +421,7 @@ const MyFiles = () => {
                             </div>
                             <div className="flex gap-3 items-center justify-center">
 
-                                {selectedRow.length > 0 && <h2 className="font-medium text-center text-primary-para">{selectedRow.length} selected</h2>}
+                                {selectedRow.length > 0 && <h2 className="font-semibold text-center text-primary-para">{selectedRow.length} selected</h2>}
                                 <div onClick={() => setGridView(false)} className="flex items-center justify-center flex-col">
                                     <button className="mb-1">
                                         <ListIcon /> {/* Grid view */}
@@ -459,7 +459,7 @@ const MyFiles = () => {
                                                                 )}
                                                             </span>
 
-                                                            <span className="pl-3 font-medium flex flex-row items-center space-x-1">
+                                                            <span className="pl-3 font-semibold flex flex-row items-center space-x-1">
 
                                                                 Name
                                                                 {selectedRow.length > 0 && <UpIcon />}
@@ -469,13 +469,13 @@ const MyFiles = () => {
                                                     </div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/6">
-                                                    <div className="flex flex-col items-center font-medium">Size</div>
+                                                    <div className="flex flex-col items-center font-semibold">Size</div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/6">
-                                                    <div className="flex flex-col items-start font-medium">Type</div>
+                                                    <div className="flex flex-col items-start font-semibold">Type</div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/6">
-                                                    <div className="flex flex-col items-start font-medium">Modified on</div>
+                                                    <div className="flex flex-col items-start font-semibold">Modified on</div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/4">
                                                     <div className="flex flex-col items-start"></div>
@@ -541,7 +541,7 @@ const MyFiles = () => {
                                         >
                                             <span className="flex flex-row items-center space-x-1">
                                                 <CheckboxIcon />
-                                                <span className="flex flex-row items-center space-x-1 text-primary-heading font-medium">
+                                                <span className="flex flex-row items-center space-x-1 text-primary-heading font-semibold">
                                                     Name <UpIcon />
                                                 </span>
                                             </span>

@@ -167,14 +167,14 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
     }, [isOpen, isOpenModified, showLogDropdown])
 
     return (
-        <div className=" flex items-center justify-between px-9 pt-3 text-primary-para">
-            <div className="">
-                <div className="w-[440px]">
+        <div className=" flex items-center justify-between md:px-9 md:pt-3 text-primary-para max-sm:py-4">
+            <div className="max-sm:w-full">
+                <div className="">
                     <div className="relative flex items-center">
                         <span className="absolute left-2 text-[#9AA1B7]">
                             <SearchIcon />
                         </span>
-                        <div className='w-[440px]' onClick={() => setShowFilter(true)}>
+                        <div className='w-[440px] max-sm:w-full' onClick={() => setShowFilter(true)}>
                             <input
                                 type="text"
                                 className={`border border-border rounded-md w-full pl-10 py-2 focus:outline-none 
@@ -184,7 +184,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                 onChange={handleSearch}
                             />
                         </div>
-                        {(query || showFilter) && <button className="absolute right-2 text-[#9AA1B7]" onClick={() => {
+                        {(query || showFilter) && <button className="absolute right-2  text-[#9AA1B7]" onClick={() => {
                             setShowFilter(false);
                             setQuery('');
                         }}
@@ -200,7 +200,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                     {/* Custom Trigger */}
                                     <div
                                         className={` border border-border rounded-md px-2 mx-1 py-1 bg-white flex items-center justify-between cursor-pointer
-                                            ${selectedType ? 'bg-[#D6ECFB] border-none' : ''}`}
+                                            ${selectedType ? 'bg-[#d0e7fb] border-none' : ''}`}
                                         onClick={() => {
                                             setIsOpen(!isOpen)
                                             setOpenModified(false)
@@ -247,7 +247,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                     {/* Custom Dropdown Trigger */}
                                     <div
                                         className={`appearance-none border border-border rounded-lg px-2 py-1 cursor-pointer focus:outline-none flex items-center justify-between
-                                             ${selectedModified ? 'bg-[#D6ECFF] border-none' : ''}`}
+                                             ${selectedModified ? 'bg-[#d0e7fb] border-none' : ''}`}
                                         onClick={() => {
                                             setOpenModified(!isOpenModified)
                                             setIsOpen(false)
@@ -269,7 +269,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
 
                                     {/* Custom Dropdown Options */}
                                     {isOpenModified && (
-                                        <div className="absolute  w-[160px] bg-white border rounded-lg shadow-md z-10 ">
+                                        <div className="absolute  w-[160px]  bg-white border rounded-lg shadow-md z-10 ">
                                             {modifiedOptions.map((option) => (
                                                 <div
                                                     key={option}
@@ -310,7 +310,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                         {!showAll && filteredFiles.length > 3 && (
                                             <button
                                                 onClick={() => handleShowMore()}
-                                                className="text-primary-heading font-medium mt-2 px-3 w-full hover:underline mb-5 text-left"
+                                                className="text-primary-heading font-semibold mt-2 px-3 w-full hover:underline mb-5 text-left"
                                             >
                                                 Show all results
                                             </button>
@@ -322,7 +322,8 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                     )}
                 </div>
             </div>
-            <div className='relative'>
+            {/* account btn */}
+            <div className={`relative ${(showFilter || query) ? 'max-sm:hidden' : 'max-sm:absolute right-5'}`}>
                 <button onClick={() => setLogDropdown(!showLogDropdown)} className="bg-[#FAD24B] px-1.5 py-1 rounded-full flex items-center justify-center">
                     <span className="text-center">RP</span>
                 </button>
@@ -334,7 +335,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                     RP
                                 </div>
                                 <span className='text-sm ml-3 leading-3'>
-                                    <p className='font-medium text-primary-heading pb-px max-w-36 truncate'>Repo Oper</p>
+                                    <p className='font-semibold text-primary-heading pb-px max-w-36 truncate'>Repo Oper</p>
                                     <p className='text-primary-searchFilter pt-px text-xs max-w-36 truncate'>reporepo@repo.com</p>
                                 </span>
                             </div>
@@ -362,7 +363,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
             {showLogPopup &&
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div ref={LogPopupRef} className="bg-white p-5 rounded-lg shadow-lg w-80 relative">
-                        <div className="px-1 text-primary-heading font-medium text-[22px]">
+                        <div className="px-1 text-primary-heading font-semibold text-[22px]">
                             <h2>Logout?</h2>
                         </div>
                         <div className="flex flex-row items-center space-x-3 mt-6 ">

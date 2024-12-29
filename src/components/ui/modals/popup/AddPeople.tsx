@@ -76,7 +76,7 @@ const AddPeople = ({ setHasInput }: AddPeopleProps) => {
                 {selectedUsers.map((user, index) => (
                     <div
                         key={index}
-                        className="flex items-center bg-gray-200 text-sm font-medium px-3 py-1 rounded-full"
+                        className="flex items-center bg-gray-200 text-sm font-semibold px-3 py-1 rounded-full"
                     >
                         {user}
                         <button
@@ -110,12 +110,12 @@ const AddPeople = ({ setHasInput }: AddPeopleProps) => {
                         >
                             <div className="flex flex-row items-center">
                                 <div className="bg-[#FAD24B] w-10 h-10 rounded-full flex items-center justify-center">
-                                    <span className="text-center text-sm font-medium">
+                                    <span className="text-center text-sm font-semibold">
                                         {user.name.slice(0, 2).toUpperCase()}
                                     </span>
                                 </div>
                                 <span className="text-sm ml-3 leading-5">
-                                    <p className="font-medium text-primary-heading pb-px max-w-36 truncate">
+                                    <p className="font-semibold text-primary-heading pb-px max-w-36 truncate">
                                         {user.name}
                                     </p>
                                     <p className="text-primary-searchFilter pt-px text-xs max-w-36 truncate">

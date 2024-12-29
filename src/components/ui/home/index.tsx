@@ -28,6 +28,7 @@ import Navbar from "../navbar";
 import Buttons from "../modals/folder-upload/Buttons";
 import Delete from "../modals/popup/Delete";
 import Share from "../modals/popup/Share";
+import Move from "../modals/popup/Move";
 
 
 
@@ -51,12 +52,14 @@ const Home = () => {
     const [showDropdownPopup, setDropdownPopup] = useState<number | null>(null)
     const [showDropdownPopup2, setDropdownPopup2] = useState<boolean>(false)
     const [showSharePopup, setSharePopup] = useState<boolean>(false)
+    const [showMovePopup, setMovePopup] = useState<boolean>(false)
 
 
     const deletePopupRef = useRef<HTMLDivElement | null>(null);
     const dropdownPopupRef = useRef<HTMLDivElement | null>(null);
     const dropdownPopup2Ref = useRef<HTMLInputElement>(null);
     const sharePopupRef = useRef<HTMLInputElement>(null);
+    const movePopupRef = useRef<HTMLInputElement>(null);
 
     const handleDropdownToggle = (index: number) => {
         setDropdownPopup(showDropdownPopup === index ? null : index);
@@ -156,19 +159,19 @@ const Home = () => {
             {/* NavBar searchbar and account icon*/}
             <Navbar files={files} gridView={gridView} />
             {/* header*/}
-            <div className="px-9 pt-6 text-sm ">
-                <div className="pb-4 flex justify-between items-center">
+            <div className="px-9 pt-6 text-sm max-sm:px-2">
+                <div className="pb-4 flex justify-between items-center relative">
                     {/* Title */}
-                    <h1 className="text-[22px] font-medium text-primary-heading">All files</h1>
+                    <h1 className="text-[22px] font-semibold text-primary-heading">All files</h1>
 
                     {/* Buttons */}
-                    <Buttons setFiles={setFiles} />
+                    <Buttons setFiles={setFiles} showUpload={true} />
                 </div>
                 {/* files empty */}
                 {
                     files.length === 0 ? (<>
                         <div className="flex items-center justify-center flex-col gap-y-3 min-h-screen pb-80">
-                            <h2 className="text-primary-heading text-[22px] font-medium">Welcome to AirVault</h2>
+                            <h2 className="text-primary-heading text-[22px] font-semibold">Welcome to AirVault</h2>
                             <p className="text-primary-para">
                                 Drag your files and folder here or use the "<span className="font-semibold">upload</span>" button
                             </p>
@@ -176,7 +179,30 @@ const Home = () => {
                     </>) : (<>
                         {/* hover buttons and toggle view */}
                         <div className="text-center  text-sm flex justify-between items-center text-primary-para">
-                            <div className={`flex relative gap-3 items-center justify-between  ${selectedRow.length > 0 ? 'opacity-100' : 'opacity-0'} `}>
+                            {/* mobile for mobile */}
+                            <div className="hidden max-sm:flex"> {selectedRow.length > 0 && <div className="max-sm:flex hidden flex-col items-start">
+                                <span className="flex flex-row justify-between items-center">
+                                    <span>
+                                        {selectedRow.length > 0 && (
+                                            <button onClick={() => {
+                                                setIsCheckboxVisible(false);
+                                                setSelectedRows([]);
+                                            }}
+                                                className="-ml-5 flex items-center justify-center"
+                                            ><CheckboxIcon />
+                                            </button>
+                                        )}
+                                    </span>
+                                    <span className="pl-3 font-semibold flex flex-row items-center space-x-1">
+                                        Name
+                                        {selectedRow.length > 0 && <UpIcon />}
+                                    </span>
+                                </span>
+                            </div>}
+
+                            </div>
+
+                            <div className={`flex relative gap-3 items-center justify-between max-sm:hidden ${selectedRow.length > 0 ? 'opacity-100' : 'opacity-0'} `}>
                                 <button onClick={() => setSharePopup(!showSharePopup)}
                                     className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</button>
                                 <button className="bg-hover rounded-lg px-4 py-2">
@@ -198,7 +224,7 @@ const Home = () => {
 
                                     </span>
                                 </button>
-                                <button className="bg-hover rounded-lg px-4 py-2">
+                                <button onClick={() => setMovePopup(!showMovePopup)} className="bg-hover rounded-lg px-4 py-2">
                                     <span className="flex items-center justify-between">
                                         <MoveIcon />
                                         <span className="pl-1.5">
@@ -228,7 +254,7 @@ const Home = () => {
 
                             </div>
                             <div className="flex gap-3 items-center justify-center">
-                                {selectedRow.length > 0 && <h2 className="font-medium text-center text-primary-para">{selectedRow.length} selected</h2>}
+                                {selectedRow.length > 0 && <h2 className="font-semibold text-center text-primary-para">{selectedRow.length} selected</h2>}
                                 <div onClick={() => setGridView(false)} className="flex items-center justify-center flex-col">
                                     <button className="mb-1">
                                         <ListIcon /> {/* Grid view */}
@@ -245,9 +271,9 @@ const Home = () => {
                             </div>
                         </div>
                         {/* table */}
-                        <div className=" mt-6">
+                        <div className=" mt-6 max-sm:mt-2">
                             {!gridView ? (<table className="w-full border-collapse cursor-default">
-                                <thead className=" text-primary-heading">
+                                <thead className=" text-primary-heading max-sm:hidden">
                                     <tr>
                                         <th className="py-4 text-left w-1/5">
                                             <div className="flex flex-col items-start">
@@ -263,7 +289,7 @@ const Home = () => {
                                                             </button>
                                                         )}
                                                     </span>
-                                                    <span className="pl-3 font-medium flex flex-row items-center space-x-1">
+                                                    <span className="pl-3 font-semibold flex flex-row items-center space-x-1">
                                                         Name
                                                         {selectedRow.length > 0 && <UpIcon />}
                                                     </span>
@@ -271,13 +297,13 @@ const Home = () => {
                                             </div>
                                         </th>
                                         <th className=" py-4 text-left w-1/6">
-                                            <div className="flex flex-col items-center font-medium">Size</div>
+                                            <div className="flex flex-col items-center font-semibold">Size</div>
                                         </th>
                                         <th className=" py-4 text-left w-1/6">
-                                            <div className="flex flex-col items-start font-medium">Type</div>
+                                            <div className="flex flex-col items-start font-semibold">Type</div>
                                         </th>
                                         <th className=" py-4 text-left w-1/6">
-                                            <div className="flex flex-col items-start font-medium">Modified on</div>
+                                            <div className="flex flex-col items-start font-semibold">Modified on</div>
                                         </th>
                                         <th className=" py-4 text-left w-1/4">
                                             <div className="flex flex-col items-start"></div>
@@ -296,7 +322,7 @@ const Home = () => {
                                             <td className="py-2 w-1/5">
                                                 <div className="flex flex-col items-start">
                                                     <span className="flex items-center justify-between">
-                                                        <span>
+                                                        <span className="ml-1">
                                                             {isCheckboxVisible && (
                                                                 <CustomCheckbox
                                                                     checked={selectedRow.includes(index)}
@@ -305,23 +331,28 @@ const Home = () => {
                                                                 />
                                                             )}
                                                         </span>
-                                                        <span className="pl-3 flex flex-row items-center gap-x-2">
+                                                        <span className="pl-3 flex flex-row items-center  gap-x-2">
                                                             <span>
                                                                 {fileTypeImages[file.type] || <OtherTypeIcon />}
                                                             </span>
+                                                            <span className="flex flex-col">
+                                                                <span className="truncate w-[200px]">{file.name}
+                                                                </span>   {file.size}
+                                                            </span>
 
-                                                            {file.name}</span>
+
+                                                        </span>
                                                     </span>
                                                 </div>
                                             </td>
                                             <td className="py-2 w-1/6">
-                                                <div className="flex flex-col items-center">{file.size}</div>
+                                                <div className="flex flex-col items-center max-sm:hidden">{file.size}</div>
                                             </td>
                                             <td className="py-2 w-1/6">
-                                                <div className="flex flex-col items-start">{file.type}</div>
+                                                <div className="flex flex-col items-start max-sm:hidden">{file.type}</div>
                                             </td>
-                                            <td className="py-2 w-1/6">
-                                                <div className="flex flex-col items-start">{formatDate(file.modified)}</div>
+                                            <td className="py-2 w-1/6 ">
+                                                <div className="flex flex-col items-start max-sm:hidden">{formatDate(file.modified)}</div>
                                             </td>
                                             <td className="py-2 w-1/4">
                                                 <div className="flex flex-col items-center">
@@ -363,7 +394,7 @@ const Home = () => {
                                         >
                                             <span className="flex flex-row items-center space-x-1">
                                                 <CheckboxIcon />
-                                                <span className="flex flex-row items-center space-x-1 text-primary-heading font-medium">
+                                                <span className="flex flex-row items-center space-x-1 text-primary-heading font-semibold">
                                                     Name <UpIcon />
                                                 </span>
                                             </span>
@@ -433,7 +464,8 @@ const Home = () => {
 
             {/* share popup */}
             {showSharePopup && <Share ref={sharePopupRef} setSharePopup={setSharePopup} showSharePopup={showSharePopup} />}
-
+            {/* Move popup */}
+            {showMovePopup && <Move ref={movePopupRef} setMovePopup={setMovePopup} showMovePopup={showMovePopup} />}
 
         </SideMenu >
 

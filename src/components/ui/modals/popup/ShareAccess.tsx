@@ -106,12 +106,12 @@ const ShareAccess = () => {
                         <div className="flex justify-between items-center cursor-pointer py-2 hover:bg-hover hover:rounded-sm">
                             <div className="flex flex-row items-center">
                                 <div className="bg-[#FAD24B] w-10 h-10 rounded-full flex items-center justify-center">
-                                    <span className="text-center text-sm font-medium">
+                                    <span className="text-center text-sm font-semibold">
                                         {user.name.slice(0, 2).toUpperCase()}
                                     </span>
                                 </div>
                                 <span className="text-sm ml-3 leading-5">
-                                    <p className="font-medium text-primary-heading pb-px max-w-36 truncate">{user.name}</p>
+                                    <p className="font-semibold text-primary-heading pb-px max-w-36 truncate">{user.name}</p>
                                     <p className="text-primary-searchFilter pt-px text-xs max-w-36 truncate">{user.email}</p>
                                 </span>
                             </div>
@@ -159,7 +159,7 @@ const ShareAccess = () => {
             </div> {(showConfirmModal && userToRemove !== null) && (
                 <div ref={removePopupRef} className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 text-pretty">
                     <div className="bg-white rounded-2xl p-6 w-[380px]">
-                        <h3 className="text-[22px] font-medium text-primary-heading mb-3">Remove {users[userToRemove].name}?</h3>
+                        <h3 className="text-[22px] font-semibold text-primary-heading mb-3">Remove {users[userToRemove].name}?</h3>
                         <p className="text-primary-para mb-6">
                             If you remove {users[userToRemove].name}, they won&apos;t be able to see future changes to this item.
                         </p>

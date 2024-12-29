@@ -1,6 +1,7 @@
 import { ForwardedRef, useEffect, useRef, useState } from 'react'
 import { CopycopyIcon, DeleteIcon, DetailsIcon, MoveIcon, RenameIcon, UserpermsIcon } from '../../../../assets'
 import Delete from '../popup/Delete'
+import Share from '../popup/Share'
 
 interface DropdownProps {
     ref: ForwardedRef<HTMLDivElement>
@@ -9,9 +10,11 @@ interface DropdownProps {
 }
 const Dropdown = ({ showDropdownPopup, setDropdownPopup }: DropdownProps) => {
     const [showDeletePopup, setDeletePopup] = useState<boolean>(false);
+    const [showSharePopup, setSharePopup] = useState<boolean>(false);
 
     const dropdownPopupRef = useRef<HTMLDivElement>(null)
     const deletePopupRef = useRef<HTMLDivElement>(null)
+    const sharePopupRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -30,39 +33,44 @@ const Dropdown = ({ showDropdownPopup, setDropdownPopup }: DropdownProps) => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [showDropdownPopup]);
-    return (<><div ref={dropdownPopupRef} className="absolute right-10 mt-2 bg-white shadow-lg rounded-lg w-56 text-primary-para z-20 ">
-        <button
-            className="px-4 my-px py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2">
-            <UserpermsIcon />
-            Manage permissions
-        </button>
-        <button
-            className="px-4 py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2">
-            <MoveIcon />
-            Move
-        </button>
-        <button
-            className="px-4 py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2">
-            <RenameIcon />
-            Rename
-        </button>
-        <button
-            className="px-4 py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2">
-            <CopycopyIcon />
-            Copy
-        </button>
-        <button
-            className="px-4 py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2">
-            <DetailsIcon />
-            Details
-        </button>
-        <button onClick={() => setDeletePopup(!showDeletePopup)}
-            className="px-4 py-2 mb-px w-full text-left rounded-b-lg hover:bg-hover flex items-center flex-row gap-2"
-        > <DeleteIcon />
-            Delete
-        </button>
-    </div>
+
+    return (<>
+        <div ref={dropdownPopupRef} className="absolute right-10 mt-2 bg-white shadow-lg rounded-lg w-56 text-primary-para z-20 ">
+            <button onClick={() => {
+                setSharePopup(!showSharePopup)
+            }}
+                className="px-4 my-px py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2">
+                <UserpermsIcon />
+                Manage permissions
+            </button>
+            <button
+                className="px-4 py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2">
+                <MoveIcon />
+                Move
+            </button>
+            <button
+                className="px-4 py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2">
+                <RenameIcon />
+                Rename
+            </button>
+            <button
+                className="px-4 py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2">
+                <CopycopyIcon />
+                Copy
+            </button>
+            <button
+                className="px-4 py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2">
+                <DetailsIcon />
+                Details
+            </button>
+            <button onClick={() => setDeletePopup(!showDeletePopup)}
+                className="px-4 py-2 mb-px w-full text-left rounded-b-lg hover:bg-hover flex items-center flex-row gap-2"
+            > <DeleteIcon />
+                Delete
+            </button>
+        </div>
         {showDeletePopup && <Delete showDeletePopup={showDeletePopup} setDeletePopup={setDeletePopup} ref={deletePopupRef} />}
+        {showSharePopup && <Share ref={sharePopupRef} setSharePopup={setSharePopup} showSharePopup={showSharePopup} />}
     </>
 
     )

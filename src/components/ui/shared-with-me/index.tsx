@@ -219,7 +219,7 @@ const SharedWithMe = () => {
     const TableSection: React.FC<SectionProps> = ({ files, label, startIndex }) => (
         files.length > 0 && (
             <div className="mb-8">
-                <h2 className=" text-primary-heading font-medium text-sm mb-4">{label}</h2>
+                <h2 className=" text-primary-heading font-semibold text-sm mb-4">{label}</h2>
                 <table className="w-full border-collapse cursor-default">
                     <tbody className="text-primary-para">
                         {files.map((file, index) => {
@@ -262,7 +262,7 @@ const SharedWithMe = () => {
                                             {/* Top Row with Space Between Button and Shared Text */}
                                             <div className="flex items-center justify-start space-x-2">
                                                 <button className="bg-[#FFB2D1] px-1.5 py-1 rounded-full flex items-center justify-center">
-                                                    <span className="text-sm font-medium text-center">RP</span>
+                                                    <span className="text-sm font-semibold text-center">RP</span>
                                                 </button>
                                                 <span className="text-sm">{file.shared}</span>
                                             </div>
@@ -303,7 +303,7 @@ const SharedWithMe = () => {
     const GridSection: React.FC<SectionProps> = ({ files, label, startIndex }) => (
         files.length > 0 && (
             <div className="mb-8">
-                <h2 className=" text-primary-para text-sm font-medium mb-4">{label}</h2>
+                <h2 className=" text-primary-para text-sm font-semibold mb-4">{label}</h2>
                 <div className="grid grid-cols-3 gap-x-3 gap-y-6 max-sm:grid-cols-1 max-md:grid-cols-2 max-lg:grid-cols-2 xl:grid-cols-4">
                     {files.map((file, index) => {
                         const globalIndex = startIndex + index;
@@ -367,7 +367,7 @@ const SharedWithMe = () => {
             <div className="px-9 pt-6 text-sm">
                 {/* Header section remains the same */}
                 <div className="pb-4 flex justify-between items-center">
-                    <h1 className="text-[22px] font-medium text-primary-heading">Shared with me</h1>
+                    <h1 className="text-[22px] font-semibold text-primary-heading">Shared with me</h1>
                     <div className="flex gap-5">
 
                     </div>
@@ -375,7 +375,7 @@ const SharedWithMe = () => {
 
                 {files.length === 0 ? (
                     <div className="flex items-center justify-center flex-col space-y-3 pt-64">
-                        <p className="text-[22px] font-medium text-primary-heading">Nothing has been shared with you yet</p>
+                        <p className="text-[22px] font-semibold text-primary-heading">Nothing has been shared with you yet</p>
                         <p className="text-primary-para">See all the items shared with you in ine place</p>
                     </div>
                 ) : (
@@ -427,7 +427,7 @@ const SharedWithMe = () => {
                             </div>
                             <div className="flex gap-3 items-center justify-center">
 
-                                {selectedRow.length > 0 && <h2 className="font-medium text-center text-primary-para">{selectedRow.length} selected</h2>}
+                                {selectedRow.length > 0 && <h2 className="font-semibold text-center text-primary-para">{selectedRow.length} selected</h2>}
                                 <div onClick={() => setGridView(false)} className="flex items-center justify-center flex-col">
                                     <button className="mb-1">
                                         <ListIcon /> {/* Grid view */}
@@ -466,7 +466,7 @@ const SharedWithMe = () => {
                                                                 )}
                                                             </span>
 
-                                                            <span className="pl-3 font-medium flex flex-row items-center space-x-1">
+                                                            <span className="pl-3 font-semibold flex flex-row items-center space-x-1">
 
                                                                 Name
                                                                 {selectedRow.length > 0 && <UpIcon />}
@@ -476,13 +476,13 @@ const SharedWithMe = () => {
                                                     </div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/6">
-                                                    <div className="flex flex-col items-center font-medium">Size</div>
+                                                    <div className="flex flex-col items-center font-semibold">Size</div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/6">
-                                                    <div className="flex flex-col items-start font-medium">Type</div>
+                                                    <div className="flex flex-col items-start font-semibold">Type</div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/6">
-                                                    <div className="flex flex-col items-start font-medium">Shared by</div>
+                                                    <div className="flex flex-col items-start font-semibold">Shared by</div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/4">
                                                     <div className="flex flex-col items-start"></div>
@@ -548,7 +548,7 @@ const SharedWithMe = () => {
                                         >
                                             <span className="flex flex-row items-center space-x-1">
                                                 <CheckboxIcon />
-                                                <span className="flex flex-row items-center space-x-1 text-primary-heading font-medium">
+                                                <span className="flex flex-row items-center space-x-1 text-primary-heading font-semibold">
                                                     Name <UpIcon />
                                                 </span>
                                             </span>
