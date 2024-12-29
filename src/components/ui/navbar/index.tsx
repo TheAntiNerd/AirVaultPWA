@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AccountIcon, AudioIcon, BlueTickIcon, CustomIcon, DocumentIcon, DownArrow, ExcelIcon, FormIcon, ImageIcon, LogoutIcon, MenuCloseIcon, OtherTypeIcon, PdfIcon, PptIcon, SearchIcon, SettingIcon, VideoIcon, ZipIcon } from '../../../assets';
 import { useNavigate } from 'react-router';
+import Profile from '../modals/popup/Profile';
 
 interface File {
     name: string;
@@ -25,12 +26,14 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
     const [isOpenModified, setOpenModified] = useState<boolean>(false);
     const [showLogDropdown, setLogDropdown] = useState<boolean>(false);
     const [showLogPopup, setLogPopup] = useState<boolean>(false);
+    const [showProfilePopup, setProfilePopup] = useState<boolean>(false);
     const navigate = useNavigate()
 
     const typeDropdownRef = useRef<HTMLDivElement>(null);
     const modifiedDropdownRef = useRef<HTMLDivElement>(null);
     const LogDropdownRef = useRef<HTMLDivElement>(null);
     const LogPopupRef = useRef<HTMLDivElement>(null);
+    const profilePopupRef = useRef<HTMLDivElement>(null);
 
     const fileTypes = ['Folder', 'Document', 'Spreadsheet', 'Presentation', 'Form', 'PDF', 'Video', 'Image', 'Audio', 'Archive', 'Other',];
     const modifiedOptions = ['Today', 'Last Week', 'Last month', '3 months', '6 months', 'Last year', 'Before last year'];
@@ -67,6 +70,10 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
         setOpenModified(false)
         filterFiles(query, selectedType, option);
     };
+
+    const handleAccount = () => {
+        navigate('/account')
+    }
 
     const filterFiles = (query: string, type: string, modified: string) => {
         let results = files;
@@ -158,6 +165,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
             if (LogPopupRef.current && !LogPopupRef.current.contains(event.target as Node)) {
                 setLogPopup(false);
             }
+
         };
 
         document.addEventListener('mousedown', handleClickOutside);
@@ -323,7 +331,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                 </div>
             </div>
             {/* account btn */}
-            <div className={`relative ${(showFilter || query) ? 'max-sm:hidden' : 'max-sm:absolute right-5'}`}>
+            <div className={`relative z-50 ${(showFilter || query) ? 'max-sm:hidden' : 'max-sm:absolute max-sm:right-5'}`}>
                 <button onClick={() => setLogDropdown(!showLogDropdown)} className="bg-[#FAD24B] px-1.5 py-1 rounded-full flex items-center justify-center">
                     <span className="text-center">RP</span>
                 </button>
@@ -331,16 +339,16 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                     <div ref={LogDropdownRef} className="absolute mt-2 -left-44 bg-white shadow-lg rounded-lg w-52 text-primary-para ">
                         <div className='flex flex-col'>
                             <div className='flex flex-row items-center mx-2 cursor-pointer py-2'>
-                                <div className=' bg-[#FAD24B] px-1.5 py-1 rounded-full flex items-center justify-center'>
-                                    RP
-                                </div>
+                                <button onClick={() => setProfilePopup(!showProfilePopup)} className="bg-[#FFB2D1] px-1.5 py-1 rounded-full flex items-center justify-center">
+                                    <span className="text-sm font-semibold text-center">RP</span>
+                                </button>
                                 <span className='text-sm ml-3 leading-3'>
                                     <p className='font-semibold text-primary-heading pb-px max-w-36 truncate'>Repo Oper</p>
                                     <p className='text-primary-searchFilter pt-px text-xs max-w-36 truncate'>reporepo@repo.com</p>
                                 </span>
                             </div>
                             <div className='w-full  border-t' />
-                            <button
+                            <button onClick={handleAccount}
                                 className="px-4 py-2  w-full text-left rounded-b-lg hover:bg-hover flex items-center flex-row gap-2"
                             ><AccountIcon />
                                 Accounts
@@ -379,7 +387,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                         </div>
                     </div>
                 </div>}
-
+            {showProfilePopup && <Profile ref={profilePopupRef} showProfilePopup={showProfilePopup} setProfilePopup={setProfilePopup} />}
         </div >
 
     );

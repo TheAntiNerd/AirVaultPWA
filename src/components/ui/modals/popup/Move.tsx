@@ -8,6 +8,7 @@ interface MoveProps {
     ref: ForwardedRef<HTMLDivElement>
     showMovePopup: boolean;
     setMovePopup: (state: boolean) => void
+    selectedFiles: { name: string; size: string; type: string; modified: string }[]
 }
 const fileTypeImages: Record<string, JSX.Element> = {
     Document: <DocumentIcon />,
@@ -22,9 +23,9 @@ const fileTypeImages: Record<string, JSX.Element> = {
     Archive: <ZipIcon />,
     Other: <OtherTypeIcon />
 }
-const Move = ({ showMovePopup, setMovePopup }: MoveProps) => {
+const Move = ({ showMovePopup, setMovePopup, selectedFiles }: MoveProps) => {
     const [files, setFiles] = useState([
-        { name: 'File 1', size: '2 MB', type: 'PDF', modified: '2024-12-20' },
+        { name: 'File 4', size: '2 MB', type: 'PDF', modified: '2024-12-20' },
         { name: 'File 2', size: '5 MB', type: 'Image', modified: '2024-12-16' },
         { name: 'File 3', size: '1 MB', type: 'Audio', modified: '2024-12-15' },
         { name: 'File 4', size: '1 MB', type: 'Video', modified: '2024-12-15' },
@@ -60,7 +61,11 @@ const Move = ({ showMovePopup, setMovePopup }: MoveProps) => {
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div ref={movePopupRef} className={`bg-white p-6 rounded-xl shadow-lg w-[428px] relative `}>
-                <span className='flex flex-row items-center space-x-2 mb-4'><MoveIcon /><h1 className='font-semibold text-[22px] text-primary-heading'>Move File 2</h1></span>
+                <span className='flex flex-row items-center space-x-2 mb-4'><MoveIcon /><h1 className='font-semibold text-[22px] text-primary-heading flex flex-row items-center gap-x-2 truncate '>Move  {selectedFiles.map((file, index) => (
+                    <div key={index}>
+                        <p>{file.name}</p> {/* Display file name */}
+                    </div>
+                ))}</h1></span>
                 {/* folder paths */}
                 <div className="mb-5 text-primary-searchFilter text-xs flex flex-row items-center gap-x-2">
                     {path.map((folder, index) => {

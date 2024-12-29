@@ -9,6 +9,7 @@ import MyFiles from './components/ui/my-files';
 import SharedWithMe from './components/ui/shared-with-me';
 import DeletedFiles from './components/ui/Deleted-files';
 import Starred from './components/ui/starred';
+import Account from './components/ui/account';
 
 // function to check if PWA is already installed
 const isPWAInstalled = () => {
@@ -92,6 +93,7 @@ function App() {
 							<Route path='/shared' element={<SharedWithMe />} />
 							<Route path='/deleted' element={<DeletedFiles />} />
 							<Route path='/starred' element={<Starred />} />
+							<Route path='/account' element={<Account />} />
 						</>
 					) : (
 						<>

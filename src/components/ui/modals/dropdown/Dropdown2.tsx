@@ -2,19 +2,25 @@ import { ForwardedRef, useEffect, useRef, useState } from 'react'
 import { CopycopyIcon, DeleteIcon, DetailsIcon, MoveIcon, RenameIcon, UserpermsIcon } from '../../../../assets'
 import Delete from '../popup/Delete'
 import Share from '../popup/Share'
+import Move from '../popup/Move'
 
 interface Dropdown2Props {
     ref: ForwardedRef<HTMLDivElement>
     showDropdownPopup2: boolean
     setDropdownPopup2: (state: boolean) => void
+    selectedFiles: { name: string; size: string; type: string; modified: string }[]
 }
-const Dropdown2 = ({ showDropdownPopup2, setDropdownPopup2 }: Dropdown2Props) => {
+
+const Dropdown2 = ({ showDropdownPopup2, setDropdownPopup2, selectedFiles }: Dropdown2Props) => {
     const [showDeletePopup, setDeletePopup] = useState<boolean>(false);
     const [showSharePopup, setSharePopup] = useState<boolean>(false);
+    const [showMovePopup, setMovePopup] = useState<boolean>(false);
+
 
     const sharePopupRef = useRef<HTMLDivElement>(null)
     const deletePopupRef = useRef<HTMLDivElement>(null)
     const dropdownPopup2Ref = useRef<HTMLDivElement>(null)
+    const movePopupRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -41,14 +47,14 @@ const Dropdown2 = ({ showDropdownPopup2, setDropdownPopup2 }: Dropdown2Props) =>
         }
     }
     return (
-        <div>
-            <div ref={dropdownPopup2Ref} className="absolute right-0 mt-4 bg-white shadow-lg rounded-lg w-56 text-primary-para z-20 ">
+        <div ref={dropdownPopup2Ref}>
+            <div className="absolute right-0 mt-4 bg-white shadow-lg rounded-lg w-56 text-primary-para z-20 ">
                 <button onClick={handlePermissions}
                     className="px-4 my-px py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2">
                     <UserpermsIcon />
                     Manage permissions
                 </button>
-                <button
+                <button onClick={() => setMovePopup(!showMovePopup)}
                     className="px-4 py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2">
                     <MoveIcon />
                     Move
@@ -76,6 +82,7 @@ const Dropdown2 = ({ showDropdownPopup2, setDropdownPopup2 }: Dropdown2Props) =>
             </div>
             {showDeletePopup && <Delete showDeletePopup={showDeletePopup} setDeletePopup={setDeletePopup} ref={deletePopupRef} />}
             {showSharePopup && <Share ref={sharePopupRef} setSharePopup={setSharePopup} showSharePopup={showSharePopup} />}
+            {showMovePopup && <Move ref={movePopupRef} setMovePopup={setMovePopup} showMovePopup={showMovePopup} selectedFiles={selectedFiles} />}
         </div>
     )
 }

@@ -23,13 +23,26 @@ import {
 } from "../../../assets";
 import SideMenu from "../../SideMenu";
 import Dropdown from "../modals/dropdown/Dropdown";
-import Dropdown2 from "../modals/dropdown/Dropdown2";
-import Navbar from "../navbar";
 import Buttons from "../modals/folder-upload/Buttons";
 import Delete from "../modals/popup/Delete";
-import Share from "../modals/popup/Share";
 import Move from "../modals/popup/Move";
+import Share from "../modals/popup/Share";
+import Navbar from "../navbar";
+import Dropdown2 from "../modals/dropdown/Dropdown2";
 
+const fileTypeImages: Record<string, JSX.Element> = {
+    Document: <DocumentIcon />,
+    Folder: <CustomIcon />,
+    Spreadsheet: <ExcelIcon />,
+    Presentation: <PptIcon />,
+    Form: <FormIcon />,
+    PDF: <PdfIcon />,
+    Video: <VideoIcon />,
+    Image: <ImageIcon />,
+    Audio: <AudioIcon />,
+    Archive: <ZipIcon />,
+    Other: <OtherTypeIcon />
+}
 
 
 interface CustomCheckboxProps {
@@ -50,34 +63,20 @@ const Home = () => {
     const [gridView, setGridView] = useState<boolean>(false);
     const [showDeletePopup, setDeletePopup] = useState(false)
     const [showDropdownPopup, setDropdownPopup] = useState<number | null>(null)
-    const [showDropdownPopup2, setDropdownPopup2] = useState<boolean>(false)
+    const [showDropdownPopup2, setDropdownPopup2] = useState<boolean>(false);
     const [showSharePopup, setSharePopup] = useState<boolean>(false)
     const [showMovePopup, setMovePopup] = useState<boolean>(false)
 
-
     const deletePopupRef = useRef<HTMLDivElement | null>(null);
     const dropdownPopupRef = useRef<HTMLDivElement | null>(null);
-    const dropdownPopup2Ref = useRef<HTMLInputElement>(null);
     const sharePopupRef = useRef<HTMLInputElement>(null);
     const movePopupRef = useRef<HTMLInputElement>(null);
+    const dropdownPopup2Ref = useRef<HTMLDivElement>(null)
 
     const handleDropdownToggle = (index: number) => {
         setDropdownPopup(showDropdownPopup === index ? null : index);
     };
 
-    const fileTypeImages: Record<string, JSX.Element> = {
-        Document: <DocumentIcon />,
-        Folder: <CustomIcon />,
-        Spreadsheet: <ExcelIcon />,
-        Presentation: <PptIcon />,
-        Form: <FormIcon />,
-        PDF: <PdfIcon />,
-        Video: <VideoIcon />,
-        Image: <ImageIcon />,
-        Audio: <AudioIcon />,
-        Archive: <ZipIcon />,
-        Other: <OtherTypeIcon />
-    }
 
     const CustomCheckbox: React.FC<CustomCheckboxProps> = ({ checked, onChange, index }) => {
         return (
@@ -127,6 +126,11 @@ const Home = () => {
         );
     };
 
+    const handleMovePopup = () => {
+        if (selectedRow.length > 0) {
+            setMovePopup(true); // Show the move popup
+        }
+    };
 
     const handleRowClick = (rowIndex: number) => {
         if (!isCheckboxVisible) {
@@ -224,15 +228,17 @@ const Home = () => {
 
                                     </span>
                                 </button>
-                                <button onClick={() => setMovePopup(!showMovePopup)} className="bg-hover rounded-lg px-4 py-2">
+                                <button
+                                    onClick={handleMovePopup}
+                                    className="bg-hover rounded-lg px-4 py-2"
+                                >
                                     <span className="flex items-center justify-between">
                                         <MoveIcon />
-                                        <span className="pl-1.5">
-                                            Move
-                                        </span>
-
+                                        <span className="pl-1.5">Move</span>
                                     </span>
                                 </button>
+
+
                                 <button onClick={() => setDeletePopup(!showDeletePopup)}
                                     className="bg-hover rounded-lg px-4 py-2">
                                     <span className="flex items-center justify-between">
@@ -247,10 +253,11 @@ const Home = () => {
                                     <button onClick={() => setDropdownPopup2(!showDropdownPopup2)}
                                         className="rotate-90">•••
                                     </button>
-                                    {(showDropdownPopup2) && (
-                                        <Dropdown2 ref={dropdownPopup2Ref} showDropdownPopup2={showDropdownPopup2} setDropdownPopup2={setDropdownPopup2} />
-                                    )}
+
                                 </div>
+                                {(showDropdownPopup2) && (
+                                    <Dropdown2 ref={dropdownPopup2Ref} showDropdownPopup2={showDropdownPopup2} setDropdownPopup2={setDropdownPopup2} selectedFiles={selectedRow.map((index) => files[index])} />
+                                )}
 
                             </div>
                             <div className="flex gap-3 items-center justify-center">
@@ -284,7 +291,7 @@ const Home = () => {
                                                                 setIsCheckboxVisible(false);
                                                                 setSelectedRows([]);
                                                             }}
-                                                                className="-ml-6 flex items-center justify-center"
+                                                                className="-ml-5 flex items-center justify-center"
                                                             ><CheckboxIcon />
                                                             </button>
                                                         )}
@@ -371,7 +378,7 @@ const Home = () => {
                                                     <span className="rotate-90">•••</span>
                                                 </div>
                                                 {(showDropdownPopup === index) && (
-                                                    <Dropdown ref={dropdownPopupRef} showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} />
+                                                    <Dropdown ref={dropdownPopupRef} showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} selectedFiles={selectedRow.map((index) => files[index])} />
                                                 )}
                                             </td>
                                         </tr>
@@ -428,7 +435,7 @@ const Home = () => {
                                                         <div onClick={() => handleDropdownToggle(index)} className="rotate-90  cursor-pointer">•••</div>
                                                     </div>
                                                     <div className="absolute left-64 ml-3 mt-8">{(showDropdownPopup === index) && (
-                                                        <Dropdown ref={dropdownPopupRef} showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} />
+                                                        <Dropdown ref={dropdownPopupRef} showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} selectedFiles={selectedRow.map((index) => files[index])} />
                                                     )}
                                                     </div>
 
@@ -465,7 +472,16 @@ const Home = () => {
             {/* share popup */}
             {showSharePopup && <Share ref={sharePopupRef} setSharePopup={setSharePopup} showSharePopup={showSharePopup} />}
             {/* Move popup */}
-            {showMovePopup && <Move ref={movePopupRef} setMovePopup={setMovePopup} showMovePopup={showMovePopup} />}
+            {showMovePopup && selectedRow.length > 0 && (
+                <Move
+                    ref={movePopupRef}
+                    setMovePopup={setMovePopup}
+                    showMovePopup={showMovePopup}
+                    selectedFiles={selectedRow.map((index) => files[index])} // Pass selected files
+                />
+            )}
+
+
 
         </SideMenu >
 

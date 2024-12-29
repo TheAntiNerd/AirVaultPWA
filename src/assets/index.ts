@@ -53,3 +53,5 @@ export { default as SelectedSharedIcon } from './selectedshared.svg';
 export { default as SelectedStarredIcon } from './selectedstarred.svg';
 export { default as CameraIcon } from './camera.svg';
 export { default as ScanIcon } from './scan.svg';
+export { default as GalleryIcon } from './galleryupload.svg';
+export { default as EditPencilIcon } from './editpencil.svg';
