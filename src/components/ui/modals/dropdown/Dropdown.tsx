@@ -1,8 +1,9 @@
 import { ForwardedRef, useEffect, useRef, useState } from 'react';
 import { CopycopyIcon, DeleteIcon, DetailsIcon, MoveIcon, RenameIcon, UserpermsIcon } from '../../../../assets';
 import Delete from '../popup/Delete';
-import Share from '../popup/Share';
+import Details from '../popup/Details';
 import Move from '../popup/Move';
+import Share from '../popup/Share';
 
 interface DropdownProps {
     ref: ForwardedRef<HTMLDivElement>;
@@ -15,11 +16,13 @@ const Dropdown = ({ showDropdownPopup, setDropdownPopup, selectedFiles }: Dropdo
     const [showDeletePopup, setDeletePopup] = useState<boolean>(false);
     const [showSharePopup, setSharePopup] = useState<boolean>(false);
     const [showMovePopup, setMovePopup] = useState<boolean>(false);
+    const [showDetailsPopup, setDetailsPopup] = useState<boolean>(false);
 
     const dropdownPopupRef = useRef<HTMLDivElement>(null);
     const deletePopupRef = useRef<HTMLDivElement>(null);
     const sharePopupRef = useRef<HTMLDivElement>(null);
     const movePopupRef = useRef<HTMLDivElement>(null);
+    const detailsPopupRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -57,7 +60,7 @@ const Dropdown = ({ showDropdownPopup, setDropdownPopup, selectedFiles }: Dropdo
                     <CopycopyIcon />
                     Copy
                 </button>
-                <button className="px-4 py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2">
+                <button onClick={() => setDetailsPopup(!showDetailsPopup)} className="px-4 py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2">
                     <DetailsIcon />
                     Details
                 </button>
@@ -69,6 +72,7 @@ const Dropdown = ({ showDropdownPopup, setDropdownPopup, selectedFiles }: Dropdo
             {showDeletePopup && <Delete showDeletePopup={showDeletePopup} setDeletePopup={setDeletePopup} ref={deletePopupRef} />}
             {showSharePopup && <Share ref={sharePopupRef} setSharePopup={setSharePopup} showSharePopup={showSharePopup} />}
             {showMovePopup && <Move ref={movePopupRef} setMovePopup={setMovePopup} showMovePopup={showMovePopup} selectedFiles={selectedFiles} />}
+            {showDetailsPopup && <Details ref={detailsPopupRef} setDetailsPopup={setDeletePopup} showDetailsPopup={showDetailsPopup} />}
         </>
     );
 };

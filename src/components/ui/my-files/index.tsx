@@ -176,6 +176,9 @@ const MyFiles = () => {
             year: 'numeric'
         });
     };
+
+
+
     const CustomCheckbox: React.FC<CustomCheckboxProps> = ({ checked, onChange, index }) => {
         return (
             <div className="relative">
@@ -236,12 +239,12 @@ const MyFiles = () => {
                                 <tr
                                     key={globalIndex}
                                     onClick={() => handleRowClick(globalIndex)}
-                                    className={`border-b border-border/40 relative ${selectedRow.includes(globalIndex) ? 'bg-selected' : 'group hover:bg-gray-100'}`}
+                                    className={`border-b max-sm:border-none border-border/40 relative ${selectedRow.includes(globalIndex) ? 'bg-selected' : 'group hover:bg-gray-100'}`}
                                 >
                                     <td className="py-2 w-1/5">
                                         <div className="flex flex-col items-start">
                                             <span className="flex items-center justify-between">
-                                                <span>
+                                                <span className="ml-1 max-sm:opacity-0">
                                                     {isCheckboxVisible && (
                                                         <CustomCheckbox
                                                             checked={selectedRow.includes(globalIndex)}
@@ -250,26 +253,29 @@ const MyFiles = () => {
                                                         />
                                                     )}
                                                 </span>
-                                                <span className="pl-3 flex flex-row items-center gap-x-2">
-                                                    <span>
-                                                        {fileTypeImages[file.type as keyof typeof fileTypeImages] || <OtherTypeIcon />}
+                                                <span className="pl-2 flex flex-col gap-x-2">
+                                                    <span className="flex flex-row gap-x-1.5 items-center">
+                                                        {fileTypeImages[file.type] || <OtherTypeIcon />}
+                                                        <span className="truncate w-[200px]">{file.name}</span>
                                                     </span>
-
-                                                    {file.name}</span>
+                                                    <span className="flex flex-col">
+                                                        <span className="text-xs ml-6">{file.size}</span>
+                                                    </span>
+                                                </span>
                                             </span>
                                         </div>
                                     </td>
-                                    <td className="py-2 w-1/6">
+                                    <td className="py-2 w-1/6 max-sm:hidden">
                                         <div className="flex flex-col items-center">{file.size}</div>
                                     </td>
-                                    <td className="py-2 w-1/6">
+                                    <td className="py-2 w-1/6 max-sm:hidden">
                                         <div className="flex flex-col items-start">{file.type}</div>
                                     </td>
-                                    <td className="py-2 w-1/6">
+                                    <td className="py-2 w-1/6 max-sm:hidden">
                                         <div className="flex flex-col items-start">{formatDate(file.modified)}</div>
                                     </td>
-                                    <td className="py-2 w-1/4">
-                                        <div className="flex flex-col items-center">
+                                    <td className="py-2 w-1/4 max-sm:hidden">
+                                        <div className="flex flex-col items-center ">
                                             <div className="flex flex-row items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <button onClick={() => setSharePopup(!showSharePopup)} className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</button>
                                                 <CopyIcon />
@@ -278,12 +284,12 @@ const MyFiles = () => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="py-2 w-1/2">
-                                        <div onClick={() => handleDropdownToggle(globalIndex)} className="flex flex-col items-start cursor-pointer">
+                                    <td className="py-2 w-1/2 ">
+                                        <div onClick={() => handleDropdownToggle(globalIndex)} className="flex flex-col items-start max-sm:items-end cursor-pointer">
                                             <span className="rotate-90">•••</span>
                                         </div>
                                         {(showDropdownPopup === globalIndex) && (
-                                            <Dropdown ref={dropdownPopupRef} showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} />
+                                            <Dropdown ref={dropdownPopupRef} showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} selectedFiles={selectedRow.map((index) => files[index])} />
                                         )}
                                     </td>
                                 </tr>
@@ -306,7 +312,7 @@ const MyFiles = () => {
                         return (
                             <div
                                 key={globalIndex}
-                                className={`h-[212px] w-[250px] rounded-lg bg-hover relative ${selectedRow.includes(globalIndex) ? 'bg-[#D6ECFF]' : 'group'}`}
+                                className={`h-[212px] w-[250px] max-sm:w-full rounded-lg bg-hover relative ${selectedRow.includes(globalIndex) ? 'bg-[#D6ECFF]' : 'group'}`}
                                 onClick={() => handleRowClick(globalIndex)}
                             >
                                 <div className="bg-white relative rounded-md m-2.5 h-[140px] flex">
@@ -328,7 +334,7 @@ const MyFiles = () => {
                                         <div onClick={() => handleDropdownToggle(globalIndex)} className="rotate-90 relative cursor-pointer">•••</div>
                                     </div>
                                     <div className="absolute left-64 ml-3 mt-8">{(showDropdownPopup === globalIndex) && (
-                                        <Dropdown ref={dropdownPopupRef} showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} />
+                                        <Dropdown ref={dropdownPopupRef} showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} selectedFiles={selectedRow.map((index) => files[index])} />
                                     )}
                                     </div>
                                 </div>
@@ -360,24 +366,48 @@ const MyFiles = () => {
     return (
         <SideMenu>
             <Navbar files={files} gridView={gridView} />
-            <div className="px-9 pt-6 text-sm">
+            <div className="px-9 pt-6 text-sm max-sm:px-0">
                 {/* Header section remains the same */}
                 <div className="pb-4 flex justify-between items-center">
                     <h1 className="text-[22px] font-semibold text-primary-heading">My files</h1>
-                    <Buttons setFiles={setFiles} />
+                    <Buttons showUpload={true} setFiles={setFiles} />
                 </div>
 
                 {files.length === 0 ? (
                     <div className="flex items-center justify-center flex-col space-y-3 pt-64">
-                        <p className="text-[22px] font-semibold text-primary-heading">A place for all of your files</p>
-                        <p className="text-primary-para">Drag your files and folders here or use the "Upload" button</p>
+                        <p className="text-[22px] font-semibold text-primary-heading max-sm:text-center">A place for all of your files</p>
+                        <p className="text-primary-para max-sm:text-center">Drag your files and folders here or use the "Upload" button</p>
                     </div>
                 ) : (
                     <>
                         {/* Action buttons and view toggle */}
-                        <div className="text-center text-sm flex justify-between items-center text-primary-para">
-                            <div className={`flex gap-3 items-center justify-between relative ${selectedRow.length > 0 ? 'opacity-100' : 'opacity-0'} `}>
-                                <button onClick={() => setSharePopup(!showSharePopup)} className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</button>
+                        <div className="text-center  text-sm flex justify-between items-center text-primary-para">
+                            {/* for mobile */}
+                            <div className="hidden max-sm:flex"> {selectedRow.length > 0 && <div className="max-sm:flex hidden flex-col items-start">
+                                <span className="flex flex-row justify-between items-center">
+                                    <span>
+                                        {selectedRow.length > 0 && (
+                                            <button onClick={() => {
+                                                setIsCheckboxVisible(false);
+                                                setSelectedRows([]);
+                                            }}
+                                                className="-ml-5 flex items-center justify-center"
+                                            ><span className="opacity-0"><CheckboxIcon /></span>
+                                            </button>
+                                        )}
+                                    </span>
+                                    <span className=" font-semibold flex flex-row items-center space-x-1">
+                                        Name
+                                        {selectedRow.length > 0 && <UpIcon />}
+                                    </span>
+                                </span>
+                            </div>}
+
+                            </div>
+
+                            <div className={`flex relative gap-3 items-center justify-between max-sm:hidden ${selectedRow.length > 0 ? 'opacity-100' : 'opacity-0'} `}>
+                                <button onClick={() => setSharePopup(!showSharePopup)}
+                                    className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</button>
                                 <button className="bg-hover rounded-lg px-4 py-2">
                                     <span className="flex items-center justify-between">
                                         <CopyIcon />
@@ -387,7 +417,8 @@ const MyFiles = () => {
 
                                     </span>
                                 </button>
-                                <button className="bg-hover rounded-lg px-4 py-2">
+                                <button
+                                    className="bg-hover rounded-lg px-4 py-2">
                                     <span className="flex items-center justify-between">
                                         <DownloadIcon />
                                         <span className="pl-1.5">
@@ -396,16 +427,19 @@ const MyFiles = () => {
 
                                     </span>
                                 </button>
-                                <button className="bg-hover rounded-lg px-4 py-2">
+                                <button
+
+                                    className="bg-hover rounded-lg px-4 py-2"
+                                >
                                     <span className="flex items-center justify-between">
                                         <MoveIcon />
-                                        <span className="pl-1.5">
-                                            Move
-                                        </span>
-
+                                        <span className="pl-1.5">Move</span>
                                     </span>
                                 </button>
-                                <button onClick={() => setDeletePopup(!showDeletePopup)} className="bg-hover rounded-lg px-4 py-2">
+
+
+                                <button onClick={() => setDeletePopup(!showDeletePopup)}
+                                    className="bg-hover rounded-lg px-4 py-2">
                                     <span className="flex items-center justify-between">
                                         <DeleteIcon />
                                         <span className="pl-1.5">
@@ -414,13 +448,18 @@ const MyFiles = () => {
 
                                     </span>
                                 </button>
-                                <button onClick={() => setDropdownPopup2(!showDropdownPopup2)} className="rotate-90">•••</button>
+                                <div>
+                                    <button onClick={() => setDropdownPopup2(!showDropdownPopup2)}
+                                        className="rotate-90">•••
+                                    </button>
+
+                                </div>
                                 {(showDropdownPopup2) && (
-                                    <Dropdown2 ref={dropdownPopup2Ref} showDropdownPopup2={showDropdownPopup2} setDropdownPopup2={setDropdownPopup2} />
+                                    <Dropdown2 ref={dropdownPopup2Ref} showDropdownPopup2={showDropdownPopup2} setDropdownPopup2={setDropdownPopup2} selectedFiles={selectedRow.map((index) => files[index])} />
                                 )}
+
                             </div>
                             <div className="flex gap-3 items-center justify-center">
-
                                 {selectedRow.length > 0 && <h2 className="font-semibold text-center text-primary-para">{selectedRow.length} selected</h2>}
                                 <div onClick={() => setGridView(false)} className="flex items-center justify-center flex-col">
                                     <button className="mb-1">
@@ -434,6 +473,7 @@ const MyFiles = () => {
                                     </button>
                                     <div className={`pt-px ${gridView ? 'border-t-2 w-6 border-borderView ' : ""}`} />
                                 </div>
+
                             </div>
                         </div>
 
@@ -442,7 +482,7 @@ const MyFiles = () => {
                                 // Table headers
                                 <div className="">
                                     <table className="w-full border-collapse">
-                                        <thead className="text-primary-heading cursor-default ">
+                                        <thead className="text-primary-heading cursor-default max-sm:hidden ">
                                             <tr>
                                                 <th className="py-4 text-left w-1/5">
                                                     <div className="flex flex-col items-start">
@@ -460,7 +500,6 @@ const MyFiles = () => {
                                                             </span>
 
                                                             <span className="pl-3 font-semibold flex flex-row items-center space-x-1">
-
                                                                 Name
                                                                 {selectedRow.length > 0 && <UpIcon />}
 
@@ -527,7 +566,7 @@ const MyFiles = () => {
                             ) : (
                                 // Grid view sections
                                 <div className="pb-10">
-                                    <div className="px-4 m-2">
+                                    <div className="px-4 m-2 max-sm:hidden">
                                         <button
                                             onClick={() => {
                                                 setIsCheckboxVisible(false);

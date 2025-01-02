@@ -192,7 +192,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 
             {/* Main Content */}
             <main className="flex-1">
-                <div className="w-full max-w-[1240px] mx-auto px-4">
+                <div className="w-full max-w-[1240px] mx-auto px-4 ">
                     {children}
                 </div>
             </main>

@@ -55,3 +55,4 @@ export { default as CameraIcon } from './camera.svg';
 export { default as ScanIcon } from './scan.svg';
 export { default as GalleryIcon } from './galleryupload.svg';
 export { default as EditPencilIcon } from './editpencil.svg';
+export { default as LocationIcon } from './location.svg';

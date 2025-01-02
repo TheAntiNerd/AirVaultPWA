@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AccountIcon, AudioIcon, BlueTickIcon, CustomIcon, DocumentIcon, DownArrow, ExcelIcon, FormIcon, ImageIcon, LogoutIcon, MenuCloseIcon, OtherTypeIcon, PdfIcon, PptIcon, SearchIcon, SettingIcon, VideoIcon, ZipIcon } from '../../../assets';
+import { AccountIcon, AudioIcon, BackbuttonIcon, BlueTickIcon, CustomIcon, DeleteIcon, DocumentIcon, DownArrow, EditPencilIcon, ExcelIcon, FormIcon, ImageIcon, LogoutIcon, MenuCloseIcon, OtherTypeIcon, PdfIcon, PptIcon, SearchIcon, SettingIcon, VideoIcon, ZipIcon } from '../../../assets';
 import { useNavigate } from 'react-router';
 import Profile from '../modals/popup/Profile';
 
@@ -27,6 +27,9 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
     const [showLogDropdown, setLogDropdown] = useState<boolean>(false);
     const [showLogPopup, setLogPopup] = useState<boolean>(false);
     const [showProfilePopup, setProfilePopup] = useState<boolean>(false);
+    const [storageUsed, setStorageUsed] = useState(0);
+    const [storageTotal, setStorageTotal] = useState(100);
+    const [progress, setProgress] = useState(0);
     const navigate = useNavigate()
 
     const typeDropdownRef = useRef<HTMLDivElement>(null);
@@ -57,6 +60,30 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
         setQuery(value);
         filterFiles(value, selectedType, selectedModified);
     };
+
+    useEffect(() => {
+        const fetchStorageData = async () => {
+            try {
+                /*  const response = await fetch('/api/storage'); 
+                 const data = await response.json(); */
+                const dummyData = {
+                    used: 30,
+                    total: 100,
+                };
+
+                setStorageUsed(dummyData.used);
+                setStorageTotal(dummyData.total);
+
+                // Calculate progress percentage
+                const percentage = (dummyData.used / dummyData.total) * 100;
+                setProgress(percentage);
+            } catch (error) {
+                console.error('Failed to fetch storage data:', error);
+            }
+        };
+
+        fetchStorageData();
+    }, []);
 
     const handleTypeChange = (type: string) => {
         setSelectedType(type);
@@ -336,33 +363,58 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                     <span className="text-center">RP</span>
                 </button>
                 {showLogDropdown && (
-                    <div ref={LogDropdownRef} className="absolute mt-2 -left-44 bg-white shadow-lg rounded-lg w-52 text-primary-para ">
+                    <div ref={LogDropdownRef} className="absolute max-sm:fixed max-sm:top-0 max-sm:left-0 and max-sm:right-0 max-sm:w-full max-sm:min-h-screen max-sm:mt-0 mt-2 -left-44 bg-white shadow-lg rounded-lg w-52 text-primary-para ">
                         <div className='flex flex-col'>
-                            <div className='flex flex-row items-center mx-2 cursor-pointer py-2'>
-                                <button onClick={() => setProfilePopup(!showProfilePopup)} className="bg-[#FFB2D1] px-1.5 py-1 rounded-full flex items-center justify-center">
+                            <div onClick={() => setLogDropdown(!showLogDropdown)} className='hidden max-sm:flex px-4 mt-4'>
+                                <BackbuttonIcon />
+                            </div>
+                            <div className='flex flex-row items-center mx-2 max-sm:mx-0 cursor-pointer py-2 max-sm:mt-7 max-sm:px-4'>
+                                <button className="bg-[#FFB2D1] size-10 relative px-1.5 py-1 rounded-full flex items-center justify-center">
+                                    <span onClick={() => setProfilePopup(!showProfilePopup)} className='absolute left-6 top-6 max-sm:top-22 bg-gray-50 rounded-full shadow-lg'><EditPencilIcon /></span>
                                     <span className="text-sm font-semibold text-center">RP</span>
                                 </button>
+
                                 <span className='text-sm ml-3 leading-3'>
-                                    <p className='font-semibold text-primary-heading pb-px max-w-36 truncate'>Repo Oper</p>
-                                    <p className='text-primary-searchFilter pt-px text-xs max-w-36 truncate'>reporepo@repo.com</p>
+                                    <p className='font-medium text-primary-heading pb-px max-w-36 truncate max-sm:mb-px'><strong>Repo Oper</strong></p>
+                                    <p className='text-primary-searchFilter pt-px text-xs max-w-36 truncate max-sm:mt-1'>reporepo@repo.com</p>
                                 </span>
                             </div>
-                            <div className='w-full  border-t' />
+                            <div className='w-full max-sm:hidden border-t' />
                             <button onClick={handleAccount}
-                                className="px-4 py-2  w-full text-left rounded-b-lg hover:bg-hover flex items-center flex-row gap-2"
+                                className="px-4 py-2 max-sm:mt-5 max-sm:mb-1 w-full text-left rounded-b-lg hover:bg-hover flex items-center flex-row gap-2"
                             ><AccountIcon />
                                 Accounts
                             </button>
                             <button
-                                className="px-4 py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2"
+                                className="px-4  py-2 w-full max-sm:mb-1 text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2"
                             ><SettingIcon />
                                 Settings
                             </button>
+                            <button onClick={() => navigate('/deleted')}
+                                className="px-4 hidden   py-2 w-full max-sm:mb-1 text-left rounded-t-lg hover:bg-hover max-sm:flex items-center flex-row gap-2"
+                            ><DeleteIcon />
+                                Deleted files
+                            </button>
                             <button onClick={() => { setLogPopup(!showLogPopup) }}
-                                className="px-4 py-2 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2"
+                                className="px-4  py-2 max-sm:mb-5 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2 max-sm:text-[#DB3D3D]"
                             ><LogoutIcon />
                                 Log out
                             </button>
+
+                            <div className="mt-4 px-[18px] hidden max-sm:block">
+                                <h4 className="text-primary-heading font-semibold mb-3">Storage</h4>
+                                <div className="w-full bg-[#D3DBE0] rounded h-[7px]">
+                                    <div
+                                        className="bg-gradient-to-r from-[#46BFFB] to-[#298DFF] h-[7px] rounded"
+                                        style={{ width: `${progress}%`, transition: 'width 0.5s ease-in-out' }}
+                                    />
+                                </div>
+
+
+                                <p className="text-primary-para mt-2 text-sm">
+                                    {storageTotal - storageUsed} GB left
+                                </p>
+                            </div>
                         </div>
 
                     </div>
