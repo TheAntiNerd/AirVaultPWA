@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { AudioIcon, CheckboxIcon, CopyIcon, CustomIcon, DeleteIcon, DocumentIcon, DownloadIcon, ExcelIcon, FormIcon, GridIcon, ImageIcon, ListIcon, MoveIcon, OtherTypeIcon, PdfIcon, PptIcon, StarredIcon, UpIcon, VideoIcon, ZipIcon } from "../../../assets";
+import { AudioIcon, CheckboxIcon, CopyIcon, CustomIcon, DeleteIcon, DocumentIcon, DownloadIcon, ExcelIcon, FormIcon, GridIcon, ImageIcon, ListIcon, MoveIcon, OtherTypeIcon, PdfIcon, PptIcon, SelectAllIcon, StarredIcon, UpIcon, VideoIcon, ZipIcon } from "../../../assets";
 import SideMenu from "../../SideMenu";
 import Navbar from "../navbar";
 import Delete from "../modals/popup/Delete";
@@ -366,7 +366,40 @@ const SharedWithMe = () => {
 
     return (
         <SideMenu>
-            <Navbar files={files} gridView={gridView} />
+            <>
+                <div className="max-sm:hidden">
+                    <Navbar files={files} gridView={gridView} />
+                </div>
+                <div className="sm:hidden">
+                    {selectedRow.length > 1 ? (
+                        <div className="text-left font-medium text-sm mt-6 mb-7 text-primary-para flex justify-between items-center">
+                            <span className="flex flex-row items-center gap-x-2">
+                                <button onClick={() => {
+                                    setIsCheckboxVisible(false);
+                                    setSelectedRows([]);
+                                }}
+                                    className=" flex items-center justify-center"
+                                ><span className=""><CheckboxIcon /></span>
+                                </button>
+                                <strong>{selectedRow.length} selected</strong>
+                            </span>
+                            <div className="flex flex-row items-center gap-x-4">
+                                <button
+                                    onClick={() => setSelectedRows(files.map((_, index) => index))} // Map files to extract IDs
+                                    className="flex items-center justify-center"
+                                >
+                                    <SelectAllIcon />
+                                </button>
+
+                                <span className="rotate-90">•••</span>
+                            </div>
+                        </div>
+                    ) : (
+                        <Navbar files={files} gridView={gridView} />
+                    )}
+                </div>
+            </>
+
             <div className="px-9 pt-6 text-sm max-sm:px-0">
                 {/* Header section remains the same */}
                 <div className="pb-4 flex justify-between items-center">

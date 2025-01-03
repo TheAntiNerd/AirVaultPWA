@@ -125,7 +125,7 @@ const Account: React.FC = () => {
             <div className="w-[500px] max-sm:w-full mx-auto">
                 {/* General Info Section */}
                 <div>
-                    <h2 className="text-lg font-medium text-primary-heading">General info</h2>
+                    <h2 className="text-lg font-medium text-primary-heading"><strong>General info</strong></h2>
                     <div className="mt-4 space-y-4">
                         <div className="flex items-center max-sm:flex-col max-sm:items-start justify-between max-sm:gap-y-1">
                             <label className="w-1/4 max-sm:w-full text-sm text-primary-para">Name</label>
@@ -166,7 +166,7 @@ const Account: React.FC = () => {
                 {/* Default Sharing Settings */}
                 <div className="mt-12">
                     <h2 className="text-lg font-medium text-primary-heading">
-                        Default sharing settings
+                        <strong>Default sharing settings</strong>
                     </h2>
                     <div className="mt-4 space-y-4">
                         <div className="flex justify-between max-sm:flex-col max-sm:items-start items-center gap-2">
@@ -191,8 +191,8 @@ const Account: React.FC = () => {
 
             {editNamePopup && (
                 <div>
-                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 ">
-                        <div ref={editNamePopupRef} className="bg-white p-6 rounded-lg shadow-lg w-[382px] relative max-sm:mx-4">
+                    <div className="fixed inset-0  flex items-center justify-center bg-black bg-opacity-50 z-50 ">
+                        <div ref={editNamePopupRef} className="bg-white p-6 rounded-lg shadow-lg w-[382px] relative max-sm:w-full max-sm:mx-4">
                             <div className="px-1 text-primary-heading font-medium text-[22px]">
                                 <h2>Change your name</h2>
                             </div>

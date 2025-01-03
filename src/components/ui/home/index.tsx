@@ -16,6 +16,7 @@ import {
     OtherTypeIcon,
     PdfIcon,
     PptIcon,
+    SelectAllIcon,
     StarredIcon,
     UpIcon,
     VideoIcon,
@@ -161,7 +162,39 @@ const Home = () => {
     return (
         <SideMenu>
             {/* NavBar searchbar and account icon*/}
-            <Navbar files={files} gridView={gridView} />
+            <>
+                <div className="max-sm:hidden">
+                    <Navbar files={files} gridView={gridView} />
+                </div>
+                <div className="sm:hidden">
+                    {selectedRow.length > 1 ? (
+                        <div className="text-left font-medium text-sm mt-6 mb-7 text-primary-para flex justify-between items-center">
+                            <span className="flex flex-row items-center gap-x-2">
+                                <button onClick={() => {
+                                    setIsCheckboxVisible(false);
+                                    setSelectedRows([]);
+                                }}
+                                    className=" flex items-center justify-center"
+                                ><span className=""><CheckboxIcon /></span>
+                                </button>
+                                <strong>{selectedRow.length} selected</strong>
+                            </span>
+                            <div className="flex flex-row items-center gap-x-4">
+                                <button
+                                    onClick={() => setSelectedRows(files.map((_, index) => index))} // Map files to extract IDs
+                                    className="flex items-center justify-center"
+                                >
+                                    <SelectAllIcon />
+                                </button>
+
+                                <span className="rotate-90">•••</span>
+                            </div>
+                        </div>
+                    ) : (
+                        <Navbar files={files} gridView={gridView} />
+                    )}
+                </div>
+            </>
             {/* header*/}
             <div className="px-9 pt-6 text-sm max-sm:px-0">
                 <div className="pb-4 flex justify-between items-center relative">
@@ -261,7 +294,7 @@ const Home = () => {
 
                             </div>
                             <div className="flex gap-3 items-center justify-center">
-                                {selectedRow.length > 0 && <h2 className="font-semibold text-center text-primary-para">{selectedRow.length} selected</h2>}
+                                {selectedRow.length > 0 && <h2 className="font-medium text-center text-primary-para"><strong>{selectedRow.length} selected</strong></h2>}
                                 <div onClick={() => setGridView(false)} className="flex items-center justify-center flex-col">
                                     <button className="mb-1">
                                         <ListIcon /> {/* Grid view */}

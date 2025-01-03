@@ -31,9 +31,9 @@ const Delete = ({ showDeletePopup, setDeletePopup }: DeleteProps) => {
     }, [showDeletePopup]);
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div ref={deletePopupRef} className="bg-white p-6 rounded-lg shadow-lg w-80 relative">
-                <div className="px-1 text-primary-heading font-semibold text-[22px]">
-                    <h2>Delete?</h2>
+            <div ref={deletePopupRef} className="bg-white p-6 rounded-lg shadow-lg w-80 relative max-sm:w-full max-sm:mx-4">
+                <div className="px-1 text-primary-heading font-medium text-[22px]">
+                    <h2><strong>Delete?</strong></h2>
                     <p className="text-primary-para text-sm pt-3.5">Items in the bin will be deleted forever after 30 days.</p>
                 </div>
                 <div className="flex flex-row items-center space-x-3 mt-6 ">

@@ -202,7 +202,7 @@ const Buttons = ({ setFiles, showUpload }: ButtonProps) => {
             </div>
 
             {/* mobile  */}
-            <div onClick={() => setMobileDropdown(!mobileDropdown)} className='hidden max-sm:flex fixed bottom-24 right-4 z-40 cursor-pointer'>
+            <div onClick={() => setMobileDropdown(!mobileDropdown)} className='hidden max-sm:flex fixed bottom-24 right-4 z-30 cursor-pointer'>
                 <div className='bg-buttonPrimary rounded-full size-12 mb-2 flex items-center justify-center'>
                     <span className='text-white text-[28px]'>+</span>
                 </div>

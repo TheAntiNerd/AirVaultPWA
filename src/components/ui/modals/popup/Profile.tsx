@@ -2,25 +2,26 @@ import { ForwardedRef, useEffect, useRef } from 'react';
 import { CameraIcon, DeleteIcon, GalleryIcon } from '../../../../assets';
 
 interface ProfileProps {
-    showProfilePopup: boolean
+    showProfilePopup: boolean;
     setProfilePopup: (state: boolean) => void;
-    ref: ForwardedRef<HTMLDivElement>
+    ref: ForwardedRef<HTMLDivElement>;
 }
 
 const Profile = ({ showProfilePopup, setProfilePopup }: ProfileProps) => {
-
-    const profilePopupRef = useRef<HTMLDivElement>(null)
+    const profilePopupRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            // Check each ref and hide the associated dropdown/modal if click is outside
-            if (profilePopupRef.current && !profilePopupRef.current.contains(event.target as Node)) {
+
+            if (
+                profilePopupRef.current &&
+                !profilePopupRef.current.contains(event.target as Node)
+            ) {
                 setProfilePopup(false);
             }
         };
-        if (
-            showProfilePopup
-        ) {
+
+        if (showProfilePopup) {
             document.addEventListener('mousedown', handleClickOutside);
         } else {
             document.removeEventListener('mousedown', handleClickOutside);
@@ -30,12 +31,13 @@ const Profile = ({ showProfilePopup, setProfilePopup }: ProfileProps) => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [showProfilePopup]);
+
     return (
-        <div className="fixed inset-0 max-sm:top-0 bg-black bg-opacity-50 z-50 flex max-sm:block sm:items-center sm:justify-center ">
+        <div className="fixed inset-0 max-sm:top-0 bg-black bg-opacity-50 z-50 flex max-sm:block sm:items-center sm:justify-center">
             {/* Popup Content */}
             <div
                 ref={profilePopupRef}
-                className="bg-white p-6 rounded-xl  shadow-lg w-[428px] max-sm:w-full max-sm:rounded-t-xl"
+                className="bg-white p-6 rounded-xl shadow-lg w-[428px] max-sm:w-full max-sm:rounded-t-xl sm:relative max-sm:absolute max-sm:bottom-0"
             >
                 <h2 className="text-primary-heading font-medium text-[22px] mb-6">
                     <strong>Update account photo</strong>
@@ -60,9 +62,7 @@ const Profile = ({ showProfilePopup, setProfilePopup }: ProfileProps) => {
                 </div>
             </div>
         </div>
+    );
+};
 
-
-    )
-}
-
-export default Profile
+export default Profile;

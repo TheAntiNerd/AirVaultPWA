@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { AudioIcon, CheckboxIcon, CopyIcon, CustomIcon, DeleteIcon, DocumentIcon, DownloadIcon, ExcelIcon, FormIcon, GridIcon, ImageIcon, ListIcon, OtherTypeIcon, PdfIcon, PptIcon, RestoreIcon, StarredIcon, UpIcon, VideoIcon, ZipIcon } from "../../../assets";
+import { AudioIcon, CheckboxIcon, CopyIcon, CustomIcon, DeleteIcon, DocumentIcon, DownloadIcon, ExcelIcon, FormIcon, GridIcon, ImageIcon, ListIcon, OtherTypeIcon, PdfIcon, PptIcon, RestoreIcon, SelectAllIcon, StarredIcon, UpIcon, VideoIcon, ZipIcon } from "../../../assets";
 import SideMenu from "../../SideMenu";
 import Navbar from "../navbar";
 
@@ -227,7 +227,7 @@ const DeletedFiles = () => {
     const TableSection: React.FC<SectionProps> = ({ files, label, startIndex }) => (
         files.length > 0 && (
             <div className="mb-8">
-                <h2 className=" text-primary-heading font-semibold text-sm mb-4">{label}</h2>
+                <h2 className=" text-primary-heading font-medium text-sm mb-4"><strong>{label}</strong></h2>
                 <table className="w-full border-collapse cursor-default">
                     <tbody className="text-primary-para">
                         {files.map((file, index) => {
@@ -340,7 +340,7 @@ const DeletedFiles = () => {
     const GridSection: React.FC<SectionProps> = ({ files, label, startIndex }) => (
         files.length > 0 && (
             <div className="mb-8">
-                <h2 className=" text-primary-para text-sm font-semibold mb-4">{label}</h2>
+                <h2 className=" text-primary-para text-sm font-medium mb-4"><strong>{label}</strong></h2>
                 <div className="grid grid-cols-3 gap-x-3 gap-y-6 max-sm:grid-cols-1 max-md:grid-cols-2 max-lg:grid-cols-2 xl:grid-cols-4">
                     {files.map((file, index) => {
                         const globalIndex = startIndex + index;
@@ -392,11 +392,44 @@ const DeletedFiles = () => {
 
     return (
         <SideMenu>
-            <Navbar files={files} gridView={gridView} />
+            <>
+                <div className="max-sm:hidden">
+                    <Navbar files={files} gridView={gridView} />
+                </div>
+                <div className="sm:hidden">
+                    {selectedRow.length > 1 ? (
+                        <div className="text-left font-medium text-sm mt-6 mb-7 text-primary-para flex justify-between items-center">
+                            <span className="flex flex-row items-center gap-x-2">
+                                <button onClick={() => {
+                                    setIsCheckboxVisible(false);
+                                    setSelectedRows([]);
+                                }}
+                                    className=" flex items-center justify-center"
+                                ><span className=""><CheckboxIcon /></span>
+                                </button>
+                                <strong>{selectedRow.length} selected</strong>
+                            </span>
+                            <div className="flex flex-row items-center gap-x-4">
+                                <button
+                                    onClick={() => setSelectedRows(files.map((_, index) => index))} // Map files to extract IDs
+                                    className="flex items-center justify-center"
+                                >
+                                    <SelectAllIcon />
+                                </button>
+
+                                <span className="rotate-90">•••</span>
+                            </div>
+                        </div>
+                    ) : (
+                        <Navbar files={files} gridView={gridView} />
+                    )}
+                </div>
+            </>
+
             <div className="px-9 pt-6 text-sm max-sm:px-0">
                 {/* Header section remains the same */}
                 <div className="pb-4 flex justify-between items-center">
-                    <h1 className="text-[22px] font-semibold text-primary-heading">Deleted files</h1>
+                    <h1 className="text-[22px] font-medium text-primary-heading"><strong>Deleted files</strong></h1>
                     <div className="flex gap-5">
 
                     </div>
@@ -404,7 +437,7 @@ const DeletedFiles = () => {
 
                 {files.length === 0 ? (
                     <div className="flex items-center justify-center flex-col space-y-3 pt-64">
-                        <p className="text-[22px] font-semibold text-primary-heading max-sm:text-center">Nothing in here</p>
+                        <p className="text-[22px] font-medium text-primary-heading max-sm:text-center"><strong>Nothing in here</strong></p>
                         <p className="text-primary-para max-sm:text-center">Items deleted will be deleted forever after 30 days.</p>
                     </div>
                 ) : (
@@ -425,8 +458,8 @@ const DeletedFiles = () => {
                                                 </button>
                                             )}
                                         </span>
-                                        <span className=" font-semibold flex flex-row items-center space-x-1">
-                                            Name
+                                        <span className=" font-medium flex flex-row items-center space-x-1">
+                                            <strong>Name</strong>
                                             {selectedRow.length > 0 && <UpIcon />}
                                         </span>
                                     </span>
@@ -457,7 +490,7 @@ const DeletedFiles = () => {
                             </div>
                             <div className="flex gap-3 items-center justify-center">
 
-                                {selectedRow.length > 0 && <h2 className="font-semibold text-center text-primary-para">{selectedRow.length} selected</h2>}
+                                {selectedRow.length > 0 && <h2 className="font-medium text-center text-primary-para"><strong>{selectedRow.length} selected</strong></h2>}
                                 <div onClick={() => setGridView(false)} className="flex items-center justify-center flex-col">
                                     <button className="mb-1">
                                         <ListIcon /> {/* Grid view */}
@@ -496,9 +529,9 @@ const DeletedFiles = () => {
                                                                 )}
                                                             </span>
 
-                                                            <span className="pl-3 font-semibold flex flex-row items-center space-x-1">
+                                                            <span className="pl-3 font-medium flex flex-row items-center space-x-1">
 
-                                                                Name
+                                                                <strong>Name</strong>
                                                                 {selectedRow.length > 0 && <UpIcon />}
 
                                                             </span>
@@ -506,13 +539,13 @@ const DeletedFiles = () => {
                                                     </div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/6">
-                                                    <div className="flex flex-col items-center font-semibold">Size</div>
+                                                    <div className="flex flex-col items-center font-medium"><strong>Size</strong></div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/6">
-                                                    <div className="flex flex-col items-start font-semibold">Type</div>
+                                                    <div className="flex flex-col items-start font-medium"><strong>Type</strong></div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/6">
-                                                    <div className="flex flex-col items-start font-semibold">Modified on</div>
+                                                    <div className="flex flex-col items-start font-medium"><strong>Modified on</strong></div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/4">
                                                     <div className="flex flex-col items-start"></div>
@@ -578,8 +611,8 @@ const DeletedFiles = () => {
                                         >
                                             <span className="flex flex-row items-center space-x-1">
                                                 <CheckboxIcon />
-                                                <span className="flex flex-row items-center space-x-1 text-primary-heading font-semibold">
-                                                    Name <UpIcon />
+                                                <span className="flex flex-row items-center space-x-1 text-primary-heading font-medium">
+                                                    <strong>Name</strong> <UpIcon />
                                                 </span>
                                             </span>
 
@@ -631,7 +664,7 @@ const DeletedFiles = () => {
             {/* Delete popup */}
             {showDeletePopup &&
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div ref={deletePopupRef} className="bg-white p-5 rounded-lg shadow-lg w-80 relative">
+                    <div ref={deletePopupRef} className="bg-white p-5 rounded-lg shadow-lg w-80 relative max-sm:w-full max-sm:mx-4">
                         <div className="px-1 text-primary-heading font-medium text-[22px]">
                             <h2><strong>Delete forever?</strong></h2>
                             <p className="text-primary-para text-sm pt-3.5">Items in the bin will be deleted forever and can not be restored.</p>
@@ -653,7 +686,7 @@ const DeletedFiles = () => {
             {/* Restore popup */}
             {showRestorePopup &&
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div ref={restorePopupRef} className="bg-white p-5 rounded-lg shadow-lg w-80 relative">
+                    <div ref={restorePopupRef} className="bg-white p-5 rounded-lg shadow-lg w-80 relative max-sm:w-full max-sm:mx-4">
                         <div className="px-1 text-primary-heading font-medium text-[22px]">
                             <h2><strong>Restore?</strong></h2>
                             <p className="text-primary-para text-sm pt-3.5">Items will be restored in their original folder.</p>

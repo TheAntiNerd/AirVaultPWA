@@ -56,3 +56,7 @@ export { default as ScanIcon } from './scan.svg';
 export { default as GalleryIcon } from './galleryupload.svg';
 export { default as EditPencilIcon } from './editpencil.svg';
 export { default as LocationIcon } from './location.svg';
+export { default as RecentSearchIcon } from './recentsearch.svg';
+export { default as RecentSearch2Icon } from './recentsearch2.svg';
+export { default as Share2Icon } from './sharedropdown.svg';
+export { default as SelectAllIcon } from './selectall.svg';
