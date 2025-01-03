@@ -18,7 +18,15 @@ const AddPeople = ({ setHasInput }: AddPeopleProps) => {
     const [showSuggestion, setSuggestions] = useState(false);
     const [inputValue, setInputValue] = useState("");
     const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
     const suggestionRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const checkScreenSize = () => setIsSmallScreen(window.innerWidth <= 640);
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+        return () => window.removeEventListener('resize', checkScreenSize);
+    }, []);
 
     // Handle click outside to close the suggestions
     useEffect(() => {
@@ -72,16 +80,19 @@ const AddPeople = ({ setHasInput }: AddPeopleProps) => {
 
     return (
         <div className="text-primary-para relative">
-            <div className="flex flex-wrap items-center gap-2 p-2 border-2 rounded-lg border-border focus-within:border-buttonPrimary">
+            <div className="hidden max-sm:flex mb-2 px-1 max-sm:px-0">
+                <h2 className="font-medium text-sm text-primary-heading"><strong>Send to</strong></h2>
+            </div>
+            <div className="flex flex-wrap items-center gap-2 p-2 max-sm:px-0 border-2 rounded-lg border-border max-sm:border-none focus-within:border-buttonPrimary">
                 {selectedUsers.map((user, index) => (
                     <div
                         key={index}
-                        className="flex items-center bg-gray-200 text-sm font-semibold px-3 py-1 rounded-full"
+                        className="flex items-center bg-gray-200 text-sm font-medium px-3 py-1 rounded-full"
                     >
                         {user}
                         <button
                             onClick={() => handleDeleteUser(user)}
-                            className="ml-2"
+                            className="ml-2 -mb-[2px]"
                         >
                             &times;
                         </button>
@@ -97,37 +108,39 @@ const AddPeople = ({ setHasInput }: AddPeopleProps) => {
                     placeholder="Add people"
                 />
             </div>
-            {showSuggestion && filteredUsers.length > 0 && (
-                <div
-                    ref={suggestionRef}
-                    className="absolute bg-white w-full mt-2 z-10 overflow-auto h-40 custom-scrollbar rounded-md shadow-lg"
-                >
-                    {filteredUsers.map((user, index) => (
-                        <div
-                            key={index}
-                            onClick={() => handleAddUser(user.name)}
-                            className="flex flex-col p-2 hover:bg-hover cursor-pointer"
-                        >
-                            <div className="flex flex-row items-center">
-                                <div className="bg-[#FAD24B] w-10 h-10 rounded-full flex items-center justify-center">
-                                    <span className="text-center text-sm font-semibold">
-                                        {user.name.slice(0, 2).toUpperCase()}
+            {
+                !isSmallScreen && showSuggestion && filteredUsers.length > 0 && (
+                    <div
+                        ref={suggestionRef}
+                        className="absolute bg-white w-full mt-2 z-10 overflow-auto h-40 custom-scrollbar rounded-md shadow-lg"
+                    >
+                        {filteredUsers.map((user, index) => (
+                            <div
+                                key={index}
+                                onClick={() => handleAddUser(user.email)}
+                                className="flex flex-col p-2 hover:bg-hover cursor-pointer"
+                            >
+                                <div className="flex flex-row items-center">
+                                    <div className="bg-[#FAD24B] w-10 h-10 rounded-full flex items-center justify-center">
+                                        <span className="text-center text-sm font-medium">
+                                            <strong>{user.name.slice(0, 2).toUpperCase()}</strong>
+                                        </span>
+                                    </div>
+                                    <span className="text-sm ml-3 leading-5">
+                                        <p className="font-medium text-primary-heading pb-px max-w-36 truncate">
+                                            {user.name}
+                                        </p>
+                                        <p className="text-primary-searchFilter pt-px text-xs max-w-36 truncate">
+                                            {user.email}
+                                        </p>
                                     </span>
                                 </div>
-                                <span className="text-sm ml-3 leading-5">
-                                    <p className="font-semibold text-primary-heading pb-px max-w-36 truncate">
-                                        {user.name}
-                                    </p>
-                                    <p className="text-primary-searchFilter pt-px text-xs max-w-36 truncate">
-                                        {user.email}
-                                    </p>
-                                </span>
                             </div>
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
+                        ))}
+                    </div>
+                )
+            }
+        </div >
     );
 };
 

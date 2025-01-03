@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { AudioIcon, CheckboxIcon, CopyIcon, CustomIcon, DeleteIcon, DocumentIcon, DownloadIcon, ExcelIcon, FormIcon, GridIcon, ImageIcon, ListIcon, OtherTypeIcon, PdfIcon, PptIcon, RestoreIcon, SelectAllIcon, StarredIcon, UpIcon, VideoIcon, ZipIcon } from "../../../assets";
+import { AudioIcon, BackbuttonIcon, CheckboxIcon, CustomIcon, DeleteIcon, DocumentIcon, ExcelIcon, FormIcon, GridIcon, ImageIcon, ListIcon, OtherTypeIcon, PdfIcon, PptIcon, RestoreIcon, SearchIcon, SelectAllIcon, StarredIcon, UpIcon, VideoIcon, ZipIcon } from "../../../assets";
 import SideMenu from "../../SideMenu";
 import Navbar from "../navbar";
+import { useNavigate } from "react-router";
 
 interface FileItem {
     name: string;
@@ -41,6 +42,8 @@ const DeletedFiles = () => {
     const [showDeletePopup, setDeletePopup] = useState<boolean>(false);
     const [showRestorePopup, setRestorePopup] = useState<boolean>(false);
     const [showDropdownPopup, setDropdownPopup] = useState<number | null>();
+    const [globalIndex, setGlobalIndex] = useState<number | null>()
+    const navigate = useNavigate()
 
     const deletePopupRef = useRef<HTMLDivElement>(null)
     const restorePopupRef = useRef<HTMLDivElement>(null);
@@ -176,6 +179,9 @@ const DeletedFiles = () => {
         }
     };
 
+    const handleClick = () => {
+        navigate('/account')
+    }
     const CustomCheckbox: React.FC<CustomCheckboxProps> = ({ checked, onChange, index }) => {
         return (
             <div className="relative">
@@ -227,16 +233,18 @@ const DeletedFiles = () => {
     const TableSection: React.FC<SectionProps> = ({ files, label, startIndex }) => (
         files.length > 0 && (
             <div className="mb-8">
-                <h2 className=" text-primary-heading font-medium text-sm mb-4"><strong>{label}</strong></h2>
+                <h2 className="text-primary-heading font-medium text-sm mb-4">
+                    <strong>{label}</strong>
+                </h2>
                 <table className="w-full border-collapse cursor-default">
                     <tbody className="text-primary-para">
                         {files.map((file, index) => {
-                            const globalIndex = startIndex + index
+                            const currentGlobalIndex = startIndex + index;
                             return (
                                 <tr
-                                    key={globalIndex}
-                                    onClick={() => handleRowClick(globalIndex)}
-                                    className={`border-b max-sm:border-none border-border/40 relative ${selectedRow.includes(globalIndex) ? 'bg-selected' : 'group hover:bg-gray-100'}`}
+                                    key={currentGlobalIndex}
+                                    onClick={() => handleRowClick(currentGlobalIndex)}
+                                    className={`border-b max-sm:border-none border-border/40 relative ${selectedRow.includes(currentGlobalIndex) ? 'bg-selected' : 'group hover:bg-gray-100'}`}
                                 >
                                     <td className="py-2 w-1/5">
                                         <div className="flex flex-col items-start">
@@ -244,9 +252,9 @@ const DeletedFiles = () => {
                                                 <span className="ml-1 max-sm:opacity-0">
                                                     {isCheckboxVisible && (
                                                         <CustomCheckbox
-                                                            checked={selectedRow.includes(globalIndex)}
-                                                            onChange={() => handleRowClick(globalIndex)}
-                                                            index={globalIndex}
+                                                            checked={selectedRow.includes(currentGlobalIndex)}
+                                                            onChange={() => handleRowClick(currentGlobalIndex)}
+                                                            index={currentGlobalIndex}
                                                         />
                                                     )}
                                                 </span>
@@ -276,37 +284,35 @@ const DeletedFiles = () => {
                                     </td>
                                     <td className="py-2 w-1/4 max-sm:hidden">
                                         <div className="flex flex-col items-center">
-                                            <div className="flex flex-row items-center justify-center gap-4 opacity-0 group-hover:opacity-0 transition-opacity">
-                                                <div className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</div>
-                                                <CopyIcon />
-                                                <DownloadIcon />
-                                                < StarredIcon />
-                                            </div>
+
                                         </div>
                                     </td>
                                     <td className="py-2 w-1/2">
-                                        <div onClick={() => {
-                                            setDropdownPopup(globalIndex)
-                                        }} className="flex flex-col items-start max-sm:items-end cursor-pointer">
+                                        <div
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setGlobalIndex(currentGlobalIndex === globalIndex ? null : currentGlobalIndex);
+                                            }}
+                                            className="flex flex-col items-start max-sm:items-end cursor-pointer"
+                                        >
                                             <span className="rotate-90">•••</span>
                                         </div>
-                                        {(showDropdownPopup === globalIndex) && (
+                                        {globalIndex === currentGlobalIndex && (
                                             <>
                                                 {/* Backdrop */}
                                                 <div
                                                     className="fixed inset-0 bg-black opacity-50 z-30 max-sm:block hidden"
-                                                    onClick={() => setRestorePopup(false)} // Close popup when clicking outside
+                                                    onClick={() => setGlobalIndex(null)}
                                                 ></div>
 
                                                 {/* Dropdown Popup */}
                                                 <div
-                                                    ref={dropdownRef}
                                                     className="absolute max-sm:bottom-0 max-sm:w-full max-sm:fixed max-sm:right-0 max-sm:bg-white right-10 mt-2 bg-white shadow-lg rounded-lg max-sm:rounded-t-lg w-56 text-primary-para z-40"
                                                 >
                                                     <h2 className="hidden max-sm:flex flex-row items-center px-4 py-2 text-left hover:bg-hover gap-2 mt-2 mb-1">
                                                         <ImageIcon />
                                                         <span className="text-primary-heading font-medium text-[22px] truncate w-full py-1">
-                                                            <strong>Image2</strong>
+                                                            <strong>{file.name}</strong>
                                                         </span>
                                                     </h2>
                                                     <button
@@ -326,16 +332,16 @@ const DeletedFiles = () => {
                                                 </div>
                                             </>
                                         )}
-
                                     </td>
                                 </tr>
-                            )
+                            );
                         })}
                     </tbody>
                 </table>
-            </div>
+            </div >
         )
     );
+
     // Component to render grid section with label
     const GridSection: React.FC<SectionProps> = ({ files, label, startIndex }) => (
         files.length > 0 && (
@@ -347,7 +353,7 @@ const DeletedFiles = () => {
                         return (
                             <div
                                 key={globalIndex}
-                                className={`h-[212px] w-[250px]  max-sm:w-full rounded-lg bg-hover ${selectedRow.includes(globalIndex) ? 'bg-[#D6ECFF]' : 'group'}`}
+                                className={`h-[212px] w-[250px]  max-sm:w-full rounded-lg bg-hover ${selectedRow.includes(globalIndex) ? 'bg-selected' : 'group'}`}
                                 onClick={() => handleRowClick(globalIndex)}
                             >
                                 <div className="bg-white relative rounded-md m-2.5 h-[140px] flex">
@@ -396,45 +402,101 @@ const DeletedFiles = () => {
                 <div className="max-sm:hidden">
                     <Navbar files={files} gridView={gridView} />
                 </div>
-                <div className="sm:hidden">
+                <div className="sm:hidden relative">
                     {selectedRow.length > 1 ? (
                         <div className="text-left font-medium text-sm mt-6 mb-7 text-primary-para flex justify-between items-center">
                             <span className="flex flex-row items-center gap-x-2">
-                                <button onClick={() => {
-                                    setIsCheckboxVisible(false);
-                                    setSelectedRows([]);
-                                }}
-                                    className=" flex items-center justify-center"
-                                ><span className=""><CheckboxIcon /></span>
+                                <button
+                                    onClick={() => {
+                                        setIsCheckboxVisible(false);
+                                        setSelectedRows([]);
+                                    }}
+                                    className="flex items-center justify-center"
+                                >
+                                    <span>
+                                        <CheckboxIcon />
+                                    </span>
                                 </button>
                                 <strong>{selectedRow.length} selected</strong>
                             </span>
-                            <div className="flex flex-row items-center gap-x-4">
+                            <div className="flex flex-row items-center gap-x-0 relative">
                                 <button
-                                    onClick={() => setSelectedRows(files.map((_, index) => index))} // Map files to extract IDs
-                                    className="flex items-center justify-center"
+                                    onClick={() => setDeletePopup(!showDeletePopup)}
+                                    className="mr-6"
+                                >
+                                    <DeleteIcon />
+                                </button>
+                                <button
+                                    onClick={() => setSelectedRows(files.map((_, index) => index))}
+                                    className="flex items-center justify-center mr-6"
                                 >
                                     <SelectAllIcon />
                                 </button>
-
-                                <span className="rotate-90">•••</span>
+                                <span
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Prevent propagation
+                                        setGlobalIndex(globalIndex === -1 ? null : -1); // -1 for this specific dropdown
+                                    }}
+                                    className="rotate-90 cursor-pointer"
+                                >
+                                    •••
+                                </span>
                             </div>
+                            {globalIndex === -1 && (
+                                <>
+                                    {/* Backdrop */}
+                                    <div
+                                        className="fixed inset-0 bg-black opacity-50 z-30"
+                                        onClick={() => setGlobalIndex(null)}
+                                    ></div>
+
+                                    {/* Dropdown Popup */}
+                                    <div
+                                        className="fixed bottom-0 w-full right-0 mt-2 bg-white shadow-lg rounded-lg text-primary-para z-40"
+                                    >
+                                        <h2 className="font-medium text-primary-heading text-[22px] mt-6 mb-3 flex flex-row items-center mx-4 gap-x-2"><ImageIcon />
+                                            <span className="text-primary-heading font-medium text-[22px] truncate w-full py-1">
+                                                <strong>{globalIndex} Image2</strong>
+                                            </span></h2>
+                                        <button
+                                            onClick={() => setRestorePopup(!showRestorePopup)}
+                                            className="px-4 py-3 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2"
+                                        >
+                                            <RestoreIcon />
+                                            Restore
+                                        </button>
+                                        <button
+                                            onClick={() => setDeletePopup(!showDeletePopup)}
+                                            className="px-4 py-3 w-full text-left hover:bg-hover flex items-center flex-row gap-2 mb-10"
+                                        >
+                                            <DeleteIcon />
+                                            Delete forever
+                                        </button>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     ) : (
-                        <Navbar files={files} gridView={gridView} />
+                        <div className=" flex justify-between items-center w-full mt-6 mb-7">
+                            <div className="flex flex-row items-center gap-x-2">
+                                <button onClick={handleClick}>
+                                    <BackbuttonIcon />
+                                </button>
+                                <span><h1 className="text-[22px] font-medium text-primary-heading"><strong>Deleted files</strong></h1></span>
+
+                            </div>
+                            <button>
+                                <SearchIcon />
+                            </button>
+
+                        </div>
                     )}
                 </div>
+
             </>
 
-            <div className="px-9 pt-6 text-sm max-sm:px-0">
+            <div className="px-9 pt-6 text-sm max-sm:px-0 max-sm:pt-0">
                 {/* Header section remains the same */}
-                <div className="pb-4 flex justify-between items-center">
-                    <h1 className="text-[22px] font-medium text-primary-heading"><strong>Deleted files</strong></h1>
-                    <div className="flex gap-5">
-
-                    </div>
-                </div>
-
                 {files.length === 0 ? (
                     <div className="flex items-center justify-center flex-col space-y-3 pt-64">
                         <p className="text-[22px] font-medium text-primary-heading max-sm:text-center"><strong>Nothing in here</strong></p>
@@ -490,7 +552,7 @@ const DeletedFiles = () => {
                             </div>
                             <div className="flex gap-3 items-center justify-center">
 
-                                {selectedRow.length > 0 && <h2 className="font-medium text-center text-primary-para"><strong>{selectedRow.length} selected</strong></h2>}
+                                {selectedRow.length > 0 && <h2 className="font-medium text-center text-primary-para max-sm:hidden"><strong>{selectedRow.length} selected</strong></h2>}
                                 <div onClick={() => setGridView(false)} className="flex items-center justify-center flex-col">
                                     <button className="mb-1">
                                         <ListIcon /> {/* Grid view */}
@@ -662,7 +724,8 @@ const DeletedFiles = () => {
                 )}
             </div>
             {/* Delete popup */}
-            {showDeletePopup &&
+            {
+                showDeletePopup &&
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div ref={deletePopupRef} className="bg-white p-5 rounded-lg shadow-lg w-80 relative max-sm:w-full max-sm:mx-4">
                         <div className="px-1 text-primary-heading font-medium text-[22px]">
@@ -681,10 +744,12 @@ const DeletedFiles = () => {
                             </button>
                         </div>
                     </div>
-                </div>}
+                </div>
+            }
 
             {/* Restore popup */}
-            {showRestorePopup &&
+            {
+                showRestorePopup &&
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div ref={restorePopupRef} className="bg-white p-5 rounded-lg shadow-lg w-80 relative max-sm:w-full max-sm:mx-4">
                         <div className="px-1 text-primary-heading font-medium text-[22px]">
@@ -703,10 +768,11 @@ const DeletedFiles = () => {
                             </button>
                         </div>
                     </div>
-                </div>}
+                </div>
+            }
             {/* dropdown  */}
 
-        </SideMenu>
+        </SideMenu >
     );
 };
 

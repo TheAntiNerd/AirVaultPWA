@@ -8,6 +8,7 @@ import Dropdown from '../modals/dropdown/Dropdown';
 import Delete from '../modals/popup/Delete';
 import Share from '../modals/popup/Share';
 import Dropdown2 from '../modals/dropdown/Dropdown2';
+import Move from '../modals/popup/Move';
 
 interface File {
     name: string;
@@ -41,15 +42,15 @@ const SearchResult = () => {
     const [showDropdownPopup, setDropdownPopup] = useState<number | null>(null)
     const [showDropdownPopup2, setDropdownPopup2] = useState<boolean>(false)
     const [showSharePopup, setSharePopup] = useState<boolean>(false)
+    const [showMovePopup, setMovePopup] = useState<boolean>(false)
 
 
 
     const typeDropdownRef = useRef<HTMLDivElement>(null);
     const modifiedDropdownRef = useRef<HTMLDivElement>(null);
     const deletePopupRef = useRef<HTMLDivElement | null>(null);
-    const dropdownPopupRef = useRef<HTMLDivElement | null>(null);
-    const dropdownPopup2Ref = useRef<HTMLInputElement>(null);
     const sharePopupRef = useRef<HTMLInputElement>(null);
+    const movePopupRef = useRef<HTMLInputElement>(null);
 
     const fileTypes = ['Folder', 'Document', 'Spreadsheet', 'Presentation', 'Form', 'PDF', 'Video', 'Image', 'Audio', 'Archive', 'Other',];
     const modifiedOptions = ['Today', 'Last Week', 'Last month', '3 months', '6 months', 'Last year', 'Before last year'];
@@ -364,7 +365,9 @@ const SearchResult = () => {
 
                                                 </span>
                                             </button>
-                                            <button className="bg-hover rounded-lg px-4 py-2">
+                                            <button
+                                                onClick={() => setMovePopup(!showMovePopup)}
+                                                className="bg-hover rounded-lg px-4 py-2">
                                                 <span className="flex items-center justify-between">
                                                     <MoveIcon />
                                                     <span className="pl-1.5">
@@ -384,7 +387,7 @@ const SearchResult = () => {
                                             </button>
                                             <button onClick={() => setDropdownPopup2(!showDropdownPopup2)} className="rotate-90">•••</button>
                                             {(showDropdownPopup2) && (
-                                                <Dropdown2 ref={dropdownPopup2Ref} showDropdownPopup2={showDropdownPopup2} setDropdownPopup2={setDropdownPopup2} />
+                                                <Dropdown2 showDropdownPopup2={showDropdownPopup2} setDropdownPopup2={setDropdownPopup2} selectedFiles={selectedRow.map((index) => files[index])} />
                                             )}
                                         </div>
                                     </div>
@@ -514,7 +517,7 @@ const SearchResult = () => {
                                                             <span className="rotate-90">•••</span>
                                                         </div>
                                                         {(showDropdownPopup === index) && (
-                                                            <Dropdown ref={dropdownPopupRef} showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} />
+                                                            <Dropdown showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} selectedFiles={selectedRow.map((index) => files[index])} />
                                                         )}
                                                     </td>
                                                 </tr>
@@ -582,7 +585,7 @@ const SearchResult = () => {
                                                         <div className="rotate-90 cursor-pointer">•••</div>
                                                     </div>
                                                     <div onClick={() => handleDropdownToggle(index)} className="absolute left-64 ml-3 mt-8">{(showDropdownPopup === index) && (
-                                                        <Dropdown ref={dropdownPopupRef} showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} />
+                                                        <Dropdown showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} selectedFiles={selectedRow.map((index) => files[index])} />
                                                     )}
                                                     </div>
 
@@ -620,6 +623,16 @@ const SearchResult = () => {
 
             {/* share popup */}
             {showSharePopup && <Share ref={sharePopupRef} setSharePopup={setSharePopup} showSharePopup={showSharePopup} />}
+
+            {/* move popup */}
+            {showMovePopup && selectedRow.length > 0 && (
+                <Move
+                    ref={movePopupRef}
+                    setMovePopup={setMovePopup}
+                    showMovePopup={showMovePopup}
+                    selectedFiles={selectedRow.map((index) => files[index])}
+                />
+            )}
 
         </SideMenu >
 

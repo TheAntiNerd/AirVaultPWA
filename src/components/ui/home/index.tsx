@@ -24,12 +24,12 @@ import {
 } from "../../../assets";
 import SideMenu from "../../SideMenu";
 import Dropdown from "../modals/dropdown/Dropdown";
+import Dropdown2 from "../modals/dropdown/Dropdown2";
 import Buttons from "../modals/folder-upload/Buttons";
 import Delete from "../modals/popup/Delete";
 import Move from "../modals/popup/Move";
 import Share from "../modals/popup/Share";
 import Navbar from "../navbar";
-import Dropdown2 from "../modals/dropdown/Dropdown2";
 
 const fileTypeImages: Record<string, JSX.Element> = {
     Document: <DocumentIcon />,
@@ -69,10 +69,8 @@ const Home = () => {
     const [showMovePopup, setMovePopup] = useState<boolean>(false)
 
     const deletePopupRef = useRef<HTMLDivElement | null>(null);
-    const dropdownPopupRef = useRef<HTMLDivElement | null>(null);
     const sharePopupRef = useRef<HTMLInputElement>(null);
     const movePopupRef = useRef<HTMLInputElement>(null);
-    const dropdownPopup2Ref = useRef<HTMLDivElement>(null)
 
     const handleDropdownToggle = (index: number) => {
         setDropdownPopup(showDropdownPopup === index ? null : index);
@@ -166,34 +164,50 @@ const Home = () => {
                 <div className="max-sm:hidden">
                     <Navbar files={files} gridView={gridView} />
                 </div>
-                <div className="sm:hidden">
+                <div className="sm:hidden relative">
                     {selectedRow.length > 1 ? (
                         <div className="text-left font-medium text-sm mt-6 mb-7 text-primary-para flex justify-between items-center">
                             <span className="flex flex-row items-center gap-x-2">
-                                <button onClick={() => {
-                                    setIsCheckboxVisible(false);
-                                    setSelectedRows([]);
-                                }}
-                                    className=" flex items-center justify-center"
-                                ><span className=""><CheckboxIcon /></span>
+                                <button
+                                    onClick={() => {
+                                        setIsCheckboxVisible(false);
+                                        setSelectedRows([]);
+                                    }}
+                                    className="flex items-center justify-center"
+                                >
+                                    <span>
+                                        <CheckboxIcon />
+                                    </span>
                                 </button>
                                 <strong>{selectedRow.length} selected</strong>
                             </span>
-                            <div className="flex flex-row items-center gap-x-4">
+                            <div className="flex flex-row items-center gap-x-0 relative">
                                 <button
-                                    onClick={() => setSelectedRows(files.map((_, index) => index))} // Map files to extract IDs
-                                    className="flex items-center justify-center"
+                                    onClick={() => setSelectedRows(files.map((_, index) => index))}
+                                    className="flex items-center justify-center mr-6"
                                 >
                                     <SelectAllIcon />
                                 </button>
-
-                                <span className="rotate-90">•••</span>
+                                <span
+                                    onClick={() => setDropdownPopup2(!showDropdownPopup2)}
+                                    className="rotate-90 cursor-pointer "
+                                >
+                                    •••
+                                </span>
+                                {showDropdownPopup2 && (
+                                    <Dropdown2
+                                        showDropdownPopup2={showDropdownPopup2}
+                                        setDropdownPopup2={setDropdownPopup2}
+                                        selectedFiles={selectedRow.map((index) => files[index])}
+                                    />
+                                )}
                             </div>
                         </div>
                     ) : (
                         <Navbar files={files} gridView={gridView} />
                     )}
                 </div>
+
             </>
             {/* header*/}
             <div className="px-9 pt-6 text-sm max-sm:px-0">
@@ -289,12 +303,12 @@ const Home = () => {
 
                                 </div>
                                 {(showDropdownPopup2) && (
-                                    <Dropdown2 ref={dropdownPopup2Ref} showDropdownPopup2={showDropdownPopup2} setDropdownPopup2={setDropdownPopup2} selectedFiles={selectedRow.map((index) => files[index])} />
+                                    <Dropdown2 showDropdownPopup2={showDropdownPopup2} setDropdownPopup2={setDropdownPopup2} selectedFiles={selectedRow.map((index) => files[index])} />
                                 )}
 
                             </div>
                             <div className="flex gap-3 items-center justify-center">
-                                {selectedRow.length > 0 && <h2 className="font-medium text-center text-primary-para"><strong>{selectedRow.length} selected</strong></h2>}
+                                {selectedRow.length > 0 && <h2 className="font-medium text-center text-primary-para max-sm:hidden"><strong>{selectedRow.length} selected</strong></h2>}
                                 <div onClick={() => setGridView(false)} className="flex items-center justify-center flex-col">
                                     <button className="mb-1">
                                         <ListIcon /> {/* Grid view */}
@@ -412,7 +426,7 @@ const Home = () => {
                                                     <span className="rotate-90">•••</span>
                                                 </div>
                                                 {(showDropdownPopup === index) && (
-                                                    <Dropdown ref={dropdownPopupRef} showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} selectedFiles={selectedRow.map((index) => files[index])} />
+                                                    <Dropdown showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} selectedFiles={selectedRow.map((index) => files[index])} />
                                                 )}
                                             </td>
                                         </tr>
@@ -458,13 +472,13 @@ const Home = () => {
                                                             )}
                                                         </span>
                                                     </div>
-                                                    <div className={`absolute top-1 right-0 flex flex-row items-center gap-x-2 opacity-0 group-hover:opacity-100 transition-opacity`}>
-                                                        <div><button onClick={() => setSharePopup(!showSharePopup)} className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</button></div>
-                                                        <div><CopyIcon /></div>
-                                                        <div onClick={() => handleDropdownToggle(index)} className="rotate-90  cursor-pointer">•••</div>
+                                                    <div className={`absolute top-1 right-0 flex flex-row items-center gap-x-2  transition-opacity`}>
+                                                        <div><button onClick={() => setSharePopup(!showSharePopup)} className="bg-buttonPrimary  opacity-0 group-hover:opacity-100 rounded-lg px-5 py-2 text-white max-sm:hidden">Share</button></div>
+                                                        <div className="max-sm:hidden  opacity-0 group-hover:opacity-100"><CopyIcon /></div>
+                                                        <div onClick={() => handleDropdownToggle(index)} className="rotate-90  cursor-pointer  sm:opacity-0 group-hover:opacity-100">•••</div>
                                                     </div>
                                                     <div className="absolute left-64 ml-3 mt-8">{(showDropdownPopup === index) && (
-                                                        <Dropdown ref={dropdownPopupRef} showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} selectedFiles={selectedRow.map((index) => files[index])} />
+                                                        <Dropdown showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} selectedFiles={selectedRow.map((index) => files[index])} />
                                                     )}
                                                     </div>
 
@@ -506,7 +520,7 @@ const Home = () => {
                     ref={movePopupRef}
                     setMovePopup={setMovePopup}
                     showMovePopup={showMovePopup}
-                    selectedFiles={selectedRow.map((index) => files[index])} // Pass selected files
+                    selectedFiles={selectedRow.map((index) => files[index])}
                 />
             )}
 

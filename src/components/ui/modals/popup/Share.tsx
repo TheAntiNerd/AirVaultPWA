@@ -1,5 +1,5 @@
 import { ForwardedRef, useEffect, useRef, useState } from 'react';
-import { BackbuttonIcon, BlueTickIcon, CopyIcon, DownArrow, DownIcon, GlobeIcon, LockIcon, ShareFileIcon, } from '../../../../assets';
+import { BackbuttonIcon, BlueTickIcon, CopyIcon, DownArrow, DownIcon, GlobeIcon, ImageIcon, LockIcon, Share2Icon, ShareFileIcon, } from '../../../../assets';
 import Roles from '../dropdown/Roles';
 import ShareAccess from './ShareAccess';
 import AddPeople from './AddPeople';
@@ -20,6 +20,7 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
     const [showAdd, setAddUser] = useState<boolean>(false);
     const [isPressed, setIsPressed] = useState(false);
     const [hasInput, setHasInput] = useState(false);
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
 
     const sharePopupRef = useRef<HTMLDivElement>(null);
     const LinkRef = useRef<HTMLInputElement>(null);
@@ -50,6 +51,13 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
         };
     }, [showSharePopup, showLink, showAdd]);
 
+    useEffect(() => {
+        const checkScreenSize = () => setIsSmallScreen(window.innerWidth <= 640);
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+        return () => window.removeEventListener('resize', checkScreenSize);
+    }, []);
+
     const handlePress = () => {
         setIsPressed(true);
         setTimeout(() => {
@@ -57,11 +65,11 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
         }, 2000); // 2 seconds
     }
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div ref={sharePopupRef} className={`bg-white p-6 rounded-xl shadow-lg w-[428px] relative ${hasInput ? '' : ''}`}>
+        <div className="fixed inset-0 flex sm:items-center sm:justify-center bg-black bg-opacity-50 z-50 overflow-visible">
+            <div ref={sharePopupRef} className={`bg-white sm:p-6 max-sm:py-6  sm:rounded-xl shadow-lg w-[428px] max-sm:w-full relative ${hasInput ? '' : ''}`}>
                 {/* Header */}
-                <div className="text-primary-heading font-semibold text-[22px] flex flex-row items-center gap-x-2 mb-4">
-                    {hasInput ?
+                <div className="text-primary-heading max-sm:px-4  font-medium text-[22px] flex flex-row max-sm:justify-between items-center gap-x-2 mb-4">
+                    {hasInput && !isSmallScreen ?
                         <>
                             <button onClick={() => setHasInput(false)}>
                                 <BackbuttonIcon />
@@ -69,25 +77,37 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
                         </>
                         :
                         <>
-                            <ShareFileIcon />
-                            <h2>Share</h2>
+                            <span className='max-sm:hidden'><ShareFileIcon /></span>
+                            <div className='flex flex-row items-center gap-x-2'>
+                                <span onClick={() => setSharePopup(!showSharePopup)} className='cursor-pointer sm:hidden '><BackbuttonIcon /></span>
+                                <span> <h2><strong>Share</strong></h2></span>
+                            </div>
+
+                            <span className='hidden max-sm:flex'><Share2Icon /></span>
+
                         </>}
 
                 </div>
 
+                <div className='sm:hidden border-b-2 max-sm:px-4 mb-3 py-3 border-border/80 mt-5 flex flex-row items-center gap-x-2'>
+                    <ImageIcon /> <span className='font-medium text-sm text-primary-heading'><strong>Image 2</strong></span>
+                </div>
                 {/* Add people box */}
                 <div className="mb-5">
-                    <div className="">
+                    <div className="max-sm:px-4">
                         <AddPeople setHasInput={setHasInput} />
                     </div>
+                    <div className='sm:hidden border border-border/80 mt-2' />
                 </div>
-                {hasInput ? (
+                {!isSmallScreen && hasInput ? (
                     <>
                         <div className="flex justify-between items-center mb-5">
                             <div className=" flex items-center justify-between space-x-2">
-                                <span className="text-primary-heading font-semibold text-center cursor-pointer">People added <span
-                                    className='text-buttonPrimary ml-px font-semibold'>
-                                    {addUsers}  </span></span>
+                                <span className="text-primary-heading font-medium text-center cursor-pointer"><strong>People added</strong>
+                                    <span
+                                        className='text-buttonPrimary ml-px font-medium'>
+                                        <strong>{addUsers}</strong></span>
+                                </span>
                                 <button onClick={() => setAddUser(!showAdd)}>
 
                                     <DownIcon />
@@ -124,18 +144,21 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
 
                     <>
                         { /* access list */}
-                        <h3 className="mb-3 text-primary-heading">People with access</h3>
-                        <div className="mb-5">
-                            <ShareAccess />
+                        <div className='max-sm:hidden'>
+                            <h3 className="mb-3 text-primary-heading">People with access</h3>
+                            <div className="mb-5">
+                                <ShareAccess />
+                            </div>
                         </div>
+
 
                         {/* General access  */}
                         <>
-                            <h3 className="mb-3 font-semibold text-primary-heading">General access</h3>
+                            <h3 className="mb-3 font-medium text-primary-heading max-sm:hidden"><strong>General access</strong></h3>
                             <div className="flex justify-between items-center mb-5">
-                                <div className="relative flex items-center justify-between space-x-3">
+                                <div className="max-sm:hidden relative flex items-center justify-between space-x-3">
                                     {linkType === 'Limited access' ? <LockIcon /> : <GlobeIcon />}
-                                    <span className="text-primary-heading font-semibold text-center cursor-pointer">{linkType}</span>
+                                    <span className="text-primary-heading font-medium text-center cursor-pointer"><strong>{linkType}</strong></span>
                                     <button onClick={() => setLinkType(!showLink)}>
                                         <DownArrow />
                                     </button>
@@ -160,7 +183,7 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
                                         </div>
                                     )}
                                 </div>
-                                <div>
+                                <div className='max-sm:p-4 '>
                                     <Roles />
                                 </div>
                             </div>
@@ -170,29 +193,38 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
 
                 <button
                     onClick={handlePress}
-                    className={`w-28 flex flex-row items-center gap-x-2 text-primary-para px-2 py-1 border rounded-lg font-semibold border-border bg-white transition duration-300 ${isPressed ? 'bg-[#D6ECF5] text-primary-heading border-none' : 'hover:bg-hover transition-all'
+                    className={`max-sm:hidden w-28 flex flex-row items-center gap-x-2 text-primary-para px-2 py-1 border rounded-lg font-medium border-border bg-white transition duration-300 ${isPressed ? 'bg-[#D6ECF5] text-primary-heading border-none' : 'hover:bg-hover transition-all'
                         }`}
                 >
                     <CopyIcon />
-                    {isPressed ? 'Copied!' : 'Copy link'}
+                    <strong>{isPressed ? 'Copied!' : 'Copy link'}</strong>
                 </button>
 
-                {!hasInput && <div className="flex flex-row items-center space-x-3 mt-4">
+                {!hasInput && <div className="flex flex-row items-center sm:space-x-3 mt-4 ">
                     <button
                         onClick={() => setSharePopup(false)}
-                        className="flex flex-grow items-center justify-center text-primary-para"
+                        className=" max-sm:hidden flex flex-grow items-center justify-center text-primary-para"
                     >
                         Cancel
                     </button>
                     <button
                         onClick={() => { }}
-                        className="flex flex-grow px-1 py-2.5 bg-blue-500 text-white rounded-lg justify-center"
+                        className="flex max-sm:fixed max-sm:bottom-10 max-sm:w-[calc(100%-2rem)] max-sm:right-0 max-sm:left-0 max-sm:mx-4  flex-grow px-1 py-2.5 bg-blue-500 text-white rounded-lg justify-center"
                     >
-                        Done
+                        <span className='max-sm:hidden'>Done</span>
+                        <span className='hidden max-sm:flex '>Share</span>
                     </button>
-                </div>}
+                </div>
+                }
 
             </div>
+            <button
+                onClick={() => { }}
+                className="hidden max-sm:flex max-sm:fixed max-sm:bottom-10 max-sm:w-[calc(100%-2rem)] max-sm:right-0 max-sm:left-0 max-sm:mx-4  flex-grow px-1 py-2.5 bg-blue-500 text-white rounded-lg justify-center"
+            >
+                <span className='max-sm:hidden'>Done</span>
+                <span className='hidden max-sm:flex '>Share</span>
+            </button>
         </div >
     );
 };

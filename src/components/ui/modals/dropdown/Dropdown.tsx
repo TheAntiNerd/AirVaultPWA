@@ -1,4 +1,4 @@
-import { ForwardedRef, useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import {
     CopycopyIcon,
     CopyIcon,
@@ -17,7 +17,7 @@ import Move from '../popup/Move';
 import Share from '../popup/Share';
 
 interface DropdownProps {
-    ref: ForwardedRef<HTMLDivElement>;
+
     showDropdownPopup: number | null;
     setDropdownPopup: (state: number | null) => void;
     selectedFiles: { name: string; size: string; type: string; modified: string }[];
@@ -29,47 +29,30 @@ const Dropdown = ({ showDropdownPopup, setDropdownPopup, selectedFiles }: Dropdo
     const [showMovePopup, setMovePopup] = useState<boolean>(false);
     const [showDetailsPopup, setDetailsPopup] = useState<boolean>(false);
 
-    const dropdownPopupRef = useRef<HTMLDivElement>(null);
+
     const deletePopupRef = useRef<HTMLDivElement>(null);
     const sharePopupRef = useRef<HTMLDivElement>(null);
     const movePopupRef = useRef<HTMLDivElement>(null);
     const detailsPopupRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownPopupRef.current && !dropdownPopupRef.current.contains(event.target as Node)) {
-                setDropdownPopup(null);
-            }
-        };
-        if (showDropdownPopup) {
-            document.addEventListener('mousedown', handleClickOutside);
-        } else {
-            document.removeEventListener('mousedown', handleClickOutside);
-        }
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [showDropdownPopup]);
 
     return (
         <>
             {/* Backdrop for small screens */}
             {showDropdownPopup !== null && (
                 <div
-                    className="fixed inset-0 bg-black opacity-50 z-10 max-sm:block hidden"
+                    className="fixed inset-0 max-sm:bg-black max-sm:opacity-50 z-10 max-sm:block "
                     onClick={() => setDropdownPopup(null)}
                 ></div>
             )}
 
             <div
-                ref={dropdownPopupRef}
+                onClick={(e) => e.stopPropagation()}
                 className="absolute max-sm:w-full max-sm:fixed max-sm:right-0 max-sm:bottom-0 right-10 mt-2 bg-white shadow-lg rounded-lg w-56 text-primary-para z-20 max-sm:z-30 max-sm:border max-sm:rounded-t-2xl"
             >
                 <h2 className="hidden max-sm:flex px-4 my-px py-2 w-full text-left text-[22px] text-primary-heading font-medium rounded-t-lg hover:bg-hover items-center flex-row gap-2 mt-6 mb-3">
                     <strong>{selectedFiles.length} item selected</strong>
                 </h2>
-                <button
+                <button onClick={() => setSharePopup(!showSharePopup)}
                     className="hidden max-sm:flex px-4 my-px py-2 max-sm:py-3 w-full text-left rounded-t-lg hover:bg-hover items-center flex-row gap-2 max-sm:gap-4"
                 >
                     <Share2Icon />

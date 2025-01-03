@@ -417,31 +417,39 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                 )}
                             </div>
                             {isOpen && (
-                                <div
-                                    className="fixed w-full bottom-0 bg-white border rounded-t-2xl shadow-md z-10">
-                                    <div className='mt-6'>
-                                        <h2 className='font-medium text-[22px] text-primary-heading mb-6 flex justify-between items-center mx-4'>Type <span onClick={() => setIsOpen(!isOpen)} className='cursor-pointer'><MenuCloseIcon /></span></h2>
-                                        {fileTypes.map((type) => (
-                                            <div
-                                                key={type}
-                                                className={`px-2 py-1.5 flex items-center gap-2 cursor-pointer hover:bg-hover hover:rounded-md ${selectedType === type ? 'bg-selected' : ''
-                                                    }`}
-                                                onClick={() => handleTypeChange(type)}
-                                            >
-                                                <span className='flex flex-row gap-x-2'>
-                                                    {selectedType === type ? <BlueTickIcon /> : <span className='opacity-0'><BlueTickIcon /></span>}
-                                                    <span className='flex flex-row items-center gap-x-2'>
-                                                        {fileTypeImages[type]}
-                                                        <span className='pl-1'>{type}</span>
+                                <>
+                                    <div
+                                        className="fixed inset-0 bg-black opacity-50 z-10"
+                                        onClick={() => setIsOpen(!isOpen)}
+                                    >
+                                    </div>
+                                    <div
+                                        className="fixed w-full bottom-0 bg-white border rounded-t-2xl shadow-md z-10">
+                                        <div className='mt-6'>
+                                            <h2 className='font-medium text-[22px] text-primary-heading mb-6 flex justify-between items-center mx-4'>Type <span onClick={() => setIsOpen(!isOpen)} className='cursor-pointer'><MenuCloseIcon /></span></h2>
+                                            {fileTypes.map((type) => (
+                                                <div
+                                                    key={type}
+                                                    className={`px-2 py-1.5 flex items-center gap-2 cursor-pointer hover:bg-hover hover:rounded-md ${selectedType === type ? 'bg-selected' : ''
+                                                        }`}
+                                                    onClick={() => handleTypeChange(type)}
+                                                >
+                                                    <span className='flex flex-row gap-x-2'>
+                                                        {selectedType === type ? <BlueTickIcon /> : <span className='opacity-0'><BlueTickIcon /></span>}
+                                                        <span className='flex flex-row items-center gap-x-2'>
+                                                            {fileTypeImages[type]}
+                                                            <span className='pl-1'>{type}</span>
+                                                        </span>
+
                                                     </span>
 
-                                                </span>
-
-                                            </div>
-                                        ))}
-                                        <div className='mt-4' />
+                                                </div>
+                                            ))}
+                                            <div className='mt-4' />
+                                        </div>
                                     </div>
-                                </div>
+                                </>
+
                             )}
                         </div>
 
@@ -469,25 +477,33 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                 </div>
                             </div>
                             {isOpenModified && (
-                                <div className="fixed w-full inset-x-0 bottom-0 bg-white border rounded-t-2xl shadow-md z-10">
-                                    <h2 className='font-medium text-[22px] text-primary-heading my-6 flex justify-between items-center mx-4'>Modified <span onClick={() => setOpenModified(!isOpenModified)} className='cursor-pointer'><MenuCloseIcon /></span></h2>
-                                    {modifiedOptions.map((option) => (
-                                        <div
-                                            key={option}
-                                            className={`px-2 py-1.5 flex items-center gap-2 cursor-pointer group hover:bg-hover hover:rounded-md ${selectedModified === option ? 'bg-selected' : ''
-                                                }`}
-                                            onClick={() => handleModifiedChange(option)}
-                                        >
-                                            <span className='flex flex-row items-center'>
-                                                {selectedModified === option ? <BlueTickIcon /> : <span className='opacity-0'><BlueTickIcon /></span>}
-                                                <span className='pl-2'>
-                                                    {option}
+                                <>
+                                    <div
+                                        className="fixed inset-0 bg-black opacity-50 z-10"
+                                        onClick={() => setOpenModified(!isOpenModified)}
+                                    >
+                                    </div>
+
+                                    <div className="fixed w-full inset-x-0 bottom-0 bg-white border rounded-t-2xl shadow-md z-20">
+                                        <h2 className='font-medium text-[22px] text-primary-heading my-6 flex justify-between items-center mx-4'>Modified <span onClick={() => setOpenModified(!isOpenModified)} className='cursor-pointer'><MenuCloseIcon /></span></h2>
+                                        {modifiedOptions.map((option) => (
+                                            <div
+                                                key={option}
+                                                className={`px-2 py-1.5 flex items-center gap-2 cursor-pointer group hover:bg-hover hover:rounded-md ${selectedModified === option ? 'bg-selected' : ''
+                                                    }`}
+                                                onClick={() => handleModifiedChange(option)}
+                                            >
+                                                <span className='flex flex-row items-center'>
+                                                    {selectedModified === option ? <BlueTickIcon /> : <span className='opacity-0'><BlueTickIcon /></span>}
+                                                    <span className='pl-2'>
+                                                        {option}
+                                                    </span>
                                                 </span>
-                                            </span>
-                                        </div>
-                                    ))}
-                                    <div className='mb-6' />
-                                </div>
+                                            </div>
+                                        ))}
+                                        <div className='mb-6' />
+                                    </div>
+                                </>
                             )}
                         </div>
 
@@ -533,7 +549,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
 
 
             {/* account btn */}
-            <div className={`relative z-10 max-sm:z-40 ${(showFilter || query) ? 'max-sm:hidden' : 'max-sm:absolute max-sm:right-5'}`}>
+            <div className={`relative z-10 max-sm:z-20 ${(showFilter || query) ? 'max-sm:hidden' : 'max-sm:absolute max-sm:right-2'}`}>
                 <button onClick={() => setLogDropdown(!showLogDropdown)} className="bg-[#FAD24B] w-[26px] h-[26px] rounded-full flex items-center justify-center">
                     <span className="text-center text-sm leading-none">RP</span>
                 </button>
