@@ -374,7 +374,7 @@ const Home = () => {
                                             onClick={() => handleRowClick(index)}
                                             className={`border-b max-sm:border-none border-border/40 relative ${selectedRow.includes(index) ? 'bg-selected' : 'group hover:bg-hover'}`}
                                         >
-                                            <td className="py-2 w-1/5">
+                                            <td className="py-2 max-sm:py-3 w-1/5">
                                                 <div className="flex flex-col items-start">
                                                     <span className="flex items-center justify-between">
                                                         <span className="ml-1 max-sm:opacity-0">
@@ -387,12 +387,12 @@ const Home = () => {
                                                             )}
                                                         </span>
                                                         <span className="pl-3 flex flex-col gap-x-2">
-                                                            <span className="flex flex-row gap-x-1.5 items-center">
+                                                            <span className="flex flex-row gap-x-3 items-center">
                                                                 {fileTypeImages[file.type] || <OtherTypeIcon />}
                                                                 <span className="truncate w-[200px]">{file.name}</span>
                                                             </span>
                                                             <span className="flex flex-col">
-                                                                <span className="text-xs ml-6">{file.size}</span>
+                                                                <span className="text-xs sm:hidden ml-7 text-primary-searchFilter -mt-px">{file.size}</span>
                                                             </span>
 
 

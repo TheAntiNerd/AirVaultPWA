@@ -15,6 +15,7 @@ import Delete from '../popup/Delete';
 import Details from '../popup/Details';
 import Move from '../popup/Move';
 import Share from '../popup/Share';
+import Manage from '../popup/Manage';
 
 interface DropdownProps {
 
@@ -26,18 +27,20 @@ interface DropdownProps {
 const Dropdown = ({ showDropdownPopup, setDropdownPopup, selectedFiles }: DropdownProps) => {
     const [showDeletePopup, setDeletePopup] = useState<boolean>(false);
     const [showSharePopup, setSharePopup] = useState<boolean>(false);
+    const [showManagePopup, setManagePopup] = useState<boolean>(false);
     const [showMovePopup, setMovePopup] = useState<boolean>(false);
     const [showDetailsPopup, setDetailsPopup] = useState<boolean>(false);
 
 
     const deletePopupRef = useRef<HTMLDivElement>(null);
     const sharePopupRef = useRef<HTMLDivElement>(null);
+    const managePopupRef = useRef<HTMLDivElement>(null);
     const movePopupRef = useRef<HTMLDivElement>(null);
     const detailsPopupRef = useRef<HTMLDivElement>(null);
 
     return (
         <>
-            {/* Backdrop for small screens */}
+
             {showDropdownPopup !== null && (
                 <div
                     className="fixed inset-0 max-sm:bg-black max-sm:opacity-50 z-10 max-sm:block "
@@ -81,7 +84,14 @@ const Dropdown = ({ showDropdownPopup, setDropdownPopup, selectedFiles }: Dropdo
                 </button>
                 <button
                     onClick={() => setSharePopup(!showSharePopup)}
-                    className="px-4 my-px py-2 max-sm:py-3 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2 max-sm:gap-4"
+                    className="max-sm:hidden px-4 my-px py-2 max-sm:py-3 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2 max-sm:gap-4"
+                >
+                    <UserpermsIcon />
+                    Manage permissions
+                </button>
+                <button
+                    onClick={() => setManagePopup(!showManagePopup)}
+                    className="sm:hidden px-4 my-px py-2 max-sm:py-3 w-full text-left rounded-t-lg hover:bg-hover flex items-center flex-row gap-2 max-sm:gap-4"
                 >
                     <UserpermsIcon />
                     Manage permissions
@@ -123,6 +133,9 @@ const Dropdown = ({ showDropdownPopup, setDropdownPopup, selectedFiles }: Dropdo
             )}
             {showSharePopup && (
                 <Share ref={sharePopupRef} setSharePopup={setSharePopup} showSharePopup={showSharePopup} />
+            )}
+            {showManagePopup && (
+                <Manage ref={managePopupRef} setManagePopup={setManagePopup} showManagePopup={showManagePopup} />
             )}
             {showMovePopup && (
                 <Move ref={movePopupRef} setMovePopup={setMovePopup} showMovePopup={showMovePopup} selectedFiles={selectedFiles} />

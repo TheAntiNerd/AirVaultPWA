@@ -29,11 +29,11 @@ const files = [
 ];
 const SearchResult = () => {
     const location = useLocation();
-    const { selectedType, selectedModified, gridView } = location.state || {};
+    const { selectedType1, selectedModified1, gridView } = location.state || {};
     const [selectedRow, setSelectedRows] = useState<number[]>([]);
     const [isCheckboxVisible, setIsCheckboxVisible] = useState<boolean>(false);
-    const [selectType, setSelectedType] = useState<string>(selectedType || '');
-    const [selectModified, setSelectedModified] = useState<string>(selectedModified || '');
+    const [selectType, setSelectedType] = useState<string>(selectedType1 || '');
+    const [selectModified, setSelectedModified] = useState<string>(selectedModified1 || '');
     const [filteredFiles, setFilteredFiles] = useState<File[]>(files);
     const [gridViews, setGridView] = useState<boolean>(gridView || false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -243,8 +243,8 @@ const SearchResult = () => {
                                         <div className="mt-2 relative " ref={typeDropdownRef}>
                                             {/* Custom Trigger */}
                                             <div
-                                                className={`appearance-none border border-border rounded-md px-2 mx-1 py-1 bg-white flex items-center justify-between cursor-pointer
-                                                                        ${selectType ? 'bg-[#D6ECFb] border-none' : ''}`}
+                                                className={`appearance-none border border-border rounded-md px-2 mx-1 py-1 flex items-center justify-between cursor-pointer
+                                                                        ${selectType ? 'bg-selected border-none' : ''}`}
                                                 onClick={() => {
                                                     setIsOpen(!isOpen)
                                                     setOpenModified(false)
@@ -292,7 +292,7 @@ const SearchResult = () => {
                                             {/* Custom Dropdown Trigger */}
                                             <div
                                                 className={`appearance-none border border-border rounded-lg px-2 py-1 cursor-pointer focus:outline-none flex items-center justify-between
-                                                                         ${selectModified ? 'bg-[#D6ECFF] border-none' : ''}`}
+                                                                         ${selectModified ? 'bg-selected border-none' : ''}`}
                                                 onClick={() => {
                                                     setOpenModified(!isOpenModified)
                                                     setIsOpen(false)
@@ -334,14 +334,14 @@ const SearchResult = () => {
                                             )}
                                         </div>
                                     </div>
-
-                                    <div onClick={() => {
+                                    {(selectModified || selectType) && <div onClick={() => {
                                         setSelectedModified(''),
                                             setSelectedType('')
                                     }}
                                         className='flex justify-center items-center cursor-pointer'>
                                         <p className='text-center text-primary-heading pt-2 font-semibold'>Clear filters</p>
-                                    </div>
+                                    </div>}
+
                                 </div>
                                 ) : (
                                     <div className="text-center text-sm flex justify-between items-center text-primary-para">

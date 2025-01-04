@@ -74,7 +74,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
                 <div>
                     {/* Logo */}
                     <div className="flex gap-2 mb-6">
-                        <Link to="/" className="px-3 font-semibold">
+                        <Link to="/" className="px-3 font-medium">
                             <span className="flex max-lg:hidden  items-start justify-center">
                                 <LogoIcon />
                             </span>
@@ -105,7 +105,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
                                 className=" mb-2 cursor-pointer"
                                 onClick={() => setIsAddingField(!isAddingField)}>
                                 <span className='flex items-center justify-between'>
-                                    <h4 className='px-4 font-semibold text-primary-heading'>Quick access </h4>
+                                    <h4 className='px-4 font-medium text-primary-heading'><strong>Quick access</strong> </h4>
                                     <span className='ml-2  '>
                                         <PlusArrow />
                                     </span>
@@ -154,7 +154,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
 
                         {/* storage bar */}
                         <div className="mt-4 px-[18px]">
-                            <h4 className="text-primary-heading font-semibold mb-3">Storage</h4>
+                            <h4 className="text-primary-heading font-medium mb-3"><strong>Storage</strong></h4>
                             <div className="w-full bg-[#D3DBE0] rounded h-[7px]">
                                 <div
                                     className="bg-gradient-to-r from-[#46BFFB] to-[#298DFF] h-[7px] rounded"
@@ -182,7 +182,7 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
                                     {location.pathname == item.path ? <>
                                         {item.selectedicon}</> : <> {item.icon}</>}
                                     <span className="my-1"> {location.pathname == item.path ? <>
-                                        <span className='font-semibold text-primary-heading'>{item.name}</span></> : <> {item.name}</>}</span>
+                                        <span className='font-medium text-primary-heading'>{item.name}</span></> : <> {item.name}</>}</span>
                                 </span>
                             </Link>
                         </div>

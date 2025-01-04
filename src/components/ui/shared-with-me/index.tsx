@@ -244,12 +244,12 @@ const SharedWithMe = () => {
                                                     )}
                                                 </span>
                                                 <span className="pl-2 flex flex-col gap-x-2">
-                                                    <span className="flex flex-row gap-x-1.5 items-center">
+                                                    <span className="flex flex-row gap-x-3 items-center">
                                                         {fileTypeImages[file.type] || <OtherTypeIcon />}
                                                         <span className="truncate w-[200px]">{file.name}</span>
                                                     </span>
                                                     <span className="flex flex-col">
-                                                        <span className="text-xs ml-6">{file.size}</span>
+                                                        <span className="text-xs sm:hidden ml-7 text-primary-searchFilter -mt-px">{file.size}</span>
                                                     </span>
                                                 </span>
                                             </span>
@@ -561,10 +561,10 @@ const SharedWithMe = () => {
                                                     </div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/6">
-                                                    <div className="flex flex-col items-center font-semibold">Size</div>
+                                                    <div className="flex flex-col items-center font-semibold pl-4">Size</div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/6">
-                                                    <div className="flex flex-col items-start font-semibold">Type</div>
+                                                    <div className="flex flex-col items-start font-semibold ">Type</div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/6">
                                                     <div className="flex flex-col items-start font-semibold">Shared by</div>

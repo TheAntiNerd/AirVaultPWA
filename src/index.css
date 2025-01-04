@@ -40,7 +40,8 @@
 }
 .custom-scrollbar {
 	/*  border-bottom: 1px solid #d8daeb; */
-	border-top: 1px solid #d8daeb;
+	/* border-top: 1px solid #d8daeb; */
+	margin-right: 1px;
 }
 
 .custom-scrollbar::-webkit-scrollbar {

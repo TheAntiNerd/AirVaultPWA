@@ -20,11 +20,15 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
     const [query, setQuery] = useState<string>('');
     const [filteredFiles, setFilteredFiles] = useState<File[]>(files);
     const [selectedType, setSelectedType] = useState<string>('');
+    const [selectedType1, setSelectedType1] = useState<string>('');
     const [selectedModified, setSelectedModified] = useState<string>('');
+    const [selectedModified1, setSelectedModified1] = useState<string>('');
     const [showAll, setShowAll] = useState<boolean>(false);
     const [showFilter, setShowFilter] = useState<boolean>(false)
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpen1, setIsOpen1] = useState<boolean>(false);
     const [isOpenModified, setOpenModified] = useState<boolean>(false);
+    const [isOpenModified1, setOpenModified1] = useState<boolean>(false);
     const [showLogDropdown, setLogDropdown] = useState<boolean>(false);
     const [showLogPopup, setLogPopup] = useState<boolean>(false);
     const [showProfilePopup, setProfilePopup] = useState<boolean>(false);
@@ -87,15 +91,29 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
     }, []);
 
     const handleTypeChange = (type: string) => {
+        console.log("Selected Type:", type);
         setSelectedType(type);
         setIsOpen(false);
+        filterFiles(query, type, selectedModified);
+    };
+    const handleTypeChange1 = (type: string) => {
+        console.log("Selected Type:", type);
+        setSelectedType1(type);
+        setIsOpen1(false);
         filterFiles(query, type, selectedModified);
     };
 
 
     const handleModifiedChange = (option: string) => {
+        console.log("Selected Modified:", option);
         setSelectedModified(option);
         setOpenModified(false)
+        filterFiles(query, selectedType, option);
+    };
+    const handleModifiedChange1 = (option: string) => {
+        console.log("Selected Modified:", option);
+        setSelectedModified1(option);
+        setOpenModified1(false)
         filterFiles(query, selectedType, option);
     };
 
@@ -160,7 +178,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
         return parts.map((part, index) =>
             regex.test(part) ? (
                 <span key={index} className="font-medum text-primary-heading">
-                    <strong>{part}  </strong>
+                    <strong>{part}</strong>
                 </span>
             ) : (
                 part
@@ -171,9 +189,9 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
     const handleShowMore = () => {
         setShowAll(false);
         navigate('/search', {
-            state: { selectedType, selectedModified, gridView }
+            state: { selectedType1, selectedModified1, gridView }
         })
-        console.log(selectedModified, selectedModified, gridView)
+        console.log(selectedModified1, selectedModified1, gridView)
     }
 
 
@@ -228,30 +246,32 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                             <MenuCloseIcon />
                         </button>}
                     </div>
+                    {/* pc view */}
+
                     {(query || showFilter) && (
                         <div className='max-sm:hidden absolute  max-sm:w-[328px] sm:w-[440px] bg-white shadow-md border border-t-0 border-border rounded-b-md z-10'>
                             <div className='flex flex-row px-3 space-x-4'>
                                 <div className="mt-2 relative " ref={typeDropdownRef}>
                                     {/* Custom Trigger */}
                                     <div
-                                        className={` border border-border rounded-md px-2 mx-1 py-1 bg-white flex items-center justify-between cursor-pointer
-                                            ${selectedType ? 'bg-[#d0e7fb] border-none' : ''}`}
+                                        className={` border border-border rounded-md px-2 mx-1 py-1 flex items-center justify-between cursor-pointer
+                                            ${selectedType1 ? 'bg-selected border-none' : ''}`}
                                         onClick={() => {
-                                            setIsOpen(!isOpen)
-                                            setOpenModified(false)
+                                            setIsOpen1(!isOpen1)
+                                            setOpenModified1(false)
                                         }}
                                     >
                                         <div className={`flex items-center gap-2 text-primary-searchFilter`}>
-                                            {selectedType ? fileTypeImages[selectedType] : null}
-                                            <span>{selectedType || 'Types'}</span>
+                                            {selectedType1 ? fileTypeImages[selectedType1] : null}
+                                            <span>{selectedType1 || 'Types'}</span>
                                         </div>
                                         <div className="flex items-center pointer-events-none mx-1.5">
                                             <DownArrow />
                                         </div>
-                                        {selectedType && (
+                                        {selectedType1 && (
                                             <button
                                                 className=""
-                                                onClick={() => setSelectedType('')}
+                                                onClick={() => setSelectedType1('')}
                                             >
                                                 <MenuCloseIcon />
                                             </button>
@@ -259,7 +279,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                     </div>
 
                                     {/* Dropdown Menu */}
-                                    {isOpen && (
+                                    {isOpen1 && (
                                         <div
                                             className="absolute ml-1 w-[160px] bg-white border rounded-md shadow-md z-10">
                                             <div>
@@ -267,7 +287,10 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                                     <div
                                                         key={type}
                                                         className="px-3 py-1.5 flex items-center gap-2 cursor-pointer hover:bg-hover hover:rounded-md"
-                                                        onClick={() => handleTypeChange(type)}
+                                                        onClick={() => {
+                                                            console.log("Type Selected:", type);
+                                                            handleTypeChange1(type);
+                                                        }}
                                                     >
                                                         {fileTypeImages[type]}
                                                         <span className='pl-1'>{type}</span>
@@ -282,19 +305,19 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                     {/* Custom Dropdown Trigger */}
                                     <div
                                         className={`appearance-none border border-border rounded-lg px-2 py-1 cursor-pointer focus:outline-none flex items-center justify-between
-                                             ${selectedModified ? 'bg-[#d0e7fb] border-none' : ''}`}
+                                             ${selectedModified1 ? 'bg-selected border-none' : ''}`}
                                         onClick={() => {
-                                            setOpenModified(!isOpenModified)
-                                            setIsOpen(false)
+                                            setOpenModified1(!isOpenModified1)
+                                            setIsOpen1(false)
                                         }}
                                     >
-                                        <span className='pr-2 text-primary-searchFilter'>{selectedModified || 'Modified'}</span>
+                                        <span className='pr-2 text-primary-searchFilter'>{selectedModified1 || 'Modified'}</span>
                                         <div className="flex items-center space-x-1">
                                             <DownArrow />
-                                            {selectedModified && (
+                                            {selectedModified1 && (
                                                 <button
                                                     className=""
-                                                    onClick={() => setSelectedModified('')}
+                                                    onClick={() => setSelectedModified1('')}
                                                 >
                                                     <MenuCloseIcon />
                                                 </button>
@@ -303,13 +326,13 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                     </div>
 
                                     {/* Custom Dropdown Options */}
-                                    {isOpenModified && (
+                                    {isOpenModified1 && (
                                         <div className="absolute  w-[160px]  bg-white border rounded-lg shadow-md z-10 ">
                                             {modifiedOptions.map((option) => (
                                                 <div
                                                     key={option}
                                                     className="px-2 py-1.5 flex items-center gap-2 cursor-pointer group hover:bg-hover hover:rounded-md"
-                                                    onClick={() => handleModifiedChange(option)}
+                                                    onClick={() => handleModifiedChange1(option)}
                                                 >
                                                     <span className='flex flex-row items-center'>
                                                         <span className='opacity-0 group-hover:opacity-100'><BlueTickIcon /></span>
@@ -325,7 +348,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                 </div>
                             </div>
                             <div className="flex flex-col mt-4">
-                                {query || selectedType || selectedModified ? (
+                                {query || selectedType1 || selectedModified1 ? (
                                     <ul className="bg-white shadow-md rounded-md px-2">
                                         {(showAll ? filteredFiles : filteredFiles.slice(0, 3)).map((file, index) => (
                                             <li
@@ -410,7 +433,11 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                 {selectedType && (
                                     <button
                                         className=""
-                                        onClick={() => setSelectedType('')}
+                                        onClick={() => {
+                                            setSelectedType('')
+
+                                        }
+                                        }
                                     >
                                         <MenuCloseIcon />
                                     </button>
@@ -430,7 +457,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                             {fileTypes.map((type) => (
                                                 <div
                                                     key={type}
-                                                    className={`px-2 py-1.5 flex items-center gap-2 cursor-pointer hover:bg-hover hover:rounded-md ${selectedType === type ? 'bg-selected' : ''
+                                                    className={`px-2 py-1.5 max-sm:py-3 flex items-center gap-2 cursor-pointer hover:bg-hover hover:rounded-md ${selectedType === type ? 'bg-selected' : ''
                                                         }`}
                                                     onClick={() => handleTypeChange(type)}
                                                 >
@@ -445,7 +472,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
 
                                                 </div>
                                             ))}
-                                            <div className='mt-4' />
+                                            <div className='mt-4 max-sm:mb-10' />
                                         </div>
                                     </div>
                                 </>
@@ -489,7 +516,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                         {modifiedOptions.map((option) => (
                                             <div
                                                 key={option}
-                                                className={`px-2 py-1.5 flex items-center gap-2 cursor-pointer group hover:bg-hover hover:rounded-md ${selectedModified === option ? 'bg-selected' : ''
+                                                className={`px-2 py-1.5 max-sm:py-3 flex items-center gap-2 cursor-pointer group hover:bg-hover hover:rounded-md ${selectedModified === option ? 'bg-selected' : ''
                                                     }`}
                                                 onClick={() => handleModifiedChange(option)}
                                             >
@@ -501,7 +528,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                                 </span>
                                             </div>
                                         ))}
-                                        <div className='mb-6' />
+                                        <div className='mb-6 max-sm:mb-10' />
                                     </div>
                                 </>
                             )}
@@ -544,7 +571,8 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
 
                 </div >
 
-            )}
+            )
+            }
 
 
 

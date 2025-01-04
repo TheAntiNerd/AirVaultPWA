@@ -259,12 +259,12 @@ const DeletedFiles = () => {
                                                     )}
                                                 </span>
                                                 <span className="pl-2 flex flex-col gap-x-2">
-                                                    <span className="flex flex-row gap-x-1.5 items-center">
+                                                    <span className="flex flex-row gap-x-3 items-center">
                                                         {fileTypeImages[file.type] || <OtherTypeIcon />}
                                                         <span className="truncate w-[200px]">{file.name}</span>
                                                     </span>
                                                     <span className="flex flex-col">
-                                                        <span className="text-xs ml-6">{file.size}</span>
+                                                        <span className="text-xs sm:hidden ml-7 text-primary-searchFilter -mt-px">{file.size}</span>
                                                     </span>
                                                 </span>
                                             </span>
@@ -601,10 +601,10 @@ const DeletedFiles = () => {
                                                     </div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/6">
-                                                    <div className="flex flex-col items-center font-medium"><strong>Size</strong></div>
+                                                    <div className="flex flex-col items-center font-medium pl-6"><strong>Size</strong></div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/6">
-                                                    <div className="flex flex-col items-start font-medium"><strong>Type</strong></div>
+                                                    <div className="flex flex-col items-start font-medium pl-2"><strong>Type</strong></div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/6">
                                                     <div className="flex flex-col items-start font-medium"><strong>Modified on</strong></div>
