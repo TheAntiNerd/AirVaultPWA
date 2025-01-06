@@ -82,8 +82,6 @@ function App() {
 		<div className="App w-full min-h-screen flex justify-center items-center">
 			<Router>
 				<Routes>
-
-
 					{isAlreadyInstalled ? (
 						<>
 							<Route path='/' element={<Navigate to='/dashboard' replace />} />

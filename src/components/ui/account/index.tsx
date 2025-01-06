@@ -49,6 +49,7 @@ const Dropdown: React.FC<{
                         ref={dropdownRef}
                         className="absolute max-sm:fixed max-sm:bottom-0 max-sm:w-full left-0 mt-1 w-full bg-white border-border/80 rounded-lg shadow-lg z-20 text-primary-para"
                     >
+                        <div className="hidden max-sm:flex my-3" />
                         {options.map((option) => (
                             <li
                                 key={option}
@@ -56,11 +57,11 @@ const Dropdown: React.FC<{
                                     setSelected(option);
                                     setIsOpen(false);
                                 }}
-                                className={`group px-1  max-sm:my-4  cursor-pointer flex flex-row items-center gap-x-1 text-nowrap ${option === selected ? 'bg-selected' : 'hover:bg-hover'
+                                className={`group px-1  max-sm:py-3  cursor-pointer flex flex-row items-center gap-x-1 text-nowrap ${option === selected ? 'bg-selected' : 'hover:bg-hover'
                                     }`}
                             >
                                 <div className="flex items-center flex-row gap-x-2 py-1">
-                                    <span className={`opacity-0 group-hover:opacity-100 ${option === selected ? 'opacity-100' : ''}`}>
+                                    <span className={` ${option === selected ? 'opacity-100' : 'opacity-0'}`}>
                                         <BlueTickIcon />
                                     </span>
                                     {option}
@@ -68,6 +69,7 @@ const Dropdown: React.FC<{
 
                             </li>
                         ))}
+                        <div className="hidden max-sm:flex mb-10" />
                     </ul>
                 </>
             )}
@@ -112,10 +114,11 @@ const Account: React.FC = () => {
     const [permission, setPermission] = useState("can edit");
 
     return (
+
         <div className="p-6 space-y-6 relative w-full max-sm:w-full min-h-screen max-w-[1200px]">
             {/* Back button and title */}
-            <div className="flex flex-row items-center gap-x-4 ">
-                <span onClick={handleBack} className="cursor-pointer pb-1">
+            <div className="flex flex-row items-center sm:gap-x-4 max-sm:gap-x-1 ">
+                <span onClick={handleBack} className="cursor-pointer max-sm:-ml-3 max-sm:px-2 py-2 bg-transparent rounded-full active:bg-pressed/40 active:scale-95 transition-all duration-900">
                     <BackbuttonIcon />
                 </span>
                 <h1 className="text-2xl font-medium text-primary-heading">Accounts</h1>

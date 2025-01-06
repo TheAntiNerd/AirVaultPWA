@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router";
 import { AudioIcon, BackbuttonIcon, CheckboxIcon, CustomIcon, DeleteIcon, DocumentIcon, ExcelIcon, FormIcon, GridIcon, ImageIcon, ListIcon, OtherTypeIcon, PdfIcon, PptIcon, RestoreIcon, SearchIcon, SelectAllIcon, StarredIcon, UpIcon, VideoIcon, ZipIcon } from "../../../assets";
 import SideMenu from "../../SideMenu";
 import Navbar from "../navbar";
-import { useNavigate } from "react-router";
 
 interface FileItem {
     name: string;
@@ -22,7 +22,6 @@ interface FileGroups {
 }
 interface SectionProps {
     files: FileItem[];
-    label: string;
     startIndex: number;
 }
 interface CustomCheckboxProps {
@@ -132,34 +131,15 @@ const DeletedFiles = () => {
     };
 
     const groupedFiles = groupFilesByDate(files);
-
-    /* Index for checkbox */
-    const getStartIndex = (section: string): number => {
-        switch (section) {
-            case 'today':
-                return 0;
-            case 'lastWeek':
-                return groupedFiles.today.length;
-            case 'lastMonth':
-                return groupedFiles.today.length + groupedFiles.lastWeek.length;
-            case 'threeMonths':
-                return groupedFiles.today.length + groupedFiles.lastWeek.length +
-                    groupedFiles.lastMonth.length;
-            case 'sixMonths':
-                return groupedFiles.today.length + groupedFiles.lastWeek.length +
-                    groupedFiles.lastMonth.length + groupedFiles.threeMonths.length;
-            case 'lastYear':
-                return groupedFiles.today.length + groupedFiles.lastWeek.length +
-                    groupedFiles.lastMonth.length + groupedFiles.threeMonths.length +
-                    groupedFiles.sixMonths.length;
-            case 'beforeLastYear':
-                return groupedFiles.today.length + groupedFiles.lastWeek.length +
-                    groupedFiles.lastMonth.length + groupedFiles.threeMonths.length +
-                    groupedFiles.sixMonths.length + groupedFiles.lastYear.length;
-            default:
-                return 0;
-        }
-    }
+    const combinedFiles = [
+        ...groupedFiles.today,
+        ...groupedFiles.lastWeek,
+        ...groupedFiles.lastMonth,
+        ...groupedFiles.threeMonths,
+        ...groupedFiles.sixMonths,
+        ...groupedFiles.lastYear,
+        ...groupedFiles.beforeLastYear,
+    ];
 
     const handleRowClick = (rowIndex: number) => {
         if (!isCheckboxVisible) {
@@ -230,12 +210,9 @@ const DeletedFiles = () => {
         );
     };
     // Component to render table section with label
-    const TableSection: React.FC<SectionProps> = ({ files, label, startIndex }) => (
+    const TableSection: React.FC<SectionProps> = ({ files, startIndex }) => (
         files.length > 0 && (
             <div className="mb-8">
-                <h2 className="text-primary-heading font-medium text-sm mb-4">
-                    <strong>{label}</strong>
-                </h2>
                 <table className="w-full border-collapse cursor-default">
                     <tbody className="text-primary-para">
                         {files.map((file, index) => {
@@ -246,7 +223,7 @@ const DeletedFiles = () => {
                                     onClick={() => handleRowClick(currentGlobalIndex)}
                                     className={`border-b max-sm:border-none border-border/40 relative ${selectedRow.includes(currentGlobalIndex) ? 'bg-selected' : 'group hover:bg-gray-100'}`}
                                 >
-                                    <td className="py-2 w-1/5">
+                                    <td className="py-4 w-1/5">
                                         <div className="flex flex-col items-start">
                                             <span className="flex items-center justify-between">
                                                 <span className="ml-1 max-sm:opacity-0">
@@ -295,7 +272,7 @@ const DeletedFiles = () => {
                                             }}
                                             className="flex flex-col items-start max-sm:items-end cursor-pointer"
                                         >
-                                            <span className="rotate-90">•••</span>
+                                            <span className="rotate-90 ">•••</span>
                                         </div>
                                         {globalIndex === currentGlobalIndex && (
                                             <>
@@ -343,10 +320,10 @@ const DeletedFiles = () => {
     );
 
     // Component to render grid section with label
-    const GridSection: React.FC<SectionProps> = ({ files, label, startIndex }) => (
+    const GridSection: React.FC<SectionProps> = ({ files, startIndex }) => (
         files.length > 0 && (
             <div className="mb-8">
-                <h2 className=" text-primary-para text-sm font-medium mb-4"><strong>{label}</strong></h2>
+
                 <div className="grid grid-cols-3 gap-x-3 gap-y-6 max-sm:grid-cols-1 max-md:grid-cols-2 max-lg:grid-cols-2 xl:grid-cols-4">
                     {files.map((file, index) => {
                         const globalIndex = startIndex + index;
@@ -374,13 +351,13 @@ const DeletedFiles = () => {
                                 <div className='px-4 pt-px'>
 
                                     {/* File Info */}
-                                    <div className='flex flex-row items-center space-x-1'>
+                                    <div className='flex flex-row items-center space-x-3'>
                                         {fileTypeImages[file.type] || <OtherTypeIcon />}
                                         <h3 className="text-primary-para">
                                             {file.name}</h3>
                                     </div>
 
-                                    <div className='text-xs flex flex-row pt-px space-x-2 pl-5'>
+                                    <div className='text-xs flex flex-row pt-px space-x-2 pl-7'>
                                         <p className="text-primary-searchFilter">{file.type}</p>
                                         <p className="text-primary-searchFilter">● {file.size}</p>
                                     </div>
@@ -467,7 +444,7 @@ const DeletedFiles = () => {
                                         </button>
                                         <button
                                             onClick={() => setDeletePopup(!showDeletePopup)}
-                                            className="px-4 py-3 w-full text-left hover:bg-hover flex items-center flex-row gap-2 mb-10"
+                                            className=" px-4 py-3 w-full text-left hover:bg-hover flex items-center flex-row gap-2 mb-10"
                                         >
                                             <DeleteIcon />
                                             Delete forever
@@ -477,15 +454,15 @@ const DeletedFiles = () => {
                             )}
                         </div>
                     ) : (
-                        <div className=" flex justify-between items-center w-full mt-6 mb-7">
-                            <div className="flex flex-row items-center gap-x-2">
-                                <button onClick={handleClick}>
+                        <div className=" flex justify-between items-center w-full mt-4 mb-5">
+                            <div className="flex flex-row items-center">
+                                <button onClick={handleClick} className="px-2 py-2 bg-transparent rounded-full active:bg-pressed/40 active:scale-95 transition-all duration-900" >
                                     <BackbuttonIcon />
                                 </button>
                                 <span><h1 className="text-[22px] font-medium text-primary-heading"><strong>Deleted files</strong></h1></span>
 
                             </div>
-                            <button>
+                            <button className="px-2 py-2 bg-transparent rounded-full active:bg-pressed/40 active:scale-95 transition-all duration-900">
                                 <SearchIcon />
                             </button>
 
@@ -495,7 +472,13 @@ const DeletedFiles = () => {
 
             </>
 
-            <div className="px-9 pt-6 text-sm max-sm:px-0 max-sm:pt-0">
+            <div className="px-9 pt-6 text-sm max-sm:px-0 max-sm:pt-0 overflow-visible mb-24">
+                <div className="pb-4 flex justify-between items-center max-sm:hidden">
+                    <h1 className="text-[22px] font-semibold text-primary-heading">Deleted files </h1>
+                    <div className="flex gap-5">
+
+                    </div>
+                </div>
                 {/* Header section remains the same */}
                 {files.length === 0 ? (
                     <div className="flex items-center justify-center flex-col space-y-3 pt-64">
@@ -552,7 +535,15 @@ const DeletedFiles = () => {
                             </div>
                             <div className="flex gap-3 items-center justify-center">
 
-                                {selectedRow.length > 0 && <h2 className="font-medium text-center text-primary-para max-sm:hidden"><strong>{selectedRow.length} selected</strong></h2>}
+                                {selectedRow.length > 0 && <div className="flex flex-row items-center gap-x-3 ">
+                                    <h2 className="max-sm:hidden font-semibold text-center text-primary-para">{selectedRow.length} selected</h2>
+                                    <button
+                                        onClick={() => setSelectedRows(files.map((_, index) => index))}
+                                        className="flex items-center justify-center pb-2 px-1 max-sm:hidden"
+                                    >
+                                        <SelectAllIcon />
+                                    </button>
+                                </div>}
                                 <div onClick={() => setGridView(false)} className="flex items-center justify-center flex-col">
                                     <button className="mb-1">
                                         <ListIcon /> {/* Grid view */}
@@ -607,7 +598,7 @@ const DeletedFiles = () => {
                                                     <div className="flex flex-col items-start font-medium pl-2"><strong>Type</strong></div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/6">
-                                                    <div className="flex flex-col items-start font-medium"><strong>Modified on</strong></div>
+                                                    <div className="flex flex-col items-start font-medium"><strong>Deleted on</strong></div>
                                                 </th>
                                                 <th className="py-4 text-left w-1/4">
                                                     <div className="flex flex-col items-start"></div>
@@ -617,44 +608,10 @@ const DeletedFiles = () => {
                                         </thead>
                                     </table>
                                     {/* Table sections by date */}
-
                                     <TableSection
-                                        files={groupedFiles.today}
-                                        label="Today"
-                                        startIndex={getStartIndex('today')}
-                                    />
-                                    <TableSection
-                                        files={groupedFiles.lastWeek}
-                                        label="Last week"
-                                        startIndex={getStartIndex('lastWeek')}
-                                    />
-                                    <TableSection
-                                        files={groupedFiles.lastMonth}
-                                        label="Last month"
-                                        startIndex={getStartIndex('lastMonth')}
-                                    />
-                                    <TableSection
-                                        files={groupedFiles.threeMonths}
-                                        label="3 months"
-                                        startIndex={getStartIndex('threeMonths')}
-                                    />
-                                    <TableSection
-                                        files={groupedFiles.sixMonths}
-                                        label="6 months"
-                                        startIndex={getStartIndex('sixMonths')}
-                                    />
-                                    <TableSection
-                                        files={groupedFiles.lastYear}
-                                        label="Last year"
-                                        startIndex={getStartIndex('lastYear')}
-                                    />
-                                    <TableSection
-                                        files={groupedFiles.beforeLastYear}
-                                        label="Before last year"
-                                        startIndex={getStartIndex('beforeLastYear')}
-                                    />
-
-
+                                        files={combinedFiles}
+                                        startIndex={0}
+                                    />;
                                 </div>
                             ) : (
                                 // Grid view sections
@@ -680,43 +637,11 @@ const DeletedFiles = () => {
 
                                         </button>
                                     </div>
-
                                     {/* Grid sections by date */}
                                     <GridSection
-                                        files={groupedFiles.today}
-                                        label="Today"
-                                        startIndex={getStartIndex('today')}
-                                    />
-                                    <GridSection
-                                        files={groupedFiles.lastWeek}
-                                        label="Last week"
-                                        startIndex={getStartIndex('lastWeek')}
-                                    />
-                                    <GridSection
-                                        files={groupedFiles.lastMonth}
-                                        label="Last month"
-                                        startIndex={getStartIndex('lastMonth')}
-                                    />
-                                    <GridSection
-                                        files={groupedFiles.threeMonths}
-                                        label="3 months"
-                                        startIndex={getStartIndex('threeMonths')}
-                                    />
-                                    <GridSection
-                                        files={groupedFiles.sixMonths}
-                                        label="6 months"
-                                        startIndex={getStartIndex('sixMonths')}
-                                    />
-                                    <GridSection
-                                        files={groupedFiles.lastYear}
-                                        label="Last year"
-                                        startIndex={getStartIndex('lastYear')}
-                                    />
-                                    <GridSection
-                                        files={groupedFiles.beforeLastYear}
-                                        label="Before last year"
-                                        startIndex={getStartIndex('beforeLastYear')}
-                                    />
+                                        files={combinedFiles}
+                                        startIndex={0}
+                                    />;
                                 </div>
                             )}
                         </div>

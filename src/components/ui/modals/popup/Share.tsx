@@ -1,8 +1,9 @@
 import { ForwardedRef, useEffect, useRef, useState } from 'react';
-import { BackbuttonIcon, BlueTickIcon, CopyIcon, DownArrow, DownIcon, GlobeIcon, ImageIcon, LockIcon, Share2Icon, ShareFileIcon, } from '../../../../assets';
+import { BackbuttonIcon, BlueTickIcon, CopyIcon, DownArrow, DownIcon, GlobeIcon, ImageIcon, LockIcon, ShareFileIcon, UserpermsIcon } from '../../../../assets';
 import Roles from '../dropdown/Roles';
-import ShareAccess from './ShareAccess';
 import AddPeople from './AddPeople';
+import ShareAccess from './ShareAccess';
+import Manage from './Manage';
 
 
 interface ShareProps {
@@ -21,11 +22,13 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
     const [isPressed, setIsPressed] = useState(false);
     const [hasInput, setHasInput] = useState(false);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
+    const [showManagePopup, setManagePopup] = useState<boolean>(false);
 
     const sharePopupRef = useRef<HTMLDivElement>(null);
     const LinkRef = useRef<HTMLInputElement>(null);
     const addRef = useRef<HTMLInputElement>(null);
     const removePopupRef = useRef<HTMLDivElement>(null);
+    const managePopupRef = useRef<HTMLDivElement>(null);
 
     const addUser = ['can edit', 'can view', 'can comment', 'can remove']
 
@@ -66,9 +69,9 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
     }
     return (
         <div className="fixed inset-0 flex sm:items-center sm:justify-center bg-black bg-opacity-50 z-50 overflow-visible">
-            <div ref={sharePopupRef} className={`bg-white sm:p-6 max-sm:py-6  sm:rounded-xl shadow-lg w-[428px] max-sm:w-full relative ${hasInput ? '' : ''}`}>
+            <div ref={sharePopupRef} className={`bg-white sm:p-6 max-sm:pb-6 max-sm:pt-4  sm:rounded-xl shadow-lg w-[428px] max-sm:w-full relative ${hasInput ? '' : ''}`}>
                 {/* Header */}
-                <div className="text-primary-heading max-sm:px-4  font-medium text-[22px] flex flex-row max-sm:justify-between items-center gap-x-2 mb-4">
+                <div className="text-primary-heading max-sm:px-2  font-medium text-[22px] flex flex-row max-sm:justify-between items-center gap-x-2 mb-4">
                     {hasInput && !isSmallScreen ?
                         <>
                             <button onClick={() => setHasInput(false)}>
@@ -78,12 +81,12 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
                         :
                         <>
                             <span className='max-sm:hidden'><ShareFileIcon /></span>
-                            <div className='flex flex-row items-center gap-x-2'>
-                                <span onClick={() => setSharePopup(!showSharePopup)} className='cursor-pointer sm:hidden '><BackbuttonIcon /></span>
+                            <div className='flex flex-row items-center sm:gap-x-2 max-sm:gap-x-1'>
+                                <span onClick={() => setSharePopup(!showSharePopup)} className='cursor-pointer sm:hidden bg-transparent px-2 py-2 rounded-full active:bg-pressed/40 active:scale-95 transition-all duration-900'><BackbuttonIcon /></span>
                                 <span> <h2><strong>Share</strong></h2></span>
                             </div>
 
-                            <span className='hidden max-sm:flex'><Share2Icon /></span>
+                            <span onClick={() => setManagePopup(!showManagePopup)} className='hidden max-sm:flex cursor-pointer bg-transparent px-2 py-2 rounded-full active:bg-pressed/40 active:scale-95 transition-all duration-900'><UserpermsIcon /></span>
 
                         </>}
 
@@ -103,7 +106,7 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
                     <>
                         <div className="flex justify-between items-center mb-5">
                             <div className=" flex items-center justify-between space-x-2">
-                                <span className="text-primary-heading font-medium text-center cursor-pointer"><strong>People added</strong>
+                                <span className="text-primary-heading font-medium text-center cursor-pointer"><strong>People added {" "}</strong>
                                     <span
                                         className='text-buttonPrimary ml-px font-medium'>
                                         <strong>{addUsers}</strong></span>
@@ -164,7 +167,10 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
                                     </button>
 
                                     {showLink && (
-                                        <div ref={LinkRef} className="absolute w-56 cursor-pointer -bottom-20 -left-4 rounded-lg shadow-lg bg-white text-primary-para">
+                                        <div
+                                            ref={LinkRef}
+                                            className="absolute w-56 cursor-pointer -bottom-20 -left-4 rounded-lg shadow-lg bg-white text-primary-para"
+                                        >
                                             {linkTypes.map((item, index) => (
                                                 <div
                                                     key={index}
@@ -172,15 +178,15 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
                                                         setLink(item);
                                                         setLinkType(false);
                                                     }}
-                                                    className="w-full hover:bg-hover hover:rounded-md"
+                                                    className={`w-full flex flex-row items-center gap-x-2 px-4 py-2 hover:bg-hover hover:rounded-md 
+                                              ${linkType === item ? 'bg-selected' : ''}`}
                                                 >
-                                                    <span className="px-4 py-2 flex flex-row items-center gap-x-2 group">
-                                                        <span className="group-hover:opacity-100 opacity-0"><BlueTickIcon /></span>
-                                                        {item}
-                                                    </span>
+                                                    {linkType === item ? <span className='opacity-100'><BlueTickIcon /></span> : <span className='opacity-0'><BlueTickIcon /></span>}
+                                                    <span>{item}</span>
                                                 </div>
                                             ))}
                                         </div>
+
                                     )}
                                 </div>
                                 <div className='max-sm:p-4 '>
@@ -193,7 +199,7 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
 
                 <button
                     onClick={handlePress}
-                    className={`max-sm:hidden w-28 flex flex-row items-center gap-x-2 text-primary-para px-2 py-1 border rounded-lg font-medium border-border bg-white transition duration-300 ${isPressed ? 'bg-[#D6ECF5] text-primary-heading border-none' : 'hover:bg-hover transition-all'
+                    className={`max-sm:hidden w-28 flex flex-row items-center gap-x-2 text-primary-para px-2 py-1 border rounded-lg font-medium border-border  transition duration-300 ${isPressed ? 'bg-selected text-primary-heading border-none' : 'hover:bg-hover transition-all'
                         }`}
                 >
                     <CopyIcon />
@@ -225,6 +231,11 @@ const Share = ({ showSharePopup, setSharePopup }: ShareProps) => {
                 <span className='max-sm:hidden'>Done</span>
                 <span className='hidden max-sm:flex '>Share</span>
             </button>
+            {
+                showManagePopup && (
+                    <Manage ref={managePopupRef} setManagePopup={setManagePopup} showManagePopup={showManagePopup} />
+                )
+            }
         </div >
     );
 };

@@ -385,7 +385,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
             {(query || showFilter) && (
                 <div className="hidden max-sm:fixed max-sm:inset-0 max-sm:top-0 max-sm:left-0 max-sm:block bg-white z-40">
                     <div className="relative flex items-center w-full my-5 mx-2">
-                        <span onClick={() => setShowFilter(false)} className="absolute left-2 text-[#9AA1B7] cursor-pointer">
+                        <span onClick={() => setShowFilter(false)} className="absolute text-[#9AA1B7] cursor-pointer px-2 py-2 bg-transparent rounded-full active:bg-pressed/40 active:scale-95 transition-all duration-900">
                             <BackbuttonIcon />
                         </span>
                         <div className=" max-sm:w-full mx-auto" onClick={() => setShowFilter(true)}>
@@ -400,13 +400,11 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                         </div>
                         {(query) && (
                             <button
-                                className="absolute right-8 text-[#9AA1B7]"
+                                className="absolute right-5 text-[#9AA1B7] px-2 py-2 bg-transparent rounded-full active:bg-pressed/40 active:scale-95 transition-all duration-900"
                                 onClick={() => {
-
                                     setQuery('');
                                 }}
-                            >
-                                <MenuCloseIcon />
+                            > <MenuCloseIcon />
                             </button>
                         )}
                     </div>
@@ -432,10 +430,9 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                 </div>
                                 {selectedType && (
                                     <button
-                                        className=""
+                                        className="px-2 py-1 bg-transparent rounded-full active:bg-pressed/40 active:scale-95 transition-all duration-900"
                                         onClick={() => {
                                             setSelectedType('')
-
                                         }
                                         }
                                     >
@@ -453,7 +450,8 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                     <div
                                         className="fixed w-full bottom-0 bg-white border rounded-t-2xl shadow-md z-10">
                                         <div className='mt-6'>
-                                            <h2 className='font-medium text-[22px] text-primary-heading mb-6 flex justify-between items-center mx-4'>Type <span onClick={() => setIsOpen(!isOpen)} className='cursor-pointer'><MenuCloseIcon /></span></h2>
+                                            <h2 className='font-medium text-[22px] text-primary-heading mb-5 flex justify-between items-center mx-4'>Type
+                                                <span onClick={() => setIsOpen(!isOpen)} className='cursor-pointer px-2 py-2 bg-transparent rounded-full active:bg-pressed/40 active:scale-95 transition-all duration-900'><MenuCloseIcon /></span></h2>
                                             {fileTypes.map((type) => (
                                                 <div
                                                     key={type}
@@ -495,7 +493,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                     <DownArrow />
                                     {selectedModified && (
                                         <button
-                                            className=""
+                                            className='px-2 py-1 bg-transparent rounded-full active:bg-pressed/40 active:scale-95 transition-all duration-900'
                                             onClick={() => setSelectedModified('')}
                                         >
                                             <MenuCloseIcon />
@@ -512,7 +510,7 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                                     </div>
 
                                     <div className="fixed w-full inset-x-0 bottom-0 bg-white border rounded-t-2xl shadow-md z-20">
-                                        <h2 className='font-medium text-[22px] text-primary-heading my-6 flex justify-between items-center mx-4'>Modified <span onClick={() => setOpenModified(!isOpenModified)} className='cursor-pointer'><MenuCloseIcon /></span></h2>
+                                        <h2 className='font-medium text-[22px] text-primary-heading my-5 flex justify-between items-center mx-4'>Modified <span onClick={() => setOpenModified(!isOpenModified)} className='cursor-pointer px-2 py-2 bg-transparent rounded-full active:bg-pressed/40 active:scale-95 transition-all duration-900'><MenuCloseIcon /></span></h2>
                                         {modifiedOptions.map((option) => (
                                             <div
                                                 key={option}
@@ -558,12 +556,14 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
                             </ul>
                         ) : <>
                             <div className='mx-4'>
-                                <h2 className=' text-primary-heading font-medium text-[22px] mb-2'><strong>Recent searches</strong></h2>
+                                <h2 className=' text-primary-heading font-medium text-sm mb-2'><strong>Recent searches</strong></h2>
                                 <div className='flex justify-between items-center text-sm text-primary-para py-2'>
-                                    <span className='flex flex-row items-center gap-x-2'> <RecentSearchIcon /> <span>Image2</span></span> <RecentSearch2Icon />
+                                    <span className='flex flex-row items-center gap-x-3'><RecentSearchIcon /> <span>Image2</span></span>
+                                    <span className='cursor-pointer px-2 py-2 bg-transparent rounded-full active:bg-pressed/40 active:scale-95 transition-all duration-900'><RecentSearch2Icon /></span>
                                 </div>
                                 <div className='flex justify-between items-center text-sm text-primary-para py-2'>
-                                    <span className='flex flex-row items-center gap-x-2'> <RecentSearchIcon /> <span>Image2</span></span> <RecentSearch2Icon />
+                                    <span className='flex flex-row items-center gap-x-3'> <RecentSearchIcon /> <span>Image2</span></span>
+                                    <span className='cursor-pointer px-2 py-2 bg-transparent rounded-full active:bg-pressed/40 active:scale-95 transition-all duration-900'><RecentSearch2Icon /></span>
                                 </div>
                             </div>
                         </>}
@@ -577,17 +577,18 @@ const Navbar: React.FC<NavbarProps> = ({ files, gridView }) => {
 
 
             {/* account btn */}
-            <div className={`relative z-10 max-sm:z-20 ${(showFilter || query) ? 'max-sm:hidden' : 'max-sm:absolute max-sm:right-2'}`}>
+            <div className={`relative z-10 max-sm:z-40 ${(showFilter || query) ? 'max-sm:hidden' : 'max-sm:absolute max-sm:right-2'}`}>
                 <button onClick={() => setLogDropdown(!showLogDropdown)} className="bg-[#FAD24B] w-[26px] h-[26px] rounded-full flex items-center justify-center">
                     <span className="text-center text-sm leading-none">RP</span>
                 </button>
                 {showLogDropdown && (
                     <div ref={LogDropdownRef} className="absolute max-sm:fixed max-sm:top-0 max-sm:left-0 and max-sm:right-0 max-sm:w-full max-sm:min-h-screen max-sm:mt-0 mt-2 -left-44 bg-white shadow-lg rounded-lg w-52 text-primary-para">
                         <div className='flex flex-col'>
-                            <div onClick={() => setLogDropdown(!showLogDropdown)} className='hidden max-sm:flex px-4 mt-4'>
-                                <BackbuttonIcon />
+                            <div onClick={() => setLogDropdown(!showLogDropdown)} className='hidden max-sm:flex px-2 mt-2 '>
+                                <span className='cursor-pointer px-2 py-2 bg-transparent rounded-full active:bg-pressed/40 active:scale-95 transition-all duration-900'>
+                                    <BackbuttonIcon /> </span>
                             </div>
-                            <div className='flex flex-row items-center mx-2 max-sm:mx-0 cursor-pointer py-2 max-sm:mt-7 max-sm:px-4'>
+                            <div className='flex flex-row items-center mx-2 max-sm:mx-0 cursor-pointer py-2 max-sm:mt-5 max-sm:px-4'>
                                 <button className="bg-[#FFB2D1] size-10 relative px-1.5 py-1 rounded-full flex items-center justify-center">
                                     <span onClick={() => setProfilePopup(!showProfilePopup)} className='absolute left-6 top-6 max-sm:top-22 bg-gray-50 rounded-full shadow-lg'><EditPencilIcon /></span>
                                     <span className="text-sm font-medium text-center"><strong>RP</strong></span>

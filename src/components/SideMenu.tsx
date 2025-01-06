@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router';
 import { CustomIcon, DeleteIcon, FileIcon, HomeIcon, LogoIcon, PlusArrow, SelectedFileIcon, SelectedHomeIcon, SelectedSharedIcon, SelectedStarredIcon, SharedIcon, StarredIcon } from '../assets';
+import PageTransition from './PageTransition';
 
 const menuItems = [
     { name: 'Home', path: '/dashboard', icon: <HomeIcon /> },
@@ -176,13 +177,26 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
                 <div className="bg-[#F7F9FC] w-full h-24 px-8 flex flex-row items-center justify-between text-primary-heading/70">
                     {mobileMenuItems.map(item => (
                         <div key={item.name}>
-                            <Link
-                                to={item.path}>
-                                <span className=' flex flex-col items-center justify-between'>
-                                    {location.pathname == item.path ? <>
-                                        {item.selectedicon}</> : <> {item.icon}</>}
-                                    <span className="my-1"> {location.pathname == item.path ? <>
-                                        <span className='font-medium text-primary-heading'>{item.name}</span></> : <> {item.name}</>}</span>
+                            <Link to={item.path}>
+                                <span className='flex flex-col items-center justify-between'>
+                                    {location.pathname == item.path ? (
+
+                                        <span className='bg-selected px-5 py-2 rounded-full'>
+                                            {item.selectedicon}
+                                        </span>
+                                    ) : (
+
+                                        <span className="bg-transparent px-5 py-2 rounded-full active:bg-pressed/40 active:scale-95 transition-all duration-900">
+                                            {item.icon}
+                                        </span>
+                                    )}
+                                    <span className="my-1">
+                                        {location.pathname == item.path ? (
+                                            <span className='font-medium text-primary-heading'>{item.name}</span>
+                                        ) : (
+                                            <>{item.name}</>
+                                        )}
+                                    </span>
                                 </span>
                             </Link>
                         </div>
@@ -190,10 +204,11 @@ export default function SideMenu({ children }: { children: React.ReactNode }) {
                 </div>
             </div>
 
+
             {/* Main Content */}
             <main className="flex-1">
                 <div className="w-full max-w-[1240px] mx-auto px-4 ">
-                    {children}
+                    <PageTransition>{children}</PageTransition>
                 </div>
             </main>
 

@@ -99,6 +99,7 @@ const ShareAccess = () => {
     }, [selectedUserIndex]);
     return (
         <>
+            <div className='border-b-2 max-sm:border-none border-border/80 mb-1' />
             <div className={`h-[168px] max-sm:h-[300px] max-sm:mx-4 overflow-auto relative ${users.length > 3 ? 'custom-scrollbar' : ''} `}>
                 {users.map((user, index) => (
                     <div key={index}>
@@ -177,6 +178,7 @@ const ShareAccess = () => {
                     </div>
                 ))}
             </div>
+            <div className='border-b-2 border-border/80' />
             {(showConfirmModal && userToRemove !== null) && (
                 <>
                     {showConfirmModal !== null && (

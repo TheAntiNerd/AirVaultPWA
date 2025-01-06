@@ -40,7 +40,6 @@ const Dropdown = ({ showDropdownPopup, setDropdownPopup, selectedFiles }: Dropdo
 
     return (
         <>
-
             {showDropdownPopup !== null && (
                 <div
                     className="fixed inset-0 max-sm:bg-black max-sm:opacity-50 z-10 max-sm:block "

@@ -58,6 +58,16 @@ const Home = () => {
         { name: 'File 3', size: '1 MB', type: 'Audio', modified: '2024-12-15' },
         { name: 'File 4', size: '1 MB', type: 'Video', modified: '2024-12-15' },
         { name: 'File 5', size: '1 MB', type: 'Document', modified: '2024-12-15' },
+        { name: 'File 1', size: '2 MB', type: 'PDF', modified: '2024-12-20' },
+        { name: 'File 2', size: '5 MB', type: 'Image', modified: '2024-12-16' },
+        { name: 'File 3', size: '1 MB', type: 'Audio', modified: '2024-12-15' },
+        { name: 'File 4', size: '1 MB', type: 'Video', modified: '2024-12-15' },
+        { name: 'File 5', size: '1 MB', type: 'Document', modified: '2024-12-15' },
+        { name: 'File 1', size: '2 MB', type: 'PDF', modified: '2024-12-20' },
+        { name: 'File 2', size: '5 MB', type: 'Image', modified: '2024-12-16' },
+        { name: 'File 3', size: '1 MB', type: 'Audio', modified: '2024-12-15' },
+        { name: 'File 4', size: '1 MB', type: 'Video', modified: '2024-12-15' },
+        { name: 'File 5', size: '1 MB', type: 'Document', modified: '2024-12-15' },
     ]);
     const [selectedRow, setSelectedRows] = useState<number[]>([]);
     const [isCheckboxVisible, setIsCheckboxVisible] = useState<boolean>(false);
@@ -210,7 +220,7 @@ const Home = () => {
 
             </>
             {/* header*/}
-            <div className="px-9 pt-6 text-sm max-sm:px-0">
+            <div className="px-9 pt-6 text-sm max-sm:px-0 overflow-visible mb-24 ">
                 <div className="pb-4 flex justify-between items-center relative">
                     {/* Title */}
                     <h1 className="text-[22px] font-semibold text-primary-heading">All files</h1>
@@ -308,7 +318,15 @@ const Home = () => {
 
                             </div>
                             <div className="flex gap-3 items-center justify-center">
-                                {selectedRow.length > 0 && <h2 className="font-medium text-center text-primary-para max-sm:hidden"><strong>{selectedRow.length} selected</strong></h2>}
+                                {selectedRow.length > 0 && <div className="flex flex-row items-center gap-x-3">
+                                    <h2 className="font-medium text-center text-primary-para max-sm:hidden"><strong>{selectedRow.length} selected</strong></h2>
+                                    <button
+                                        onClick={() => setSelectedRows(files.map((_, index) => index))}
+                                        className="flex items-center justify-center pb-2 px-1 max-sm:hidden"
+                                    >
+                                        <SelectAllIcon />
+                                    </button>
+                                </div>}
                                 <div onClick={() => setGridView(false)} className="flex items-center justify-center flex-col">
                                     <button className="mb-1">
                                         <ListIcon /> {/* Grid view */}
@@ -422,7 +440,7 @@ const Home = () => {
                                             </td>
                                             <td className="py-2 w-1/2 ">
                                                 <div onClick={() => handleDropdownToggle(index)}
-                                                    className="flex  flex-col items-start max-sm:items-end cursor-pointer">
+                                                    className={`flex  flex-col items-start max-sm:items-end cursor-pointer`}>
                                                     <span className="rotate-90">•••</span>
                                                 </div>
                                                 {(showDropdownPopup === index) && (
@@ -435,6 +453,27 @@ const Home = () => {
                             </table>) : (
                                 /* Grid */
                                 <div className='pb-10 cursor-default'>
+                                    <div className="px-4 m-2 max-sm:hidden">
+                                        <button
+                                            onClick={() => {
+                                                setIsCheckboxVisible(false);
+                                                setSelectedRows([]);
+                                            }}
+                                            className="-ml-6 flex items-center justify-center"
+                                            style={{
+                                                opacity: selectedRow.length > 0 ? 1 : 0,
+                                                pointerEvents: selectedRow.length > 0 ? 'auto' : 'none',
+                                            }}
+                                        >
+                                            <span className="flex flex-row items-center space-x-1">
+                                                <CheckboxIcon />
+                                                <span className="flex flex-row items-center space-x-1 text-primary-heading font-semibold">
+                                                    Name <UpIcon />
+                                                </span>
+                                            </span>
+
+                                        </button>
+                                    </div>
                                     <div className="px-4 m-2">
                                         <button
                                             onClick={() => {
@@ -475,7 +514,7 @@ const Home = () => {
                                                     <div className={`absolute top-1 right-0 flex flex-row items-center gap-x-2  transition-opacity`}>
                                                         <div><button onClick={() => setSharePopup(!showSharePopup)} className="bg-buttonPrimary  opacity-0 group-hover:opacity-100 rounded-lg px-5 py-2 text-white max-sm:hidden">Share</button></div>
                                                         <div className="max-sm:hidden  opacity-0 group-hover:opacity-100"><CopyIcon /></div>
-                                                        <div onClick={() => handleDropdownToggle(index)} className="rotate-90  cursor-pointer  sm:opacity-0 group-hover:opacity-100">•••</div>
+                                                        <div onClick={() => handleDropdownToggle(index)} className={`rotate-90  cursor-pointer  sm:opacity-0 group-hover:opacity-100 ${selectedRow.includes(index) ? 'opacity-0' : 'opacity-100'}`}>•••</div>
                                                     </div>
                                                     <div className="absolute left-64 ml-3 mt-8">{(showDropdownPopup === index) && (
                                                         <Dropdown showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} selectedFiles={selectedRow.map((index) => files[index])} />
@@ -486,12 +525,12 @@ const Home = () => {
                                                 {/* Details Container */}
                                                 <div className='px-4 pt-px'>
                                                     {/* File Info */}
-                                                    <div className='flex flex-row items-center space-x-1'>
+                                                    <div className='flex flex-row items-center space-x-3'>
                                                         {fileTypeImages[file.type as keyof typeof fileTypeImages] || <OtherTypeIcon />}
                                                         <h3 className="text-primary-para">
                                                             {file.name}</h3>
                                                     </div>
-                                                    <div className='text-xs flex flex-row pt-px space-x-2 pl-5'>
+                                                    <div className='text-xs flex flex-row pt-px space-x-2 pl-7'>
                                                         <p className="text-primary-searchFilter">{file.type}</p>
                                                         <p className="text-primary-searchFilter">● {file.size}</p>
                                                     </div>

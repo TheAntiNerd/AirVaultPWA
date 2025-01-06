@@ -329,10 +329,10 @@ const MyFiles = () => {
                                             )}
                                         </span>
                                     </div>
-                                    <div className={`absolute top-1 right-0 flex flex-row items-center gap-x-2 opacity-0 group-hover:opacity-100 transition-opacity`}>
-                                        <div><button onClick={() => setSharePopup(!showSharePopup)} className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</button></div>
-                                        <div><CopyIcon /></div>
-                                        <div onClick={() => handleDropdownToggle(globalIndex)} className="rotate-90 relative cursor-pointer">•••</div>
+                                    <div className={`absolute top-1 right-0 flex flex-row items-center gap-x-2 sm:opacity-0  group-hover:opacity-100 transition-opacity`}>
+                                        <div><button onClick={() => setSharePopup(!showSharePopup)} className="max-sm:opacity-0 bg-buttonPrimary rounded-lg px-5 py-2  text-white">Share</button></div>
+                                        <div className="max-sm:opacity-0"><CopyIcon /></div>
+                                        <div onClick={() => handleDropdownToggle(globalIndex)} className={`rotate-90 relative cursor-pointer ${selectedRow.includes(globalIndex) ? 'opacity-0' : 'opacity-100'}`}>•••</div>
                                     </div>
                                     <div className="absolute left-64 ml-3 mt-8">{(showDropdownPopup === globalIndex) && (
                                         <Dropdown showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} selectedFiles={selectedRow.map((index) => files[index])} />
@@ -342,13 +342,13 @@ const MyFiles = () => {
                                 <div className='px-4 pt-px'>
 
                                     {/* File Info */}
-                                    <div className='flex flex-row items-center space-x-1'>
+                                    <div className='flex flex-row items-center space-x-3'>
                                         {fileTypeImages[file.type] || <OtherTypeIcon />}
                                         <h3 className="text-primary-para">
                                             {file.name}</h3>
                                     </div>
 
-                                    <div className='text-xs flex flex-row pt-px space-x-2 pl-5'>
+                                    <div className='text-xs flex flex-row pt-px space-x-2 pl-7'>
                                         <p className="text-primary-searchFilter">{file.type}</p>
                                         <p className="text-primary-searchFilter">● {file.size}</p>
                                     </div>
@@ -416,7 +416,7 @@ const MyFiles = () => {
                 </div>
             </>
 
-            <div className="px-9 pt-6 text-sm max-sm:px-0">
+            <div className="px-9 pt-6 text-sm max-sm:px-0 overflow-visible mb-24">
                 {/* Header section remains the same */}
                 <div className="pb-4 flex justify-between items-center">
                     <h1 className="text-[22px] font-semibold text-primary-heading">My files</h1>
@@ -510,7 +510,16 @@ const MyFiles = () => {
 
                             </div>
                             <div className="flex gap-3 items-center justify-center">
-                                {selectedRow.length > 0 && <h2 className="max-sm:hidden font-semibold text-center text-primary-para">{selectedRow.length} selected</h2>}
+                                {selectedRow.length > 0 &&
+                                    <div className="flex flex-row items-center gap-x-3 ">
+                                        <h2 className="max-sm:hidden font-semibold text-center text-primary-para">{selectedRow.length} selected</h2>
+                                        <button
+                                            onClick={() => setSelectedRows(files.map((_, index) => index))}
+                                            className="flex items-center justify-center pb-2 px-1 max-sm:hidden"
+                                        >
+                                            <SelectAllIcon />
+                                        </button>
+                                    </div>}
                                 <div onClick={() => setGridView(false)} className="flex items-center justify-center flex-col">
                                     <button className="mb-1">
                                         <ListIcon /> {/* Grid view */}

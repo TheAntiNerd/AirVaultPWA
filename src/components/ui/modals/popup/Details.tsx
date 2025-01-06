@@ -1,9 +1,11 @@
-import { ForwardedRef, useEffect, useRef } from 'react';
+import { ForwardedRef, useEffect, useRef, useState } from 'react';
 import {
     BackbuttonIcon,
     ImageIcon, LocationIcon, MenuCloseIcon,
     UserpermsIcon
 } from '../../../../assets';
+import Manage from './Manage';
+import Share from './Share';
 
 interface DetailsProps {
     ref: ForwardedRef<HTMLDivElement>
@@ -13,6 +15,10 @@ interface DetailsProps {
 
 const Details = ({ showDetailsPopup, setDetailsPopup }: DetailsProps) => {
     const detailsPopupRef = useRef<HTMLDivElement>(null);
+    const [showManagePopup, setManagePopup] = useState<boolean>(false);
+    const managePopupRef = useRef<HTMLDivElement>(null);
+    const [showSharePopup, setSharePopup] = useState<boolean>(false);
+    const sharePopupRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleOutsideClick = (event: MouseEvent) => {
@@ -35,10 +41,10 @@ const Details = ({ showDetailsPopup, setDetailsPopup }: DetailsProps) => {
                 ref={detailsPopupRef}
             >
                 {/* header */}
-                <div className='flex justify-between items-center py-6 px-4 text-primary-heading font-medium text-[22px]'>
-                    <h2 className='flex flex-row items-center gap-x-3'>
+                <div className='flex justify-between items-center sm:py-6 max-sm:py-4 sm:px-4 max-sm:px-2 text-primary-heading font-medium text-[22px]'>
+                    <h2 className='flex flex-row items-center sm:gap-x-3 max-sm:gap-x-1'>
                         <span className='max-sm:hidden'><ImageIcon /></span>
-                        <span onClick={() => setDetailsPopup(!showDetailsPopup)} className='hidden max-sm:flex'><BackbuttonIcon /></span>
+                        <span onClick={() => setDetailsPopup(!showDetailsPopup)} className='hidden max-sm:flex cursor-pointer bg-transparent px-2 py-2 rounded-full active:bg-pressed/40 active:scale-95 transition-all duration-900'><BackbuttonIcon /></span>
                         <strong>Image2</strong>
                     </h2>
                     <button onClick={() => setDetailsPopup(!showDetailsPopup)} className='pr-2 max-sm:hidden'>
@@ -46,9 +52,7 @@ const Details = ({ showDetailsPopup, setDetailsPopup }: DetailsProps) => {
                     </button>
                 </div>
 
-                {/* <div className='border-b border-border/80 mb-4' /> */}
-
-                <div className='h-[700px] max-sm:h-[590px] overflow-auto custom-scrollbar  '>
+                <div className='h-[700px] max-sm:h-[700px]  overflow-auto custom-scrollbar  '>
                     {/* preview box */}
                     <div className='mx-4'>
                         <div className='mt-4 mx-auto w-[280px] max-sm:w-full  h-[168px] border border-border/80 rounded-lg'>
@@ -86,8 +90,12 @@ const Details = ({ showDetailsPopup, setDetailsPopup }: DetailsProps) => {
                     </div>
 
                     {/* Manage access */}
-                    <button className='mx-4 my-4 border border-border/80 rounded-md flex flex-row items-center py-1.5 px-3 gap-x-2'>
-
+                    <button onClick={() => setManagePopup(!showManagePopup)} className='sm:hidden mx-4 my-4 border border-border/80 rounded-md flex flex-row items-center py-1.5 px-3 gap-x-2'>
+                        <UserpermsIcon /> <p className='font-medium text-primary-para'>
+                            Manage permissions
+                        </p>
+                    </button>
+                    <button onClick={() => setSharePopup(!showSharePopup)} className='max-sm:hidden mx-4 my-4 border border-border/80 rounded-md flex flex-row items-center py-1.5 px-3 gap-x-2'>
                         <UserpermsIcon /> <p className='font-medium text-primary-para'>
                             Manage permissions
                         </p>
@@ -118,6 +126,14 @@ const Details = ({ showDetailsPopup, setDetailsPopup }: DetailsProps) => {
                     </div>
                 </div>
             </div >
+            {showManagePopup && (
+                <Manage ref={managePopupRef} setManagePopup={setManagePopup} showManagePopup={showManagePopup} />
+            )}
+
+            {showSharePopup && (
+                <Share
+                    ref={sharePopupRef} setSharePopup={setSharePopup} showSharePopup={showSharePopup} />
+            )}
         </>
 
     );

@@ -1,6 +1,6 @@
 
 import { useEffect, useRef, useState } from 'react';
-import { AudioIcon, BlueTickIcon, CheckboxIcon, CopyIcon, CustomIcon, DeleteIcon, DocumentIcon, DownArrow, DownloadIcon, ExcelIcon, FormIcon, GridIcon, ImageIcon, ListIcon, MenuCloseIcon, MoveIcon, OtherTypeIcon, PdfIcon, PptIcon, StarredIcon, UpIcon, VideoIcon, ZipIcon } from '../../../assets';
+import { AudioIcon, BlueTickIcon, CheckboxIcon, CopyIcon, CustomIcon, DeleteIcon, DocumentIcon, DownArrow, DownloadIcon, ExcelIcon, FormIcon, GridIcon, ImageIcon, ListIcon, MenuCloseIcon, MoveIcon, OtherTypeIcon, PdfIcon, PptIcon, SelectAllIcon, StarredIcon, UpIcon, VideoIcon, ZipIcon } from '../../../assets';
 import SideMenu from '../../SideMenu'
 import Navbar from '../navbar'
 import { useLocation } from 'react-router';
@@ -221,7 +221,7 @@ const SearchResult = () => {
     return (
         <SideMenu>
             <Navbar files={files} gridView={gridView} />
-            <div className="px-9 pt-6 text-sm ">
+            <div className="px-9 pt-6 text-sm  overflow-visible mb-24">
                 <div className="pb-4 flex justify-between items-center">
                     {/* Title */}
                     <h1 className="text-[22px] font-semibold text-primary-heading">Search Results</h1>
@@ -394,7 +394,15 @@ const SearchResult = () => {
                                 )}
 
                             <div className="flex gap-3 items-center justify-center">
-                                {selectedRow.length > 0 && <h2 className="font-semibold text-center text-primary-para">{selectedRow.length} selected</h2>}
+                                {selectedRow.length > 0 && <div className="flex flex-row items-center gap-x-3 ">
+                                    <h2 className="max-sm:hidden font-semibold text-center text-primary-para">{selectedRow.length} selected</h2>
+                                    <button
+                                        onClick={() => setSelectedRows(files.map((_, index) => index))}
+                                        className="flex items-center justify-center pb-2 px-1 max-sm:hidden"
+                                    >
+                                        <SelectAllIcon />
+                                    </button>
+                                </div>}
                                 {/* Work on this */}
                                 {(selectType || selectModified) && <h2 className="font-semibold text-center text-primary-para">{filteredFiles.length} match</h2>}
                                 <div onClick={() => setGridView(false)} className="flex items-center justify-center flex-col">
@@ -582,7 +590,7 @@ const SearchResult = () => {
                                                     <div className={`absolute top-1 right-0 flex flex-row items-center gap-x-2 opacity-0 group-hover:opacity-100 transition-opacity`}>
                                                         <div><button onClick={() => setSharePopup(!showSharePopup)} className="bg-buttonPrimary rounded-lg px-5 py-2 text-white">Share</button></div>
                                                         <div><CopyIcon /></div>
-                                                        <div className="rotate-90 cursor-pointer">•••</div>
+                                                        <div onClick={() => handleDropdownToggle(index)} className={`rotate-90  cursor-pointer  sm:opacity-0 group-hover:opacity-100 ${selectedRow.includes(index) ? 'opacity-0' : 'opacity-100'}`}>•••</div>
                                                     </div>
                                                     <div onClick={() => handleDropdownToggle(index)} className="absolute left-64 ml-3 mt-8">{(showDropdownPopup === index) && (
                                                         <Dropdown showDropdownPopup={showDropdownPopup} setDropdownPopup={setDropdownPopup} selectedFiles={selectedRow.map((index) => files[index])} />
@@ -594,13 +602,13 @@ const SearchResult = () => {
                                                 <div className='px-4 pt-px'>
 
                                                     {/* File Info */}
-                                                    <div className='flex flex-row items-center space-x-1'>
+                                                    <div className='flex flex-row items-center space-x-3'>
                                                         {fileTypeImages[file.type as keyof typeof fileTypeImages] || <OtherTypeIcon />}
                                                         <h3 className="text-primary-para">
                                                             {file.name}</h3>
                                                     </div>
 
-                                                    <div className='text-xs flex flex-row pt-px space-x-2 pl-5'>
+                                                    <div className='text-xs flex flex-row pt-px space-x-2 pl-7'>
                                                         <p className="text-primary-searchFilter">{file.type}</p>
                                                         <p className="text-primary-searchFilter">● {file.size}</p>
                                                     </div>
